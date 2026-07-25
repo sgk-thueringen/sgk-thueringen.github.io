@@ -1,6 +1,7 @@
 <style>
-/* Staging-Feedback-Widget — reiner Link zum Google-Formular. Vor Livegang entfernen
-   (OFFENE-PUNKTE I4). Design-Tokens aus style.css mit Fallback, selbst-enthalten. */
+/* Staging-Feedback-Widget — Link zum Google-Formular (beim Klick mit der aktuellen
+   Seite vorausgefüllt, siehe include.js). Vor Livegang entfernen (OFFENE-PUNKTE I4).
+   Design-Tokens aus style.css mit Fallback, selbst-enthalten. */
 #sgk-feedback { position: fixed; right: 1rem; bottom: 1rem; z-index: 1000; text-align: right; font-family: var(--font-text, system-ui, sans-serif); }
 @supports (bottom: env(safe-area-inset-bottom)) {
   #sgk-feedback { right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); }
@@ -9,10 +10,10 @@
   display: inline-flex; align-items: center; gap: .4rem;
   background: var(--blau, #33339A); color: #fff; text-decoration: none; border-radius: 999px;
   padding: .5rem .9rem; font: inherit; font-weight: 600; font-size: .88rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,.2); opacity: .92;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2); opacity: .92; cursor: pointer;
 }
-#sgk-feedback-btn:hover, #sgk-feedback-btn:focus-visible { opacity: 1; }
-#sgk-feedback-btn:focus-visible { outline: 3px solid var(--blau, #33339A); outline-offset: 2px; }
+#sgk-feedback-btn:hover { opacity: 1; }
+#sgk-feedback-btn:focus-visible { opacity: 1; outline: 3px solid var(--blau, #33339A); outline-offset: 2px; }
 #sgk-feedback-btn::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--rot, #FF0000); }
 #sgk-feedback-hint {
   display: inline-block; margin-top: .3rem; font-size: .72rem; color: var(--grau, #595959);
@@ -21,10 +22,10 @@
 </style>
 <div id="sgk-feedback">
   <a id="sgk-feedback-btn"
-     href="https://forms.gle/DThiNZe94oV1uT2FA"
+     href="https://docs.google.com/forms/d/e/1FAIpQLScuyswhkHnP9fN_i-UqXKePCS04VChAKPiMhGoNaC9YIk0L4A/viewform?usp=pp_url"
      target="_blank" rel="noopener"
-     title="Öffnet ein Google-Formular (neuer Tab)"
-     aria-label="Feedback geben – öffnet ein Google-Formular in einem neuen Tab">Feedback geben</a>
+     title="Öffnet ein Formular in einem neuen Tab"
+     aria-label="Feedback geben – öffnet ein Formular in einem neuen Tab, die aktuelle Seite ist vorausgefüllt">Feedback geben</a>
   <br>
-  <span id="sgk-feedback-hint">Öffnet ein Google-Formular</span>
+  <span id="sgk-feedback-hint">Öffnet ein Formular in einem neuen Tab</span>
 </div>

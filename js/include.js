@@ -45,9 +45,11 @@
       });
   }
 
-  // ---- Staging-Feedback-Widget: reiner Link zum Google-Formular des Vereins.
-  //      Kein iframe/Embed/Google-Skript. Vor Livegang entfernen: diese eine Zeile
-  //      in run() streichen und partials/feedback.html löschen (siehe OFFENE-PUNKTE I4). ----
+  // ---- Staging-Feedback-Widget: Link zum Google-Formular des Vereins, beim Klick
+  //      dynamisch mit der aktuellen Seiten-URL vorausgefüllt. Kein iframe/Embed/
+  //      Google-Skript. Vor Livegang entfernen: diese eine Zeile in run() streichen
+  //      und partials/feedback.html löschen (siehe OFFENE-PUNKTE I4). ----
+  var FEEDBACK_ENTRY = "entry.1652826813"; // Formularfeld „Welche Seite?"
   function initFeedback() {
     fetch("/partials/feedback.html")
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
@@ -55,6 +57,14 @@
         var host = document.createElement("div");
         host.innerHTML = html;
         document.body.appendChild(host);
+        var btn = document.getElementById("sgk-feedback-btn");
+        if (btn) btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          // Basis-URL aus dem HTML lesen, Prefill erst hier bauen -> je Seite korrekt
+          var base = btn.getAttribute("href");
+          var url = base + "&" + FEEDBACK_ENTRY + "=" + encodeURIComponent(window.location.href);
+          window.open(url, "_blank", "noopener");
+        });
       })
       .catch(function () {});
   }
