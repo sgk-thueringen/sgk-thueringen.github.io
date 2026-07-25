@@ -62,6 +62,9 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .textliste li { margin-bottom: .55rem; }
 @media (max-width: 48rem) { .textliste li { margin-bottom: 1rem; } }
 
+/* Deutlich abgesetzter Handlungsaufruf */
+.cta-block { margin-top: 1.75rem; }
+
 /* Dokument-Download / PDF-Vorschau */
 .dok-meta { color: var(--grau); font-size: .95rem; margin-top: -.5rem; }
 .pdf-embed { margin-top: 1.5rem; border: 1px solid var(--linie); border-radius: .5rem; overflow: hidden; }
