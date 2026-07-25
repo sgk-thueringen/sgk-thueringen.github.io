@@ -1,0 +1,24 @@
+# === Interne Unterlagen — NIE ins Repository (PROJEKTLEITUNG.md Abschnitt 2) ===
+# Enthalten Registerausdrucke mit Geburtsdaten/Wohnorten. Öffentliches Repo!
+unterlagen/
+
+# === Interner Statusbericht — nicht veröffentlichen ===
+STATUSBERICHT.md
+
+# === Interne Planungsdokumente — nicht veröffentlichen (Variante B) ===
+# Öffentlich wird nur website/ plus .gitignore. Diese Arbeitsdokumente
+# enthalten interne Rechts-/Prüfnotizen und bleiben lokal.
+CLAUDE.md
+PROJEKTLEITUNG.md
+OFFENE-PUNKTE.md
+SITEMAP-STUFE-1.md
+FORMULAR-MITGLIED-WERDEN.md
+
+# === Lokale Claude-Code-Konfiguration ===
+.claude/settings.local.json
+
+# === Betriebssystem / Editor ===
+Thumbs.db
+Desktop.ini
+.DS_Store
+*~
