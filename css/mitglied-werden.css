@@ -32,10 +32,14 @@
 .option {
   display: block; width: 100%; text-align: left;
   min-height: 3.25rem; padding: 1rem 1.15rem;
-  font: inherit; font-weight: 600; color: var(--blau);
+  font: inherit; font-weight: 600; line-height: 1.35; color: var(--blau);
   background: var(--weiss);
   border: 2px solid var(--blau); border-radius: .5rem;
   cursor: pointer;
+  /* lange deutsche Komposita (z. B. "Ortschaftsbürgermeister:in") sauber umbrechen */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 .option:hover { background: var(--off-white); }
 .option:active { transform: translateY(1px); }
