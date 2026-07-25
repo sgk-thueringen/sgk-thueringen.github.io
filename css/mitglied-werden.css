@@ -18,6 +18,8 @@
 .frage { font-size: clamp(1.3rem, 4vw, 1.7rem); margin-bottom: 1rem; }
 .frage:focus-visible { outline: none; }   /* Fokus liegt fuer SR auf der Frage, kein Rahmen noetig */
 
+.frage-unter { color: var(--grau); margin: -.25rem 0 1rem; }
+
 .frage-hilfe { background: var(--off-white); border-radius: .5rem; padding: .9rem 1.1rem; margin-bottom: 1.25rem; }
 .frage-hilfe p { margin: 0 0 .5rem; font-weight: 600; color: var(--ink); }
 .frage-hilfe ul { margin: 0; padding-left: 1.2rem; }
@@ -38,6 +40,19 @@
 .option:hover { background: var(--off-white); }
 .option:active { transform: translateY(1px); }
 
+/* Auffang-Button optisch als sekundäre Wahl */
+.option-auffang { color: var(--grau); border-color: var(--linie); border-style: dashed; font-weight: 600; }
+.option-auffang:hover { color: var(--blau); border-color: var(--blau-hell); }
+
+/* Optionales Freitextfeld unter den Funktions-Buttons */
+.feld-optional { margin-top: 1rem; }
+.feld-optional input {
+  width: 100%; min-height: 3rem; padding: .7rem .85rem; font: inherit; color: var(--ink);
+  border: 2px solid var(--linie); border-radius: .45rem; background: var(--weiss);
+}
+.feld-optional input:focus-visible { outline: 3px solid var(--blau); outline-offset: 1px; border-color: var(--blau); }
+.feld-hinweis { margin: .35rem 0 0; color: var(--grau); font-size: .92rem; }
+
 .assistent-back {
   margin-top: .5rem; padding: .6rem .9rem;
   font: inherit; color: var(--grau);
@@ -51,6 +66,7 @@
 .ergebnis-kat { font-size: 1.3rem; margin: 0 0 .5rem; }
 .para { color: var(--grau); font-weight: 400; font-size: .9em; }
 .ergebnis-note { color: var(--grau); }
+.ergebnis-funktion { margin: .5rem 0 0; }
 
 .beitrag { margin: .75rem 0 1rem; }
 .beitrag-label { font-weight: 600; }

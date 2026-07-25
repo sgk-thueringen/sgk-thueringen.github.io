@@ -31,8 +31,19 @@
     }
   };
 
+  // Funktions-Buttons (Frage 2), abgeleitet aus § 3 Abs. 1 Nr. 1–7.
+  // Alle führen zu ordentlicher Mitgliedschaft. fkt = gespeicherte Kurzbezeichnung.
+  var FUNKTIONEN = [
+    { fkt: "Mandat in kommunaler Vertretung", text: "Mandat in einer kommunalen Vertretung (Gemeinde-, Stadt-, Kreistag, Gemeindeverband)" },
+    { fkt: "Ortsteil-/Ortschaftsebene", text: "Ortsteil-/Ortschaftsbürgermeister:in oder Mitglied eines Ortsteil-/Ortschaftsrats" },
+    { fkt: "Sachkundige:r Bürger:in / Unternehmensgremium", text: "Sachkundige:r Bürger:in im Ausschuss oder Mitglied in einem kommunalen Unternehmensgremium" },
+    { fkt: "Beschäftigung im kommunalen Bereich", text: "Beschäftigt bei einer Kommune, einem kommunalen Unternehmen oder Spitzenverband" },
+    { fkt: "SPD-Fraktion / -Regierung", text: "Mitglied einer SPD-Fraktion oder SPD-Regierungsmitglied (Landtag, Bundestag, Europa)" },
+    { fkt: "Kommunalpolitisch engagiert", text: "In der Kommunalpolitik besonders engagiert (ohne festes Mandat)" }
+  ];
+
   var root;
-  var state = { step: "q1", category: null, data: {} };
+  var state = { step: "q1", category: null, funktion: null, funktionDetail: "", data: {} };
   var hist = [];
 
   function esc(s) {
@@ -71,20 +82,20 @@
       '</div>' + backBtn();
   }
   function viewQ2() {
+    var opts = FUNKTIONEN.map(function (f) {
+      return '<button type="button" class="option" data-act="funktion" data-fkt="' + esc(f.fkt) + '">' + esc(f.text) + '</button>';
+    }).join("");
     return progress(2) +
-      '<h2 class="frage" tabindex="-1">Bist du kommunalpolitisch aktiv?</h2>' +
-      '<div class="frage-hilfe"><p>Trifft eines davon auf dich zu?</p><ul>' +
-        '<li>Mandat in einer Gemeinde-, Stadt-, Kreis- oder Gemeindeverbandsvertretung, Ortsteil-/Ortschaftsbürgermeister:in, Mitglied eines Ortsteil-/Ortschaftsrats, als sachkundige:r Bürger:in in einem Ausschuss tätig oder Mitglied in einem Gremium eines Unternehmens mit kommunaler Beteiligung</li>' +
-        '<li>Beschäftigte:r einer Gemeinde, Stadt, eines Landkreises oder Gemeindeverbands bzw. ihrer Einrichtungen und Unternehmen</li>' +
-        '<li>Beschäftigte:r eines kommunalen Spitzenverbands</li>' +
-        '<li>Mitglied einer SPD-Fraktion des Thüringer Landtags, des Deutschen Bundestages oder der Europäischen Union</li>' +
-        '<li>SPD-Mitglied der Landes- oder Bundesregierung</li>' +
-        '<li>vom SPD-Landesvorstand oder von der SPD-Landtagsfraktion für den Vorstand der SGK Thüringen benannt</li>' +
-        '<li>in der Kommunalpolitik besonders engagiert oder engagiert gewesen</li>' +
-      '</ul></div>' +
-      '<div class="optionen">' +
-        '<button type="button" class="option" data-act="cat" data-cat="ordentlich">Ja</button>' +
-        '<button type="button" class="option" data-act="go" data-step="q3">Nein</button>' +
+      '<h2 class="frage" tabindex="-1">Was trifft auf dich zu?</h2>' +
+      '<p class="frage-unter">Wähle deine kommunalpolitische Funktion — sie hilft uns bei der Zuordnung deiner Mitgliedschaft.</p>' +
+      '<div class="optionen">' + opts +
+        '<button type="button" class="option option-auffang" data-act="go" data-step="q3">Etwas anderes / ohne Funktion</button>' +
+      '</div>' +
+      '<div class="feld feld-optional">' +
+        '<label for="fkt-detail">Genauere Bezeichnung <span class="pflicht">(freiwillig)</span></label>' +
+        '<input id="fkt-detail" type="text" value="' + esc(state.funktionDetail || "") + '" autocomplete="off" ' +
+        'placeholder="z. B. Ortsteilbürgermeisterin, Fraktionsvorsitzender">' +
+        '<p class="feld-hinweis">Weitere Funktionen kannst du hier ergänzen.</p>' +
       '</div>' + backBtn();
   }
   function viewQ3() {
@@ -102,6 +113,10 @@
       '<div class="ergebniskarte">' +
         '<p class="ergebnis-kat"><strong>' + esc(c.label) + '</strong> <span class="para">' + esc(c.para) + '</span></p>' +
         (c.note ? '<p class="ergebnis-note">' + esc(c.note) + '</p>' : "") +
+        ((state.category === "ordentlich" && state.funktion)
+          ? '<p class="ergebnis-funktion"><strong>Funktion:</strong> ' + esc(state.funktion) +
+            (state.funktionDetail ? ' <span class="para">(' + esc(state.funktionDetail) + ')</span>' : "") + '</p>'
+          : "") +
         '<p class="beitrag"><span class="beitrag-label">Beitrag:</span> <span class="platzhalter-inline">Beitrag wird derzeit bestätigt</span></p>';
 
     if (c.bund) {
@@ -201,21 +216,35 @@
     var lines = [
       "Mitgliedsantrag",
       "",
-      "Gewünschte Mitgliedschaft: " + c.label + " (" + c.para + ")",
-      "Vorname: " + d.vorname,
-      "Nachname: " + d.nachname,
-      "E-Mail: " + d.email,
-      c.ort + ": " + d.ort
+      "Gewünschte Mitgliedschaft: " + c.label + " (" + c.para + ")"
     ];
+    if (state.category === "ordentlich" && state.funktion) {
+      lines.push("Funktion: " + state.funktion);
+      if (state.funktionDetail) lines.push("Genauere Bezeichnung: " + state.funktionDetail);
+    }
+    lines.push("Vorname: " + d.vorname);
+    lines.push("Nachname: " + d.nachname);
+    lines.push("E-Mail: " + d.email);
+    lines.push(c.ort + ": " + d.ort);
     if (c.org) lines.push("Name der Organisation: " + d.orgname);
     lines.push("");
     lines.push("Hinweis: Über die Aufnahme entscheidet der Vorstand (§ 3 Abs. 2 der Satzung).");
     return lines.join("\r\n");
   }
+  // Dynamischer Betreff; Fallback auf "Mitgliedsantrag", wenn ein Wert fehlt.
+  function subjectText(d) {
+    var s;
+    if (state.category === "foerdernd-org") {
+      if (d.orgname && d.ort) s = "Mitgliedsantrag " + d.orgname + ", " + d.ort;
+    } else {
+      if (d.vorname && d.nachname && d.ort) s = "Mitgliedsantrag " + d.vorname + " " + d.nachname + ", " + d.ort;
+    }
+    return s || "Mitgliedsantrag";
+  }
   function openMailto(d) {
-    var body = summaryText(d);
-    var href = "mailto:" + MAILTO + "?subject=" + encodeURIComponent("Mitgliedsantrag") +
-      "&body=" + encodeURIComponent(body);
+    var href = "mailto:" + MAILTO +
+      "?subject=" + encodeURIComponent(subjectText(d)) +
+      "&body=" + encodeURIComponent(summaryText(d));
     window.location.href = href;
   }
   function copySummary(d) {
@@ -253,7 +282,17 @@
     var t = e.target.closest("[data-act]");
     if (!t || !root.contains(t)) return;
     var act = t.getAttribute("data-act");
-    if (act === "go") { go(t.getAttribute("data-step")); }
+    if (act === "go") {
+      var step = t.getAttribute("data-step");
+      if (step === "q3") { state.funktion = null; state.funktionDetail = ""; } // Auffang-Weg: keine Funktion
+      go(step);
+    }
+    else if (act === "funktion") {
+      var detail = document.getElementById("fkt-detail");
+      state.funktionDetail = detail ? detail.value.trim() : "";
+      state.funktion = t.getAttribute("data-fkt");
+      go("result", "ordentlich");
+    }
     else if (act === "cat") { go("result", t.getAttribute("data-cat")); }
     else if (act === "back") { back(); }
     else if (act === "copy") { copySummary(collect()); }
