@@ -1,50 +1,30 @@
 <style>
-/* Staging-Feedback-Widget — nur zum Testen. Vor Livegang entfernen (OFFENE-PUNKTE I4).
-   Nutzt Design-Tokens aus style.css mit Fallback, damit es selbst-enthalten bleibt. */
-#sgk-feedback { position: fixed; right: 1rem; bottom: 1rem; z-index: 1000; font-family: var(--font-text, system-ui, sans-serif); }
+/* Staging-Feedback-Widget — reiner Link zum Google-Formular. Vor Livegang entfernen
+   (OFFENE-PUNKTE I4). Design-Tokens aus style.css mit Fallback, selbst-enthalten. */
+#sgk-feedback { position: fixed; right: 1rem; bottom: 1rem; z-index: 1000; text-align: right; font-family: var(--font-text, system-ui, sans-serif); }
 @supports (bottom: env(safe-area-inset-bottom)) {
   #sgk-feedback { right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); }
 }
 #sgk-feedback-btn {
   display: inline-flex; align-items: center; gap: .4rem;
-  background: var(--blau, #33339A); color: #fff; border: 0; border-radius: 999px;
-  padding: .5rem .85rem; font: inherit; font-weight: 600; font-size: .88rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,.2); cursor: pointer; opacity: .9;
+  background: var(--blau, #33339A); color: #fff; text-decoration: none; border-radius: 999px;
+  padding: .5rem .9rem; font: inherit; font-weight: 600; font-size: .88rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2); opacity: .92;
 }
 #sgk-feedback-btn:hover, #sgk-feedback-btn:focus-visible { opacity: 1; }
+#sgk-feedback-btn:focus-visible { outline: 3px solid var(--blau, #33339A); outline-offset: 2px; }
 #sgk-feedback-btn::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--rot, #FF0000); }
-#sgk-feedback-panel {
-  position: absolute; right: 0; bottom: calc(100% + .5rem);
-  width: min(20rem, calc(100vw - 2rem));
-  max-height: min(70vh, 28rem); overflow: auto;
-  background: #fff; color: var(--ink, #1C1C1C);
-  border: 1px solid var(--linie, #D9D9DE); border-top: 4px solid var(--rot, #FF0000);
-  border-radius: .5rem; box-shadow: 0 6px 24px rgba(0,0,0,.18); padding: 1rem;
+#sgk-feedback-hint {
+  display: inline-block; margin-top: .3rem; font-size: .72rem; color: var(--grau, #595959);
+  background: rgba(255,255,255,.9); padding: .1rem .35rem; border-radius: .25rem;
 }
-#sgk-feedback-panel[hidden] { display: none; }
-#sgk-feedback-panel label { display: block; font-weight: 600; margin-bottom: .35rem; font-size: .95rem; }
-#sgk-feedback-text {
-  width: 100%; min-height: 5rem; padding: .55rem; font: inherit;
-  border: 2px solid var(--linie, #D9D9DE); border-radius: .4rem; resize: vertical;
-}
-#sgk-feedback-text:focus-visible { outline: 3px solid var(--blau, #33339A); outline-offset: 1px; border-color: var(--blau, #33339A); }
-.sgk-feedback-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .6rem; }
-.sgk-feedback-actions button { font: inherit; font-weight: 600; padding: .5rem .8rem; border-radius: .4rem; cursor: pointer; }
-#sgk-feedback-mail { background: var(--blau, #33339A); color: #fff; border: 0; }
-#sgk-feedback-copy { background: #fff; color: var(--blau, #33339A); border: 2px solid var(--blau, #33339A); }
-#sgk-feedback-status { margin: .5rem 0 0; color: var(--blau, #33339A); font-weight: 600; font-size: .9rem; }
-#sgk-feedback-hint { margin: .5rem 0 0; color: var(--grau, #595959); font-size: .8rem; }
 </style>
 <div id="sgk-feedback">
-  <button type="button" id="sgk-feedback-btn" aria-expanded="false" aria-controls="sgk-feedback-panel">Feedback</button>
-  <div id="sgk-feedback-panel" role="dialog" aria-label="Staging-Feedback" hidden>
-    <label for="sgk-feedback-text">Was soll anders sein?</label>
-    <textarea id="sgk-feedback-text" rows="4"></textarea>
-    <div class="sgk-feedback-actions">
-      <button type="button" id="sgk-feedback-mail">Per Mail senden</button>
-      <button type="button" id="sgk-feedback-copy">Text kopieren</button>
-    </div>
-    <p id="sgk-feedback-status" role="status" hidden></p>
-    <p id="sgk-feedback-hint">Nur zum Testen (Staging). Keine Speicherung, keine Cookies.</p>
-  </div>
+  <a id="sgk-feedback-btn"
+     href="https://forms.gle/DThiNZe94oV1uT2FA"
+     target="_blank" rel="noopener"
+     title="Öffnet ein Google-Formular (neuer Tab)"
+     aria-label="Feedback geben – öffnet ein Google-Formular in einem neuen Tab">Feedback geben</a>
+  <br>
+  <span id="sgk-feedback-hint">Öffnet ein Google-Formular</span>
 </div>
