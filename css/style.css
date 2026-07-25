@@ -1,0 +1,142 @@
+/* =====================================================================
+   SGK Thüringen — Grundgerüst (Stufe 1, Staging)
+   Reines statisches CSS, keine externen Requests. Schriften lokal.
+   Farben/Anmutung aus unterlagen/analyse-wortmarke.md.
+   ===================================================================== */
+
+/* ---- Schriften: lokal eingebunden (Source Sans 3, Libre Franklin) ---- */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url("/fonts/source-sans-3-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal; font-weight: 600; font-display: swap;
+  src: url("/fonts/source-sans-3-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url("/fonts/libre-franklin-700.woff2") format("woff2");
+}
+
+/* ---- Design-Tokens ---- */
+:root {
+  --rot: #FF0000;        /* nur Akzent, nie Fließtext */
+  --blau: #33339A;       /* Überschriften, Links */
+  --blau-hell: #65659A;  /* sekundär */
+  --ink: #1C1C1C;        /* Fließtext */
+  --grau: #595959;       /* Sekundärtext */
+  --weiss: #FFFFFF;
+  --off-white: #F4F4F6;
+  --linie: #D9D9DE;
+
+  --font-text: "Source Sans 3", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-titel: "Libre Franklin", var(--font-text);
+
+  --maxw: 68rem;
+  --pad: clamp(1rem, 4vw, 2rem);
+}
+
+/* ---- Reset/Basis ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--weiss);
+}
+img, svg { max-width: 100%; height: auto; }
+
+h1, h2, h3, h4 { font-family: var(--font-titel); font-weight: 700; color: var(--blau); line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); }
+p { margin: 0 0 1em; max-width: 62ch; }
+a { color: var(--blau); text-underline-offset: .15em; }
+a:hover { text-decoration: none; }
+
+/* Sichtbarer Fokus (WCAG) */
+:focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
+
+/* ---- Layout ---- */
+.container { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad); }
+main { display: block; }
+section { padding-block: clamp(2rem, 5vw, 3.5rem); }
+
+/* Skip-Link */
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--blau); color: #fff; padding: .6rem 1rem; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* Roter Akzentbalken ganz oben (Rot = Akzent) */
+.markenbalken { height: 6px; background: var(--rot); }
+
+/* ---- Header / Masthead ---- */
+.masthead { border-bottom: 1px solid var(--linie); background: var(--weiss); }
+.masthead__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; padding-block: .9rem; }
+.masthead__logo { display: inline-flex; align-items: center; }
+.masthead__logo img { height: 42px; width: auto; }
+
+/* Navigation */
+.hauptnav { margin-left: auto; }
+.hauptnav ul { list-style: none; display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; margin: 0; padding: 0; }
+.hauptnav a { display: inline-block; padding: .35rem .1rem; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; }
+.hauptnav a:hover { color: var(--blau); }
+.hauptnav a[aria-current="page"], .hauptnav a.is-active { color: var(--blau); font-weight: 600; border-bottom-color: var(--rot); }
+.hauptnav .cta a { background: var(--blau); color: #fff; border-radius: .35rem; padding: .4rem .8rem; border-bottom: 0; }
+.hauptnav .cta a:hover { background: #26267a; }
+.hauptnav .cta a[aria-current="page"] { border-bottom: 0; }
+
+/* Schmale Viewports: Navigation stapelt (no-JS-fähig, ab 320px nutzbar) */
+@media (max-width: 48rem) {
+  .masthead__inner { flex-direction: column; align-items: flex-start; }
+  .hauptnav { margin-left: 0; width: 100%; }
+  .hauptnav ul { flex-direction: column; gap: 0; }
+  .hauptnav a { display: block; padding: .55rem 0; border-bottom: 1px solid var(--linie); }
+  .hauptnav a[aria-current="page"], .hauptnav a.is-active { border-bottom-color: var(--rot); border-bottom-width: 2px; }
+  .hauptnav .cta { margin-top: .6rem; }
+  .hauptnav .cta a { display: inline-block; }
+}
+
+/* ---- Hero (Startseite) ---- */
+.hero { background: var(--off-white); border-bottom: 1px solid var(--linie); }
+.hero__logo { width: 100%; max-width: 30rem; height: auto; margin-bottom: 1.25rem; }
+.hero p.lead { font-size: 1.2rem; color: var(--grau); }
+
+/* CTA-Button */
+.btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
+.btn:hover { background: #26267a; }
+
+/* Karten-Raster für Übersicht */
+.raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.25rem; }
+.karte { border: 1px solid var(--linie); border-radius: .5rem; padding: 1.25rem; background: var(--weiss); }
+.karte h3 { margin-top: 0; }
+
+/* ---- Platzhalter (Gerüst, sichtbar markiert — KEIN erfundener Inhalt) ---- */
+.platzhalter {
+  border: 2px dashed var(--blau-hell); border-radius: .5rem;
+  background: var(--off-white); color: var(--grau);
+  padding: 1.25rem 1.5rem; font-style: italic;
+}
+.platzhalter::before { content: "Platzhalter · "; font-weight: 600; font-style: normal; color: var(--blau); }
+
+/* ---- Footer ---- */
+.footer { margin-top: 2rem; border-top: 6px solid var(--rot); background: var(--off-white); }
+.footer__inner { padding-block: 2rem; display: grid; gap: 1.25rem; }
+.footer h2 { font-size: 1.15rem; }
+.footer nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.footer a { color: var(--blau); }
+.footer .meta { color: var(--grau); font-size: .95rem; }
+
+/* No-JS-Hinweis für per fetch eingefügte Partials */
+.include-fallback { padding: .5rem 0; }
+
+@media (min-width: 40rem) {
+  .footer__inner { grid-template-columns: 1fr auto; align-items: start; }
+}
