@@ -8,19 +8,84 @@
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/mitglied-werden.css">
 <script src="/js/include.js" defer></script>
+<script src="/js/mitglied-werden.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
-<div data-include="header"><noscript><div class="markenbalken"></div><div class="container include-fallback"><a href="/"><img src="/assets/wortmarke-kurz.svg" alt="SGK Thüringen" height="42"></a> <nav aria-label="Navigation"><a href="/verein/">Verein</a> · <a href="/mitglied-werden/">Mitglied werden</a> · <a href="/kontakt/">Kontakt</a> · <a href="/impressum/">Impressum</a></nav></div></noscript></div>
-<main id="inhalt">
-<section>
-<div class="container">
-<h1>Mitglied werden</h1>
-<p class="platzhalter">Diese Seite entsteht in Stufe 1. Inhalte folgen.</p>
+
+<div data-include="header">
+  <noscript>
+    <div class="markenbalken"></div>
+    <div class="container include-fallback">
+      <a href="/"><img src="/assets/wortmarke-kurz.svg" alt="SGK Thüringen" height="42"></a>
+      <nav aria-label="Navigation">
+        <a href="/verein/">Verein</a> · <a href="/mitglied-werden/">Mitglied werden</a> ·
+        <a href="/kontakt/">Kontakt</a> · <a href="/impressum/">Impressum</a>
+      </nav>
+    </div>
+  </noscript>
 </div>
-</section>
+
+<main id="inhalt">
+  <section>
+    <div class="container">
+      <h1>Mitglied werden</h1>
+      <p class="assistent-intro">In wenigen Schritten zu deiner Mitgliedschaft. Du kannst
+        jederzeit einen Schritt zurückgehen.</p>
+
+      <!-- Der geführte Beitritt wird hier per JavaScript aufgebaut -->
+      <div id="assistent" class="assistent" aria-live="polite"></div>
+
+      <noscript>
+        <div class="assistent-fallback">
+          <p><strong>Ohne JavaScript funktioniert der geführte Beitritt nicht.</strong>
+             Du kannst uns deinen Antrag direkt per E-Mail senden:</p>
+          <p><a class="btn" href="mailto:SGK-Thueringen@t-online.de?subject=Mitgliedsantrag">Antrag per E-Mail senden</a></p>
+          <p>Bitte gib im Text an: Vorname, Nachname, E-Mail, deinen Ort sowie die
+             gewünschte Art der Mitgliedschaft (siehe Übersicht unten). Über die Aufnahme
+             entscheidet der Vorstand (§ 3 Abs. 2 der Satzung).</p>
+        </div>
+      </noscript>
+
+      <!-- Alle Kategorien im Überblick (statisch, auch ohne JS) -->
+      <details class="kat-overview">
+        <summary>Alle Kategorien im Überblick</summary>
+        <div class="kat-overview__body">
+          <h2>Mitgliedschaften nach § 3 der Satzung</h2>
+          <dl>
+            <dt>Ordentliche Mitgliedschaft <span class="para">§ 3 Abs. 1 Nr. 1–7</span></dt>
+            <dd>Für kommunalpolitisch Aktive: u. a. Mandatsträger:innen in Gemeinde-, Stadt-,
+              Kreis- und Ortschaftsvertretungen, sachkundige Bürger:innen, Beschäftigte von
+              Kommunen und kommunalen Unternehmen, Beschäftigte kommunaler Spitzenverbände,
+              Mitglieder von SPD-Fraktionen (Thüringer Landtag, Bundestag, Europäische Union),
+              SPD-Mitglieder der Landes- oder Bundesregierung sowie in der Kommunalpolitik
+              besonders Engagierte.</dd>
+            <dt>Juniormitgliedschaft <span class="para">§ 3 Abs. 1 Nr. 8</span></dt>
+            <dd>Außerordentliche Mitgliedschaft für junge Interessierte. Sie wandelt sich mit
+              Vollendung des 35. Lebensjahres automatisch in eine ordentliche Mitgliedschaft.</dd>
+            <dt>Fördernde Mitgliedschaft <span class="para">§ 3 Abs. 4</span></dt>
+            <dd>Für alle an der Kommunalpolitik interessierten natürlichen und juristischen
+              Personen (auch Organisationen und Unternehmen).</dd>
+          </dl>
+        </div>
+      </details>
+    </div>
+  </section>
 </main>
-<div data-include="footer"><noscript><footer class="footer"><div class="container include-fallback"><nav aria-label="Rechtliches"><a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a> · <a href="/barrierefreiheit/">Barrierefreiheit</a></nav></div></footer></noscript></div>
+
+<div data-include="footer">
+  <noscript>
+    <footer class="footer">
+      <div class="container include-fallback">
+        <nav aria-label="Rechtliches">
+          <a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a> ·
+          <a href="/barrierefreiheit/">Barrierefreiheit</a>
+        </nav>
+      </div>
+    </footer>
+  </noscript>
+</div>
 </body>
 </html>

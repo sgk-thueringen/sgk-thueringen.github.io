@@ -1,0 +1,102 @@
+/* =====================================================================
+   mitglied-werden.css — geführter Beitritt. Nutzt Tokens aus style.css.
+   Mobile-first, große Tap-Flächen, sichtbare Fokus-Indikatoren.
+   ===================================================================== */
+
+.assistent-intro { color: var(--grau); max-width: 55ch; }
+
+.assistent {
+  border: 1px solid var(--linie);
+  border-radius: .6rem;
+  padding: clamp(1.1rem, 4vw, 2rem);
+  background: var(--weiss);
+  max-width: 40rem;
+}
+
+.assistent-progress { margin: 0 0 .75rem; font-size: .95rem; color: var(--grau); font-weight: 600; }
+
+.frage { font-size: clamp(1.3rem, 4vw, 1.7rem); margin-bottom: 1rem; }
+.frage:focus-visible { outline: none; }   /* Fokus liegt fuer SR auf der Frage, kein Rahmen noetig */
+
+.frage-hilfe { background: var(--off-white); border-radius: .5rem; padding: .9rem 1.1rem; margin-bottom: 1.25rem; }
+.frage-hilfe p { margin: 0 0 .5rem; font-weight: 600; color: var(--ink); }
+.frage-hilfe ul { margin: 0; padding-left: 1.2rem; }
+.frage-hilfe li { margin-bottom: .4rem; color: var(--grau); font-size: .97rem; }
+
+/* Antwort-/Auswahl-Buttons: große Tap-Flächen, volle Breite, stapeln */
+.optionen { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1rem; }
+.optionen-inline { margin-top: 1.25rem; }
+
+.option {
+  display: block; width: 100%; text-align: left;
+  min-height: 3.25rem; padding: 1rem 1.15rem;
+  font: inherit; font-weight: 600; color: var(--blau);
+  background: var(--weiss);
+  border: 2px solid var(--blau); border-radius: .5rem;
+  cursor: pointer;
+}
+.option:hover { background: var(--off-white); }
+.option:active { transform: translateY(1px); }
+
+.assistent-back {
+  margin-top: .5rem; padding: .6rem .9rem;
+  font: inherit; color: var(--grau);
+  background: none; border: 0; cursor: pointer; text-decoration: underline;
+}
+.assistent-back:hover { color: var(--blau); }
+
+/* Ergebniskarte */
+.ergebnis-titel { font-size: 1.15rem; color: var(--grau); font-weight: 600; margin-bottom: .5rem; }
+.ergebniskarte { border: 1px solid var(--linie); border-top: 6px solid var(--rot); border-radius: .5rem; padding: 1.25rem; }
+.ergebnis-kat { font-size: 1.3rem; margin: 0 0 .5rem; }
+.para { color: var(--grau); font-weight: 400; font-size: .9em; }
+.ergebnis-note { color: var(--grau); }
+
+.beitrag { margin: .75rem 0 1rem; }
+.beitrag-label { font-weight: 600; }
+.platzhalter-inline {
+  display: inline-block; font-style: italic; color: var(--grau);
+  background: var(--off-white); border: 1px dashed var(--blau-hell);
+  border-radius: .3rem; padding: .1rem .5rem;
+}
+
+.hinweis { border-left: 4px solid var(--blau-hell); background: var(--off-white); padding: .8rem 1rem; border-radius: 0 .4rem .4rem 0; margin: 1rem 0; }
+.hinweis h3 { font-size: 1rem; margin: 0 0 .35rem; color: var(--blau); }
+.hinweis p { margin: 0; font-size: .97rem; }
+.hinweis-bund { border-left-color: var(--rot); }
+
+/* Formular */
+.form-titel { font-size: 1.3rem; }
+.form-kat { color: var(--grau); margin-top: -.25rem; }
+.feld { margin-bottom: 1.1rem; }
+.feld label { display: block; font-weight: 600; margin-bottom: .35rem; }
+.pflicht { font-weight: 400; color: var(--grau); font-size: .9em; }
+.feld input {
+  width: 100%; min-height: 3rem; padding: .7rem .85rem;
+  font: inherit; color: var(--ink);
+  border: 2px solid var(--linie); border-radius: .45rem; background: var(--weiss);
+}
+.feld input:focus-visible { outline: 3px solid var(--blau); outline-offset: 1px; border-color: var(--blau); }
+.feld input[aria-invalid="true"] { border-color: var(--rot); }
+.feld-fehler { margin: .35rem 0 0; color: #b30000; font-weight: 600; font-size: .95rem; }
+
+.absenden { margin-top: 1.5rem; display: flex; flex-direction: column; gap: .6rem; align-items: flex-start; }
+.absenden-hinweis { margin: 0; color: var(--grau); font-size: .95rem; max-width: 40ch; }
+.btn-sekundaer { background: var(--weiss); color: var(--blau); border: 2px solid var(--blau); }
+.btn-sekundaer:hover { background: var(--off-white); }
+.kopiert { margin: 0; color: var(--blau); font-weight: 600; }
+
+/* Kategorien-Übersicht */
+.kat-overview { margin-top: 1.75rem; max-width: 40rem; }
+.kat-overview > summary { cursor: pointer; font-weight: 600; color: var(--blau); padding: .6rem 0; }
+.kat-overview__body { padding: .5rem 0 0; }
+.kat-overview dt { font-weight: 700; color: var(--blau); margin-top: 1rem; }
+.kat-overview dd { margin: .25rem 0 0; color: var(--ink); }
+
+.assistent-fallback { border: 1px solid var(--linie); border-radius: .5rem; padding: 1.25rem; max-width: 40rem; }
+
+/* sehr schmale Viewports */
+@media (max-width: 22.5rem) {
+  .assistent, .ergebniskarte { padding: 1rem; }
+  .option { padding: .9rem 1rem; }
+}
