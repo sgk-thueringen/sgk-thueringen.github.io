@@ -49,9 +49,10 @@
     var sub = box.querySelector(".hauptnav__sub");
     if (!toggle || !sub) return;
 
+    // Einzige Quelle der Wahrheit: aria-expanded am Auslöser. Die Sichtbarkeit des
+    // Untermenüs steuert allein das CSS darüber (kein hidden/kein inline-style/keine Klasse).
     function setOpen(open) {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      sub.hidden = !open;
     }
     function isOpen() { return toggle.getAttribute("aria-expanded") === "true"; }
 
