@@ -144,6 +144,27 @@ a:hover { text-decoration: none; }
 }
 .bild-platzhalter figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; max-width: 32rem; }
 
+/* Entwurf-/Warnhinweis — nicht übersehbar (roter Rahmen, Off-White) */
+.entwurf-box {
+  border: 2px solid var(--rot); border-left-width: 6px; border-radius: .5rem;
+  background: var(--off-white); color: var(--ink);
+  padding: 1rem 1.25rem; margin: 0 0 2rem; max-width: 64ch;
+}
+.entwurf-box p { margin: 0; }
+.entwurf-box strong { color: var(--ink); }
+
+/* Sichtbarer TODO-Marker im Fließtext — bewusst auffällig, nicht kaschiert */
+.todo {
+  font-weight: 600; color: var(--ink);
+  background: var(--off-white); border: 1px dashed var(--rot); border-radius: .25rem;
+  padding: .02rem .4rem;
+}
+
+/* Inhaltsverzeichnis mit Sprungmarken */
+.toc { max-width: 64ch; margin: 1.5rem 0 2rem; padding: 1rem 1.25rem; background: var(--off-white); border-radius: .5rem; }
+.toc h2 { font-size: 1.05rem; margin: 0 0 .5rem; }
+.toc ol { margin: 0; padding-left: 1.4rem; line-height: 1.7; }
+
 /* Sichtbarer Fokus (WCAG) */
 :focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
 
