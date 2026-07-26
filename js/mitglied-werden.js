@@ -36,7 +36,10 @@
   // Funktions-Buttons (Frage 2), abgeleitet aus § 3 Abs. 1 Nr. 1–7.
   // Alle führen zu ordentlicher Mitgliedschaft. fkt = gespeicherte Kurzbezeichnung.
   var FUNKTIONEN = [
-    { fkt: "Mandat in kommunaler Vertretung", text: "Mandat in einer kommunalen Vertretung (Gemeinde-, Stadt-, Kreistag, Gemeindeverband)" },
+    // Aufzählung bewusst NICHT abschließend ("z. B."): neben Gemeinde-, Stadt- und
+    // Kreisebene kommen auch Ortschafts- und Ortsteilräte sowie Verbandsversammlungen
+    // in Betracht. Der Oberbegriff "kommunale Vertretung" bleibt deshalb stehen.
+    { fkt: "Mandat in kommunaler Vertretung", text: "Mandat in einer kommunalen Vertretung (z. B. Gemeinderat, Stadtrat, Kreistag, Ortschaftsrat)" },
     { fkt: "Ortsteil-/Ortschaftsebene", text: "Ortsteil-/Ortschaftsbürgermeister:in oder Mitglied eines Ortsteil-/Ortschaftsrats" },
     { fkt: "Sachkundige:r Bürger:in / Unternehmensgremium", text: "Sachkundige:r Bürger:in im Ausschuss oder Mitglied in einem kommunalen Unternehmensgremium" },
     { fkt: "Beschäftigung im kommunalen Bereich", text: "Beschäftigt bei einer Kommune, einem kommunalen Unternehmen oder Spitzenverband" },
