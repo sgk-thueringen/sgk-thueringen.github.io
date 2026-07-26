@@ -37,30 +37,50 @@
     }
   }
 
-  // ---- Untermenü „Verein" (Disclosure): Klick + Tastatur (Enter/Leertaste via
-  //      nativem <button>, Escape schließt), Klick/Fokus außerhalb schließt. ----
+  // ---- Untermenü „Verein" (Disclosure). Öffnen/Schließen ausschließlich per Klick
+  //      bzw. Tastatur (nativer <button>: Enter/Leertaste). Kein Öffnen per Hover.
+  //      Schließt in vier Fällen: (1) erneuter Klick auf „Verein", (2) Klick/Tipp
+  //      außerhalb, (3) Escape (Fokus zurück auf „Verein"), (4) Fokus verlässt das
+  //      Menü per Tab. aria-expanded wird bei jedem Wechsel gesetzt. ----
   function initMenu() {
-    var toggle = document.querySelector(".hauptnav__toggle");
-    var sub = document.getElementById("verein-menu");
+    var box = document.querySelector(".hasmenu");
+    if (!box) return;
+    var toggle = box.querySelector(".hauptnav__toggle");
+    var sub = box.querySelector(".hauptnav__sub");
     if (!toggle || !sub) return;
 
-    function open()  { toggle.setAttribute("aria-expanded", "true");  sub.hidden = false; }
-    function close() { toggle.setAttribute("aria-expanded", "false"); sub.hidden = true; }
-    function isOpen(){ return toggle.getAttribute("aria-expanded") === "true"; }
+    function setOpen(open) {
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      sub.hidden = !open;
+    }
+    function isOpen() { return toggle.getAttribute("aria-expanded") === "true"; }
 
-    toggle.addEventListener("click", function () { isOpen() ? close() : open(); });
-
-    var nav = document.getElementById("hauptnav");
-    if (nav) nav.addEventListener("keydown", function (e) {
-      if ((e.key === "Escape" || e.key === "Esc") && isOpen()) { close(); toggle.focus(); }
+    // (1) Umschalten. stopPropagation: der Öffnungsklick darf den Außen-Klick-Handler
+    //     (unten am document) nicht auslösen — sonst schließt dieselbe Geste sofort wieder.
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(!isOpen());
     });
 
-    // Klick oder Fokuswechsel außerhalb schließt das offene Menü
-    function outside(e) {
-      if (isOpen() && !toggle.contains(e.target) && !sub.contains(e.target)) close();
-    }
-    document.addEventListener("click", outside);
-    document.addEventListener("focusin", outside);
+    // (3) Escape schließt und setzt den Fokus zurück auf „Verein".
+    box.addEventListener("keydown", function (e) {
+      if ((e.key === "Escape" || e.key === "Esc") && isOpen()) { setOpen(false); toggle.focus(); }
+    });
+
+    // (4) Fokus verlässt das Menü (z. B. per Tab hinter den letzten Eintrag) -> schließen.
+    box.addEventListener("focusout", function (e) {
+      if (!e.relatedTarget || !box.contains(e.relatedTarget)) setOpen(false);
+    });
+
+    // (2) Klick oder Tipp außerhalb des Menüs schließt.
+    document.addEventListener("click", function (e) {
+      if (isOpen() && !box.contains(e.target)) setOpen(false);
+    });
+
+    // Untermenü-Link angeklickt -> Menü schließen (kein hängender Zustand vor dem Wechsel).
+    sub.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("a")) setOpen(false);
+    });
   }
 
   function inject(el) {
