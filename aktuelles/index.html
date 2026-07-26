@@ -9,6 +9,7 @@
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/js/include.js" defer></script>
+<script src="/js/aktuelles.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -17,7 +18,16 @@
 <section>
 <div class="container">
 <h1>Aktuelles</h1>
-<p class="platzhalter">Diese Seite entsteht in Stufe 1. Inhalte folgen.</p>
+<!-- Beitragsangaben recherchiert 26.07.2026 auf bundes-sgk.de (Braunschweiger Erklärung vom
+     19.06.2026, Pressemitteilung vom 22.06.2026, Beschluss der 19. Delegiertenversammlung
+     vom 18.04.2026). -->
+<!-- Beiträge liegen in data/aktuelles.json und werden von js/aktuelles.js gerendert.
+     Jeder Beitrag ist ein eigenständiges <article id="slug"> — ein späterer Umzug auf
+     Einzelseiten /aktuelles/<slug>/ ist ohne Umbau möglich. -->
+<div id="aktuelles-liste" class="aktuelles-liste">
+<noscript><p>Die Beiträge werden mit JavaScript geladen. Aktuelle Beschlüsse der Bundes-SGK
+findest du auf <a href="https://www.bundes-sgk.de/" target="_blank" rel="noopener">bundes-sgk.de</a>.</p></noscript>
+</div>
 </div>
 </section>
 </main>
