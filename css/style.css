@@ -74,7 +74,7 @@ p { margin: 0 0 1em; max-width: 64ch; }
 .aktuelles-liste { margin-top: 1.5rem; }
 .beitrag { padding-top: 1.75rem; margin-top: 1.75rem; border-top: 1px solid var(--linie); }
 .beitrag:first-child { padding-top: 0; margin-top: 0; border-top: 0; }
-.beitrag h2 { margin-top: 0; margin-bottom: .15rem; }
+.beitrag h2, .beitrag h3 { margin-top: 0; margin-bottom: .15rem; }
 .beitrag-datum { color: var(--grau); font-size: .95rem; margin: 0 0 .6rem; }
 .beitrag-quelle { margin-top: .6rem; }
 
@@ -240,6 +240,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .vorstand-skeleton .vorstand-name { width: 55%; }
 .vorstand-skeleton .vorstand-funktion { width: 80%; margin-top: .35rem; }
 .beitrag-skeleton h2,
+.beitrag-skeleton h3,
 .beitrag-skeleton .beitrag-datum,
 .beitrag-skeleton .beitrag-text,
 .beitrag-skeleton .beitrag-quelle {
@@ -247,6 +248,11 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 }
 .beitrag-skeleton .beitrag-datum { width: 8rem; }
 .beitrag-skeleton .beitrag-quelle { width: 16rem; }
+
+/* Startseite: kompakter Anriss der drei neuesten Beiträge (dieselbe JSON-Quelle
+   wie /aktuelles/, siehe js/aktuelles.js renderHome()). Reine Wiederverwendung
+   der .aktuelles-liste/.beitrag-Regeln oben, nur mit h3 statt h2. */
+#startseite-aktuelles .aktuelles-liste { margin-top: 1.25rem; }
 
 /* ---- Header / Masthead ---- */
 .masthead { border-bottom: 1px solid var(--linie); background: var(--weiss); }

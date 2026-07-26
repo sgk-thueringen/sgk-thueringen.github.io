@@ -8,8 +8,9 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-  <link rel="stylesheet" href="/css/style.css?v=6">
+  <link rel="stylesheet" href="/css/style.css?v=7">
   <script src="/js/include.js?v=5" defer></script>
+  <script src="/js/aktuelles.js?v=2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -35,6 +36,25 @@
              width="849" height="242"></h1>
         <p class="lead">Sozialdemokratische Kommunalpolitik in Thüringen — vom Ortschaftsrat bis zur Landrätin.</p>
         <p><a class="btn" href="/mitglied-werden/">Mitglied werden</a></p>
+      </div>
+    </section>
+
+    <section id="startseite-aktuelles">
+      <div class="container">
+        <h2>Aktuelles</h2>
+        <!-- Beiträge aus data/aktuelles.json, gerendert von js/aktuelles.js (renderHome()).
+             Eine Quelle, zwei Ausgabeorte — siehe auch /aktuelles/. Die drei neuesten
+             Beiträge; bei leerer Liste blendet renderHome() den ganzen Block aus. -->
+        <div id="home-aktuelles-liste" class="aktuelles-liste">
+          <!-- Skelett-Platzhalter: reservieren den Platz gegen Layout-Shift (CLS), bis
+               aktuelles.js die Beiträge einsetzt (ersetzt via innerHTML). ANZAHL = 2
+               (= aktuelle Länge von data/aktuelles.json, max. 3); bei mehr/weniger
+               Beiträgen anpassen. Ohne JavaScript ausgeblendet (siehe <noscript>). -->
+          <noscript><style>.beitrag-skeleton{display:none!important}</style></noscript>
+          <article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+          <article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+        </div>
+        <p><a href="/aktuelles/">Alle Meldungen &rarr;</a></p>
       </div>
     </section>
 

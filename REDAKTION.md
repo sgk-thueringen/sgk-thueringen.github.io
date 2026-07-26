@@ -53,6 +53,9 @@ ein Beitrag folgt:
 - `datum` immer im Format **JJJJ-MM-TT** (dafür sortiert die Seite richtig).
 - Wenn es **keine Quelle** gibt, lass die beiden Zeilen `quelleLabel` und `quelleUrl` einfach
   weg (dann endet der Block nach der `text`-Zeile — **ohne** Komma nach `"…"`).
+- **Diese eine Datei pflegt zwei Stellen:** Die drei neuesten Einträge erscheinen automatisch
+  auch als kurzer Anriss auf der **Startseite** — dort wird **nichts** zusätzlich gepflegt.
+  Ist die Liste leer, blendet die Startseite den Aktuelles-Block einfach aus.
 
 ## 3. Vorstandsdaten pflegen
 
