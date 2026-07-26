@@ -23,8 +23,8 @@
 
 /* ---- Design-Tokens ---- */
 :root {
-  --rot: #FF0000;        /* nur Akzent, nie Fließtext */
-  --blau: #33339A;       /* Überschriften, Links */
+  --rot: #E20A16;        /* Bundes-SGK-Rot; Akzent, siehe CLAUDE.md */
+  --blau: #1E3F92;       /* Bundes-SGK-Blau; Überschriften, Links */
   --blau-hell: #65659A;  /* sekundär */
   --ink: #1C1C1C;        /* Fließtext */
   --grau: #595959;       /* Sekundärtext */
@@ -207,7 +207,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .hauptnav a:hover { color: var(--blau); }
 .hauptnav a[aria-current="page"], .hauptnav a.is-active { color: var(--blau); font-weight: 600; border-bottom-color: var(--rot); }
 .hauptnav .cta a { background: var(--blau); color: #fff; border-radius: .35rem; padding: .4rem .8rem; border-bottom: 0; }
-.hauptnav .cta a:hover { background: #26267a; }
+.hauptnav .cta a:hover { background: #162F6E; }
 .hauptnav .cta a[aria-current="page"] { border-bottom: 0; }
 
 /* Untermenü „Verein" (Disclosure, per include.js gesteuert) */
@@ -262,7 +262,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 
 /* CTA-Button */
 .btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
-.btn:hover { background: #26267a; }
+.btn:hover { background: #162F6E; }
 
 /* Karten-Raster für Übersicht */
 .raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.25rem; }
