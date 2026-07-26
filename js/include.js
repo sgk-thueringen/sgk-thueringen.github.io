@@ -7,6 +7,11 @@
 (function () {
   "use strict";
 
+  // Version der Partials — an die Fetch-URL angehängt, damit geänderte Header/Footer
+  // ohne hartes Neuladen ankommen. Bei Änderung an einem Partial hochzählen (und die
+  // Versionsnummer von include.js selbst in den Seiten mit anheben).
+  var ASSET_V = "3";
+
   function markActive() {
     var nav = document.getElementById("hauptnav");
     if (!nav) return;
@@ -87,7 +92,7 @@
   function inject(el) {
     var name = el.getAttribute("data-include");
     if (!name) return;
-    fetch("/partials/" + name + ".html")
+    fetch("/partials/" + name + ".html?v=" + ASSET_V)
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
         el.innerHTML = html;
@@ -104,7 +109,7 @@
   //      und partials/feedback.html löschen (siehe OFFENE-PUNKTE I4). ----
   var FEEDBACK_ENTRY = "entry.1652826813"; // Formularfeld „Welche Seite?"
   function initFeedback() {
-    fetch("/partials/feedback.html")
+    fetch("/partials/feedback.html?v=" + ASSET_V)
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
         var host = document.createElement("div");
