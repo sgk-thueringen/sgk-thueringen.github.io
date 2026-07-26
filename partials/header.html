@@ -6,7 +6,14 @@
     </a>
     <nav class="hauptnav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
-        <li><a href="/verein/">Verein</a></li>
+        <li class="hasmenu">
+          <button type="button" class="hauptnav__toggle" aria-expanded="false" aria-controls="verein-menu">Verein<span class="caret" aria-hidden="true"></span></button>
+          <ul class="hauptnav__sub" id="verein-menu" hidden>
+            <li><a href="/verein/">Über uns</a></li>
+            <li><a href="/verein/vorstand/">Landesvorstand</a></li>
+            <li><a href="/verein/satzung/">Satzung</a></li>
+          </ul>
+        </li>
         <li><a href="/bildungswerk/">Bildungswerk</a></li>
         <li><a href="/nachwuchsakademie/">NachwuchsAkademie</a></li>
         <li><a href="/emil-boehme-preis/">Emil-Böhme-Preis</a></li>

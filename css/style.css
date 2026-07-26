@@ -67,6 +67,9 @@ p { margin: 0 0 1em; max-width: 64ch; }
 /* Deutlich abgesetzter Handlungsaufruf */
 .cta-block { margin-top: 1.75rem; }
 
+/* Verweisblock (mehrere weiterführende Links, deutlich abgesetzt) */
+.verweisblock { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid var(--linie); }
+
 /* Dokument-Download / PDF-Vorschau */
 .dok-meta { color: var(--grau); font-size: .95rem; margin-top: -.5rem; }
 .pdf-embed { margin-top: 1.5rem; border: 1px solid var(--linie); border-radius: .5rem; overflow: hidden; }
@@ -199,6 +202,32 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .hauptnav .cta a:hover { background: #26267a; }
 .hauptnav .cta a[aria-current="page"] { border-bottom: 0; }
 
+/* Untermenü „Verein" (Disclosure, per include.js gesteuert) */
+.hasmenu { position: relative; }
+.hauptnav__toggle {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font: inherit; color: var(--ink); background: none;
+  border: 0; border-bottom: 3px solid transparent;
+  padding: .35rem .1rem; cursor: pointer;
+}
+.hauptnav__toggle:hover { color: var(--blau); }
+.hauptnav__toggle.is-active { color: var(--blau); font-weight: 600; border-bottom-color: var(--rot); }
+.hauptnav__toggle .caret {
+  width: .45rem; height: .45rem; margin-top: -.2em;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); transition: transform .15s;
+}
+.hauptnav__toggle[aria-expanded="true"] .caret { transform: rotate(-135deg); margin-top: .1em; }
+.hauptnav__sub {
+  list-style: none; margin: 0; padding: .35rem 0;
+  position: absolute; top: 100%; left: 0; min-width: 13rem;
+  background: var(--weiss); border: 1px solid var(--linie); border-radius: .4rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,.12); z-index: 60;
+}
+.hauptnav__sub a { display: block; padding: .55rem .9rem; color: var(--ink); text-decoration: none; border-bottom: 0; }
+.hauptnav__sub a:hover { background: var(--off-white); color: var(--blau); }
+.hauptnav__sub a[aria-current="page"] { color: var(--blau); font-weight: 600; }
+
 /* Schmale Viewports: Navigation stapelt (no-JS-fähig, ab 320px nutzbar) */
 @media (max-width: 48rem) {
   .masthead__inner { flex-direction: column; align-items: flex-start; }
@@ -208,6 +237,10 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   .hauptnav a[aria-current="page"], .hauptnav a.is-active { border-bottom-color: var(--rot); border-bottom-width: 2px; }
   .hauptnav .cta { margin-top: .6rem; }
   .hauptnav .cta a { display: inline-block; }
+  /* Untermenü im gestapelten Menü: statischer, eingerückter Block */
+  .hauptnav__toggle { display: flex; width: 100%; justify-content: space-between; padding: .55rem 0; border-bottom: 1px solid var(--linie); }
+  .hauptnav__toggle.is-active { border-bottom-color: var(--rot); border-bottom-width: 2px; }
+  .hauptnav__sub { position: static; box-shadow: none; border: 0; border-radius: 0; min-width: 0; padding: .25rem 0 .25rem 1rem; }
 }
 
 /* ---- Hero (Startseite) ---- */

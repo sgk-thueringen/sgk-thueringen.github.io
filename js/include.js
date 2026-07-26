@@ -28,7 +28,39 @@
     if (bestEl) {
       bestEl.setAttribute("aria-current", "page");
       bestEl.classList.add("is-active");
+      // Liegt der aktive Link in einem Untermenü, auch den Auslöser-Button markieren
+      var parent = bestEl.closest ? bestEl.closest(".hasmenu") : null;
+      if (parent) {
+        var t = parent.querySelector(".hauptnav__toggle");
+        if (t) t.classList.add("is-active");
+      }
     }
+  }
+
+  // ---- Untermenü „Verein" (Disclosure): Klick + Tastatur (Enter/Leertaste via
+  //      nativem <button>, Escape schließt), Klick/Fokus außerhalb schließt. ----
+  function initMenu() {
+    var toggle = document.querySelector(".hauptnav__toggle");
+    var sub = document.getElementById("verein-menu");
+    if (!toggle || !sub) return;
+
+    function open()  { toggle.setAttribute("aria-expanded", "true");  sub.hidden = false; }
+    function close() { toggle.setAttribute("aria-expanded", "false"); sub.hidden = true; }
+    function isOpen(){ return toggle.getAttribute("aria-expanded") === "true"; }
+
+    toggle.addEventListener("click", function () { isOpen() ? close() : open(); });
+
+    var nav = document.getElementById("hauptnav");
+    if (nav) nav.addEventListener("keydown", function (e) {
+      if ((e.key === "Escape" || e.key === "Esc") && isOpen()) { close(); toggle.focus(); }
+    });
+
+    // Klick oder Fokuswechsel außerhalb schließt das offene Menü
+    function outside(e) {
+      if (isOpen() && !toggle.contains(e.target) && !sub.contains(e.target)) close();
+    }
+    document.addEventListener("click", outside);
+    document.addEventListener("focusin", outside);
   }
 
   function inject(el) {
@@ -38,7 +70,7 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
         el.innerHTML = html;
-        if (name === "header") markActive();
+        if (name === "header") { markActive(); initMenu(); }
       })
       .catch(function () {
         // Fallback bleibt der im Platzhalter enthaltene <noscript>-Inhalt / statische Links
