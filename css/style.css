@@ -55,10 +55,12 @@ img, svg { max-width: 100%; height: auto; }
 h1, h2, h3, h4 { font-family: var(--font-titel); font-weight: 700; color: var(--blau); line-height: 1.2; margin: 0 0 .5em; }
 h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); }
 h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); }
-p { margin: 0 0 1em; max-width: 62ch; }
+/* H3: deutlich kleiner als H2, klar als Unterabschnitt; etwas Luft nach oben */
+h3 { font-size: clamp(1.05rem, 2.2vw, 1.25rem); margin-top: 1.75rem; }
+p { margin: 0 0 1em; max-width: 64ch; }
 
 /* Inhaltsliste (z. B. „Was wir tun") — semantische ul, auf Mobil luftiger */
-.textliste { max-width: 62ch; padding-left: 1.25rem; line-height: 1.55; }
+.textliste { max-width: 64ch; padding-left: 1.25rem; line-height: 1.55; }
 .textliste li { margin-bottom: .55rem; }
 @media (max-width: 48rem) { .textliste li { margin-bottom: 1rem; } }
 
@@ -115,6 +117,32 @@ a:hover { text-decoration: none; }
 .vorstand-amt-titel { font-size: clamp(1.15rem, 2.4vw, 1.5rem); margin-bottom: .25rem; }
 .vorstand-amt-hinweis { color: var(--grau); font-size: .95rem; margin-top: 0; }
 .vorstand-amt .vorstand-grid { margin-top: 1rem; }
+
+/* Leitsatz / Pull-Quote — optischer Anker, bricht die Textmasse auf */
+.leitsatz {
+  margin: 2.25rem 0;
+  padding: .4rem 0 .4rem 1.25rem;
+  border-left: 5px solid var(--rot);
+}
+.leitsatz p {
+  margin: 0;
+  font-family: var(--font-titel);
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  line-height: 1.35;
+  color: var(--blau);
+  max-width: 55ch;
+}
+
+/* Bild-Platzhalter (Layout vorgesehen, noch kein Bild eingebunden) */
+.bild-platzhalter { margin: 2rem 0; }
+.bild-platzhalter__box {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 3 / 2; max-width: 32rem;
+  border: 2px dashed var(--blau-hell); border-radius: .5rem;
+  background: var(--off-white); color: var(--grau);
+  font-weight: 600; text-align: center; padding: 1rem;
+}
+.bild-platzhalter figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; max-width: 32rem; }
 
 /* Sichtbarer Fokus (WCAG) */
 :focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
