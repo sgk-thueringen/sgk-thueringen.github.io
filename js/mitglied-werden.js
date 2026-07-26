@@ -43,7 +43,11 @@
     { fkt: "Ortsteil-/Ortschaftsebene", text: "Ortsteil-/Ortschaftsbürgermeister:in oder Mitglied eines Ortsteil-/Ortschaftsrats" },
     { fkt: "Sachkundige:r Bürger:in / Unternehmensgremium", text: "Sachkundige:r Bürger:in im Ausschuss oder Mitglied in einem kommunalen Unternehmensgremium" },
     { fkt: "Beschäftigung im kommunalen Bereich", text: "Beschäftigt bei einer Kommune, einem kommunalen Unternehmen oder Spitzenverband" },
-    { fkt: "SPD-Fraktion / -Regierung", text: "Mitglied einer SPD-Fraktion oder SPD-Regierungsmitglied (Landtag, Bundestag, Europa)" },
+    // Klammer bewusst am Wort "Fraktion": gemeint ist die PARLAMENTARISCHE Ebene
+    // (§ 3 Abs. 1 Nr. 4). Ohne diesen Zusatz wuerden kommunale sachkundige Buerger:innen
+    // — die ebenfalls der SPD-Fraktion im Rat angehoeren (Nr. 1, Button "Sachkundige:r
+    // Buerger:in") — faelschlich hier landen. Regierung = Landes-/Bundesregierung (Nr. 5).
+    { fkt: "SPD-Fraktion / -Regierung", text: "Mitglied einer SPD-Fraktion (Landtag, Bundestag, Europäisches Parlament) oder SPD-Mitglied in der Landes- oder Bundesregierung" },
     { fkt: "Kommunalpolitisch engagiert", text: "In der Kommunalpolitik besonders engagiert (ohne festes Mandat)" }
   ];
 
