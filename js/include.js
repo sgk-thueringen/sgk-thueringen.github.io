@@ -10,7 +10,7 @@
   // Version der Partials — an die Fetch-URL angehängt, damit geänderte Header/Footer
   // ohne hartes Neuladen ankommen. Bei Änderung an einem Partial hochzählen (und die
   // Versionsnummer von include.js selbst in den Seiten mit anheben).
-  var ASSET_V = "4";
+  var ASSET_V = "5";
 
   function markActive() {
     var nav = document.getElementById("hauptnav");
@@ -33,11 +33,11 @@
     if (bestEl) {
       bestEl.setAttribute("aria-current", "page");
       bestEl.classList.add("is-active");
-      // Liegt der aktive Link in einem Untermenü, auch den Auslöser-Button markieren
+      // Liegt der aktive Link in einem Untermenü, auch den sichtbaren Top-Link markieren
       var parent = bestEl.closest ? bestEl.closest(".hasmenu") : null;
       if (parent) {
-        var t = parent.querySelector(".hauptnav__toggle");
-        if (t) t.classList.add("is-active");
+        var lnk = parent.querySelector(".hauptnav__link");
+        if (lnk) lnk.classList.add("is-active");
       }
     }
   }
