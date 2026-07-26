@@ -46,16 +46,33 @@
     return fig;
   }
 
+  function fuelle(grid, personen) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < personen.length; i++) frag.appendChild(karte(personen[i]));
+    grid.innerHTML = "";
+    grid.appendChild(frag);
+  }
+
   function render() {
     var grid = document.getElementById("vorstand-grid");
     if (!grid) return;
     fetch("/data/vorstand.json")
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (liste) {
-        var frag = document.createDocumentFragment();
-        for (var i = 0; i < liste.length; i++) frag.appendChild(karte(liste[i]));
-        grid.innerHTML = "";
-        grid.appendChild(frag);
+        // Mitglieder kraft Amtes (§ 7 Abs. 1 Nr. 4) als eigene, abgesetzte Gruppe
+        var vorstand = [], amt = [];
+        for (var i = 0; i < liste.length; i++) {
+          if (liste[i].gruppe === "kraft-amtes") amt.push(liste[i]);
+          else vorstand.push(liste[i]);
+        }
+        fuelle(grid, vorstand);
+
+        var amtGrid = document.getElementById("vorstand-amt-grid");
+        var amtBox = document.getElementById("vorstand-amt");
+        if (amt.length && amtGrid && amtBox) {
+          fuelle(amtGrid, amt);
+          amtBox.hidden = false;
+        }
       })
       .catch(function () {
         // Fallback: statischer Hinweis bleibt bestehen (siehe HTML)

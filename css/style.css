@@ -105,6 +105,12 @@ a:hover { text-decoration: none; }
 .vorstand-funktion { display: block; color: var(--ink); }
 .vorstand-ort { display: block; color: var(--grau); font-size: .95rem; }
 
+/* Mitglied kraft Amtes (§ 7 Abs. 1 Nr. 4) — leicht abgesetzte eigene Gruppe */
+.vorstand-amt { margin-top: 2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--linie); }
+.vorstand-amt-titel { font-size: clamp(1.15rem, 2.4vw, 1.5rem); margin-bottom: .25rem; }
+.vorstand-amt-hinweis { color: var(--grau); font-size: .95rem; margin-top: 0; }
+.vorstand-amt .vorstand-grid { margin-top: 1rem; }
+
 /* Sichtbarer Fokus (WCAG) */
 :focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
 

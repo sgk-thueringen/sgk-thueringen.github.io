@@ -32,14 +32,6 @@
     "text": ""
   },
   {
-    "vorname": "Ingo",
-    "nachname": "Lippert",
-    "funktion": "Geschäftsführer",
-    "ort": "",
-    "bild": "/assets/vorstand/lippert.svg",
-    "text": ""
-  },
-  {
     "vorname": "Andreas",
     "nachname": "Bausewein",
     "funktion": "Beisitzer",
@@ -86,5 +78,14 @@
     "ort": "",
     "bild": "/assets/vorstand/merz.svg",
     "text": ""
+  },
+  {
+    "vorname": "Ingo",
+    "nachname": "Lippert",
+    "funktion": "Geschäftsführer",
+    "ort": "",
+    "bild": "/assets/vorstand/lippert.svg",
+    "text": "",
+    "gruppe": "kraft-amtes"
   }
 ]
