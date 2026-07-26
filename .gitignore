@@ -6,8 +6,8 @@ unterlagen/
 STATUSBERICHT.md
 
 # === Interne Planungsdokumente — nicht veröffentlichen (Variante B) ===
-# Öffentlich wird nur website/ plus .gitignore. Diese Arbeitsdokumente
-# enthalten interne Rechts-/Prüfnotizen und bleiben lokal.
+# Öffentlich wird nur die Website im Repo-Root plus .gitignore. Diese
+# Arbeitsdokumente enthalten interne Rechts-/Prüfnotizen und bleiben lokal.
 CLAUDE.md
 PROJEKTLEITUNG.md
 OFFENE-PUNKTE.md
