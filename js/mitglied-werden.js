@@ -176,7 +176,7 @@
         '</div>' +
         '<div class="absenden">' +
           '<button type="submit" class="btn" data-act="submit">Antrag als E-Mail vorbereiten</button>' +
-          '<p class="absenden-hinweis">Es öffnet sich Ihr E-Mail-Programm — bitte senden Sie ' +
+          '<p class="absenden-hinweis">Es öffnet sich dein E-Mail-Programm — bitte sende ' +
             'die vorbereitete Nachricht ab.</p>' +
           '<button type="button" class="btn btn-sekundaer" data-act="copy">Zusammenfassung kopieren</button>' +
           '<p class="kopiert" id="kopiert" hidden>Zusammenfassung kopiert.</p>' +

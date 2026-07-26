@@ -115,6 +115,16 @@
 
 .assistent-fallback { border: 1px solid var(--linie); border-radius: .5rem; padding: 1.25rem; max-width: 40rem; }
 
+/* Dezenter Fraktions-Hinweis (kein eigener Formularzweig) */
+.fraktion-hinweis {
+  margin-top: 1.75rem; max-width: 40rem;
+  border-left: 4px solid var(--blau-hell); background: var(--off-white);
+  padding: .9rem 1.1rem; border-radius: 0 .4rem .4rem 0;
+}
+.fraktion-hinweis h2 { font-size: 1.15rem; margin: 0 0 .4rem; }
+.fraktion-hinweis p { margin: 0 0 .5rem; font-size: .97rem; }
+.fraktion-hinweis p:last-child { margin-bottom: 0; }
+
 /* sehr schmale Viewports */
 @media (max-width: 22.5rem) {
   .assistent, .ergebniskarte { padding: 1rem; }
