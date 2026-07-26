@@ -6,7 +6,9 @@
 (function () {
   "use strict";
 
-  var MAILTO = "SGK-Thueringen@t-online.de";
+  // Adresse zerlegt, damit sie nicht als vollständiger String im Quelltext steht
+  // (Spam-Schutz, konsistent mit js/mailto.js). Zusammenbau erst zur Laufzeit.
+  var MAILTO = "SGK-Thueringen" + "@" + "t-online.de";
 
   // Kategorien: Label, Satzungsstelle, Bundes-SGK-Kopplung, Ortsfeld-Label, Organisationsfeld
   var CATS = {
