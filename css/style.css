@@ -74,6 +74,37 @@ p { margin: 0 0 1em; max-width: 62ch; }
 a { color: var(--blau); text-underline-offset: .15em; }
 a:hover { text-decoration: none; }
 
+/* ---- Vorstands-Raster: Karten aus data/vorstand.json ---- */
+.vorstand-grid {
+  display: grid;
+  grid-template-columns: 1fr;         /* mobil: einspaltig */
+  gap: 1.5rem;
+  margin: 1.75rem 0 2rem;
+  padding: 0;
+}
+@media (min-width: 40rem) { .vorstand-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 60rem) { .vorstand-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.vorstand-card { margin: 0; }
+.vorstand-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: .5rem;
+  background: var(--blau);
+}
+.vorstand-card figcaption { margin-top: .6rem; }
+.vorstand-name {
+  display: block;
+  font-family: var(--font-titel);
+  font-weight: 700;
+  color: var(--blau);
+  line-height: 1.25;
+}
+.vorstand-funktion { display: block; color: var(--ink); }
+.vorstand-ort { display: block; color: var(--grau); font-size: .95rem; }
+
 /* Sichtbarer Fokus (WCAG) */
 :focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
 

@@ -1,0 +1,90 @@
+[
+  {
+    "vorname": "Fabian",
+    "nachname": "Giesder",
+    "funktion": "Vorsitzender",
+    "ort": "Meiningen",
+    "bild": "/assets/vorstand/giesder.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Alexandra",
+    "nachname": "Rieger",
+    "funktion": "Stellvertretende Vorsitzende",
+    "ort": "Nordhausen",
+    "bild": "/assets/vorstand/rieger.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Marko",
+    "nachname": "Wolfram",
+    "funktion": "Stellvertretender Vorsitzender",
+    "ort": "Probstzella",
+    "bild": "/assets/vorstand/wolfram.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Daniel",
+    "nachname": "Dietrich",
+    "funktion": "Schatzmeister",
+    "ort": "",
+    "bild": "/assets/vorstand/dietrich.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Ingo",
+    "nachname": "Lippert",
+    "funktion": "Geschäftsführer",
+    "ort": "",
+    "bild": "/assets/vorstand/lippert.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Andreas",
+    "nachname": "Bausewein",
+    "funktion": "Beisitzer",
+    "ort": "",
+    "bild": "/assets/vorstand/bausewein.svg",
+    "text": ""
+  },
+  {
+    "vorname": "André",
+    "nachname": "Grenzdörffer",
+    "funktion": "Beisitzer",
+    "ort": "",
+    "bild": "/assets/vorstand/grenzdoerffer.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Thomas",
+    "nachname": "Lenz",
+    "funktion": "Beisitzer",
+    "ort": "",
+    "bild": "/assets/vorstand/lenz.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Lisa-Marie",
+    "nachname": "Püchler",
+    "funktion": "Beisitzerin",
+    "ort": "",
+    "bild": "/assets/vorstand/puechler.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Sven",
+    "nachname": "Schrade",
+    "funktion": "Beisitzer",
+    "ort": "",
+    "bild": "/assets/vorstand/schrade.svg",
+    "text": ""
+  },
+  {
+    "vorname": "Janine",
+    "nachname": "Merz",
+    "funktion": "Vorstandsmitglied für die SPD-Landtagsfraktion",
+    "ort": "",
+    "bild": "/assets/vorstand/merz.svg",
+    "text": ""
+  }
+]
