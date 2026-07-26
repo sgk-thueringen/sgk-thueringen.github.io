@@ -17,6 +17,7 @@ FEEDBACK.md
 QUELLEN.md
 BACKUP.md
 backup-lokal.ps1
+backup-planung.ps1
 
 # === Lokale Claude-Code-Konfiguration ===
 .claude/settings.local.json

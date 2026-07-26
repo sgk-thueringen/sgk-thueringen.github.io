@@ -8,7 +8,7 @@
 <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-<link rel="stylesheet" href="/css/style.css?v=5">
+<link rel="stylesheet" href="/css/style.css?v=6">
 <script src="/js/include.js?v=5" defer></script>
 <script src="/js/vorstand.js" defer></script>
 </head>
@@ -21,7 +21,20 @@
 <h1>Landesvorstand</h1>
 <!-- Personen und Funktionen laut Registerausdruck 25.07.2026 und § 7 Abs. 1 Satzung. Orte nur soweit belegt. Porträts und Kurztexte sind Zulieferung (Frist 10.08., André/Lisa-Marie). Platzhalter-SVG bis dahin. -->
 <div id="vorstand-grid" class="vorstand-grid">
-<noscript><p>Die Übersicht des Landesvorstands wird mit JavaScript geladen. Der Landesvorstand ist über die <a href="/kontakt/">Geschäftsstelle</a> erreichbar.</p></noscript>
+<!-- Skelett-Platzhalter: reservieren den Platz gegen Layout-Shift (CLS), bis vorstand.js
+     die Karten aus data/vorstand.json einsetzt (ersetzt via innerHTML). ANZAHL = 10
+     (= Vorstandsmitglieder ohne die Gruppe „kraft Amtes"); bei Änderung der JSON anpassen. -->
+<noscript><style>.vorstand-skeleton{display:none!important}</style><p>Die Übersicht des Landesvorstands wird mit JavaScript geladen. Der Landesvorstand ist über die <a href="/kontakt/">Geschäftsstelle</a> erreichbar.</p></noscript>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
+<figure class="vorstand-card vorstand-skeleton" aria-hidden="true"><span class="vorstand-portrait"></span><figcaption><span class="vorstand-name">&nbsp;</span><span class="vorstand-funktion">&nbsp;</span></figcaption></figure>
 </div>
 <section id="vorstand-amt" class="vorstand-amt" aria-labelledby="vorstand-amt-titel" hidden>
 <h2 id="vorstand-amt-titel" class="vorstand-amt-titel">Geschäftsführung</h2>

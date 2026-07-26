@@ -202,6 +202,52 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 /* Roter Akzentbalken ganz oben (Rot = Akzent) */
 .markenbalken { height: 6px; background: var(--rot); }
 
+/* ---- Platz-Reservierung gegen Layout-Shift (CLS) --------------------
+   Kopf und Fuß werden per include.js NACH dem ersten Paint eingefügt; ohne
+   Reservierung schöben sie den Inhalt nach unten (CLS). Hier wird der Platz
+   vorab reserviert. Werte = gemessene, gerenderte Höhe je Bruchstelle
+   (lokal, 26.07.2026), bewusst leicht AUFGERUNDET: die Reservierung ist damit
+   >= der echten Höhe, sodass beim Einfügen höchstens minimaler Leerraum bleibt,
+   aber NIE ein Sprung entsteht.
+   ACHTUNG bei Änderungen am Kopf (Navigationseinträge, Logohöhe): Höhen neu
+   messen und die drei Werte anpassen. Siehe OFFENE-PUNKTE J (CLS). */
+[data-include="header"] { min-height: 419px; }               /* mobil, Nav gestapelt (<= 48rem) */
+@media (min-width: 48.0625rem) {                             /* Desktop, Nav bricht auf 2 Zeilen (769–~911px) */
+  [data-include="header"] { min-height: 181px; }
+}
+@media (min-width: 59rem) {                                  /* Desktop, Nav einzeilig (ab ~912px) */
+  [data-include="header"] { min-height: 136px; }
+}
+/* Der Fuß sitzt am Seitenende — sein Nachladen verschiebt nichts darunter und
+   trägt daher NICHTS zum CLS bei. Die Reservierung dient nur dazu, ein kurzes
+   Aufblitzen am Seitenfuß zu vermeiden. 174px = kleinste gerenderte Fußhöhe
+   (2-spaltig ab 40rem); mobil wächst der Fuß nur nach unten (kein Sprung). */
+[data-include="footer"] { min-height: 174px; }
+
+/* ---- Skelett-Platzhalter für die aus JSON gerenderten Bereiche ------
+   /verein/vorstand/ (#vorstand-grid) und /aktuelles/ (#aktuelles-liste) werden
+   clientseitig aus JSON gefüllt. Statische Skelett-Elemente reservieren den Platz
+   in der EXAKT gleichen Geometrie (Porträt = quadratisch, skaliert mit der Breite),
+   damit das Füllen keinen Layout-Shift auslöst. vorstand.js/aktuelles.js ersetzen
+   sie (grid/liste.innerHTML=""). Ohne JavaScript werden sie ausgeblendet (siehe
+   <noscript>-Regel je Seite); dann greift der statische Fallback-Text.
+   ANZAHL an die JSON-Länge koppeln: bei mehr/weniger Einträgen Skelette anpassen. */
+.vorstand-skeleton, .beitrag-skeleton { opacity: .55; }
+.vorstand-skeleton .vorstand-name,
+.vorstand-skeleton .vorstand-funktion {
+  background: var(--linie); color: transparent; border-radius: .2rem;
+}
+.vorstand-skeleton .vorstand-name { width: 55%; }
+.vorstand-skeleton .vorstand-funktion { width: 80%; margin-top: .35rem; }
+.beitrag-skeleton h2,
+.beitrag-skeleton .beitrag-datum,
+.beitrag-skeleton .beitrag-text,
+.beitrag-skeleton .beitrag-quelle {
+  background: var(--linie); color: transparent; border-radius: .2rem;
+}
+.beitrag-skeleton .beitrag-datum { width: 8rem; }
+.beitrag-skeleton .beitrag-quelle { width: 16rem; }
+
 /* ---- Header / Masthead ---- */
 .masthead { border-bottom: 1px solid var(--linie); background: var(--weiss); }
 .masthead__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; padding-block: .9rem; }
