@@ -23,7 +23,3 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 *~
-
-
-# Alt-Ordner aus der Umstrukturierung (nur lokal, nicht versionieren)
-website/
