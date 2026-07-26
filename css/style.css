@@ -163,7 +163,8 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 
 /* ---- Hero (Startseite) ---- */
 .hero { background: var(--off-white); border-bottom: 1px solid var(--linie); }
-.hero__logo { width: 100%; max-width: 30rem; height: auto; margin-bottom: 1.25rem; }
+.hero__title { margin: 0; }   /* H1 umschließt die Wortmarke; kein Extra-Abstand/-Farbe */
+.hero__logo { display: block; width: 100%; max-width: 30rem; height: auto; margin-bottom: 1.25rem; }
 .hero p.lead { font-size: 1.2rem; color: var(--grau); }
 
 /* CTA-Button */
