@@ -10,17 +10,19 @@
   // Version der Partials — an die Fetch-URL angehängt, damit geänderte Header/Footer
   // ohne hartes Neuladen ankommen. Bei Änderung an einem Partial hochzählen (und die
   // Versionsnummer von include.js selbst in den Seiten mit anheben).
-  var ASSET_V = "5";
+  var ASSET_V = "6";
 
   function markActive() {
-    var nav = document.getElementById("hauptnav");
-    if (!nav) return;
+    var header = document.querySelector(".masthead");
+    if (!header) return;
     // aktuellen Pfad normalisieren: ohne "index.html", mit fuehrendem/abschliessendem "/"
     var path = location.pathname.replace(/index\.html$/, "");
     if (path === "") path = "/";
     if (path.length > 1 && path.charAt(path.length - 1) !== "/") path += "/";
 
-    var links = nav.querySelectorAll("a[href]");
+    // Sowohl die Hauptnavigation als auch der separate CTA-Knopf "Mitglied werden"
+    // (liegt außerhalb von #hauptnav, siehe partials/header.html) werden geprüft.
+    var links = header.querySelectorAll(".hauptnav a[href], .masthead__cta[href]");
     var bestEl = null, bestLen = -1;
     for (var i = 0; i < links.length; i++) {
       var href = links[i].getAttribute("href");
@@ -40,6 +42,40 @@
         if (lnk) lnk.classList.add("is-active");
       }
     }
+  }
+
+  // ---- Mobil-Menü (Hauptnavigation einklappbar, nur auf schmalen Viewports per CSS
+  //      sichtbar, siehe style.css). Gleiches Muster wie initMenu() unten: aria-expanded
+  //      am Menü-Knopf ist einzige Quelle der Wahrheit, Sichtbarkeit steuert allein das
+  //      CSS darüber. Schließt bei Escape (Fokus zurück auf den Menü-Knopf) und bei
+  //      Klick/Tipp außerhalb. Ein offenes Verein-Untermenü wird beim Schließen des
+  //      Hauptmenüs mitgeschlossen, damit kein hängender Zustand übrig bleibt. ----
+  function initHauptmenu() {
+    var toggle = document.getElementById("navToggle");
+    var nav = document.getElementById("hauptnav");
+    if (!toggle || !nav) return;
+
+    function setOpen(open) {
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!open) {
+        var subToggle = nav.querySelector(".hauptnav__toggle");
+        if (subToggle) subToggle.setAttribute("aria-expanded", "false");
+      }
+    }
+    function isOpen() { return toggle.getAttribute("aria-expanded") === "true"; }
+
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(!isOpen());
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if ((e.key === "Escape" || e.key === "Esc") && isOpen()) { setOpen(false); toggle.focus(); }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (isOpen() && !nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+    });
   }
 
   // ---- Untermenü „Verein" (Disclosure). Öffnen/Schließen ausschließlich per Klick
@@ -96,7 +132,7 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
         el.innerHTML = html;
-        if (name === "header") { markActive(); initMenu(); }
+        if (name === "header") { markActive(); initHauptmenu(); initMenu(); }
       })
       .catch(function () {
         // Fallback bleibt der im Platzhalter enthaltene <noscript>-Inhalt / statische Links

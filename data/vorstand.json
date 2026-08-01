@@ -20,7 +20,7 @@
     "nachname": "Wolfram",
     "funktion": "Stellvertretender Vorsitzender",
     "ort": "Saalfeld-Rudolstadt",
-    "bild": "/assets/vorstand/wolfram.jpg",
+    "bild": "/assets/vorstand/wolfram.webp",
     "text": "Landrat"
   },
   {
@@ -44,7 +44,7 @@
     "nachname": "Grenzdörffer",
     "funktion": "Beisitzer",
     "ort": "Erfurt",
-    "bild": "/assets/vorstand/grenzdoerffer.jpg",
+    "bild": "/assets/vorstand/grenzdoerffer.webp",
     "text": "Stadtrat, Wirtschaft und Finanzen"
   },
   {
@@ -60,7 +60,7 @@
     "nachname": "Püchler",
     "funktion": "Beisitzerin",
     "ort": "Saalfeld-Rudolstadt",
-    "bild": "/assets/vorstand/puechler.jpg",
+    "bild": "/assets/vorstand/puechler.webp",
     "text": "Kreistagsabgeordnete"
   },
   {

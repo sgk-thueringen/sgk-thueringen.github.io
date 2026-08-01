@@ -79,17 +79,27 @@ Die Vorstandsliste steht in **`data/vorstand.json`**. Ein Eintrag sieht so aus:
 
 ---
 
-## 4. Ein Bild hochladen
+## 4. Ein Porträtfoto beisteuern
 
-1. **Zielordner:** Porträts → `assets/vorstand/`. Andere Bilder → `assets/`.
-2. **Dateiname:** **klein, ohne Umlaute, ohne Leerzeichen.** Statt `Müller Foto.JPG` →
-   `mueller-foto.jpg`. Erlaubt sind Buchstaben a–z, Zahlen und Bindestriche.
-3. **Größe:** Porträts als **JPG**, Kante max. ~1000 px, Datei möglichst unter 300 KB.
-   Große Handy-Fotos vorher verkleinern.
-4. **Hochladen:** Im Zielordner oben **„Add file → Upload files"**, Datei wählen,
-   „Commit changes".
-5. Danach im JSON (Abschnitt 3) den `bild`-Pfad auf die neue Datei setzen — und
-   **André Bescheid geben**, damit die Bildrechte geprüft sind, bevor es live geht.
+**Wichtig: Du lädst kein fertiges Porträt hoch und schneidest nichts selbst zu.**
+Porträts liegen als **`.webp`** in `assets/vorstand/` — quadratisch zugeschnitten
+(Gesicht mittig), 800×800 px, unter 100 KB. Diese Umwandlung braucht Bildbearbeitung,
+die im normalen Redaktionsalltag ohne Werkzeug nicht zuverlässig geht.
+
+1. **Original an André übergeben** (z. B. per Mail oder Messenger) — möglichst
+   scharf, gut belichtet, Gesicht nicht am Bildrand.
+2. André (bzw. die technische Umsetzung) schneidet zu, wandelt nach `.webp` um und
+   legt die Datei unter `assets/vorstand/nachname.webp` ab — Dateiname klein, ohne
+   Umlaute (ae/oe/ue), ohne Leerzeichen.
+3. Danach im JSON (Abschnitt 3) den `bild`-Pfad auf `/assets/vorstand/nachname.webp`
+   setzen.
+4. **Bildrechte müssen vorher geklärt sein** (Fotograf **und** abgebildete Person),
+   bevor das Foto überhaupt weitergegeben wird.
+
+Für **andere Bilder** (nicht Porträts, z. B. auf Unterseiten) gilt weiterhin: Zielordner
+`assets/`, Dateiname klein/ohne Umlaute/ohne Leerzeichen, Format je nach Bildart (Fotos als
+JPG, Kante max. ~1000 px, unter 300 KB). Hochladen im Zielordner oben über
+**„Add file → Upload files"**, dann „Commit changes".
 
 ---
 

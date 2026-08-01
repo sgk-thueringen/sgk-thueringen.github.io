@@ -207,17 +207,24 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
    Kopf und Fuß werden per include.js NACH dem ersten Paint eingefügt; ohne
    Reservierung schöben sie den Inhalt nach unten (CLS). Hier wird der Platz
    vorab reserviert. Werte = gemessene, gerenderte Höhe je Bruchstelle
-   (lokal, 26.07.2026), bewusst leicht AUFGERUNDET: die Reservierung ist damit
-   >= der echten Höhe, sodass beim Einfügen höchstens minimaler Leerraum bleibt,
-   aber NIE ein Sprung entsteht.
-   ACHTUNG bei Änderungen am Kopf (Navigationseinträge, Logohöhe): Höhen neu
-   messen und die drei Werte anpassen. Siehe OFFENE-PUNKTE J (CLS). */
-[data-include="header"] { min-height: 419px; }               /* mobil, Nav gestapelt (<= 48rem) */
-@media (min-width: 48.0625rem) {                             /* Desktop, Nav bricht auf 2 Zeilen (769–~911px) */
-  [data-include="header"] { min-height: 181px; }
+   (lokal, 01.08.2026, nach Umbau auf einklappbare Mobil-Navigation), bewusst
+   leicht AUFGERUNDET: die Reservierung ist damit >= der echten Höhe, sodass
+   beim Einfügen höchstens minimaler Leerraum bleibt, aber NIE ein Sprung
+   entsteht. Maßgeblich ist stets der EINGEKLAPPTE Zustand (aria-expanded
+   ="false"), weil das die Höhe beim ersten Rendern ist — das Aufklappen
+   selbst ist eine Nutzerinteraktion nach dem Laden und zählt nicht als CLS.
+   ACHTUNG bei Änderungen am Kopf (Navigationseinträge, Logohöhe, CTA/Menü-
+   Knopf-Größe): Höhen neu messen und die drei Werte anpassen. Siehe
+   OFFENE-PUNKTE J (CLS). */
+[data-include="header"] { min-height: 144px; }                /* mobil, Menü eingeklappt (<= 48rem); gemessen 139px über die ganze Breite 320–768px */
+@media (min-width: 48.0625rem) {                              /* Desktop, CTA "Mitglied werden" bricht auf eigene
+                                                                   Zeile unter Logo+Nav bzw. Logo (769–~920px, je nach
+                                                                   Breite auch Logo/Nav/CTA je eigene Zeile) */
+  [data-include="header"] { min-height: 190px; }               /* gemessen bis zu 188px (schlechtester Fall 3 Zeilen) */
 }
-@media (min-width: 59rem) {                                  /* Desktop, Nav einzeilig (ab ~912px) */
-  [data-include="header"] { min-height: 136px; }
+@media (min-width: 59rem) {                                   /* Desktop, ab hier passen Logo+Nav auf eine Zeile,
+                                                                   CTA bleibt eigene Zeile darunter (ab 944px) */
+  [data-include="header"] { min-height: 134px; }               /* gemessen 131px */
 }
 /* Der Fuß sitzt am Seitenende — sein Nachladen verschiebt nichts darunter und
    trägt daher NICHTS zum CLS bei. Die Reservierung dient nur dazu, ein kurzes
@@ -258,18 +265,28 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 /* ---- Header / Masthead ---- */
 .masthead { border-bottom: 1px solid var(--linie); background: var(--weiss); }
 .masthead__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; padding-block: .9rem; }
-.masthead__logo { display: inline-flex; align-items: center; }
+.masthead__logo { order: 1; display: inline-flex; align-items: center; }
 .masthead__logo img { height: 42px; width: auto; }
 
+/* CTA "Mitglied werden": eigenes Element neben Logo/Nav (nicht Teil der <ul>),
+   damit es auf Mobil auch im eingeklappten Zustand sichtbar bleibt. */
+.masthead__cta {
+  order: 3; margin-left: auto;
+  display: inline-block; background: var(--blau); color: #fff; text-decoration: none;
+  font-weight: 600; border-radius: .35rem; padding: .5rem 1rem; white-space: nowrap;
+}
+.masthead__cta:hover { background: #162F6E; }
+.masthead__cta[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--rot); }
+
+/* Menü-Knopf (Hamburger): nur auf Mobil sichtbar (Regel unten). */
+.masthead__toggle { order: 4; display: none; }
+
 /* Navigation */
-.hauptnav { margin-left: auto; }
+.hauptnav { order: 2; }
 .hauptnav > ul { list-style: none; display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; margin: 0; padding: 0; }
 .hauptnav a { display: inline-block; padding: .35rem .1rem; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; }
 .hauptnav a:hover { color: var(--blau); }
 .hauptnav a[aria-current="page"], .hauptnav a.is-active { color: var(--blau); font-weight: 600; border-bottom-color: var(--rot); }
-.hauptnav .cta a { background: var(--blau); color: #fff; border-radius: .35rem; padding: .4rem .8rem; border-bottom: 0; }
-.hauptnav .cta a:hover { background: #162F6E; }
-.hauptnav .cta a[aria-current="page"] { border-bottom: 0; }
 
 /* Untermenü „Verein": Link + separater Pfeil-Knopf (Disclosure, per include.js). */
 .hasmenu { position: relative; display: flex; flex-wrap: wrap; align-items: center; }
@@ -299,15 +316,51 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .hauptnav__sub a:hover { background: var(--off-white); color: var(--blau); }
 .hauptnav__sub a[aria-current="page"] { color: var(--blau); font-weight: 600; }
 
-/* Schmale Viewports: Navigation stapelt (no-JS-fähig, ab 320px nutzbar) */
+/* Schmale Viewports: Navigation einklappbar (no-JS-fähig als Vollseiten-Link-Leiste im
+   <noscript>-Fallback der Partial-Einbindung, ab 320px nutzbar). Sichtbar bleiben immer
+   Wortmarke, "Mitglied werden" und der Menü-Knopf; die Link-Liste (#hauptnav-panel)
+   klappt erst nach Klick auf den Menü-Knopf auf. Einzige Quelle der Wahrheit für die
+   Sichtbarkeit ist — wie beim Verein-Untermenü — aria-expanded am Menü-Knopf; das CSS
+   darunter steuert allein darüber (kein hidden/inline-style/Klasse). */
 @media (max-width: 48rem) {
-  .masthead__inner { flex-direction: column; align-items: flex-start; }
-  .hauptnav { margin-left: 0; width: 100%; }
-  .hauptnav > ul { flex-direction: column; gap: 0; }
+  /* Reihe 1: Wortmarke + Menü-Knopf. Reihe 2: CTA "Mitglied werden" als voller,
+     hervorgehobener Block darunter (Logo + CTA + Menü-Knopf passen bei 216px
+     Logobreite nicht auf eine Zeile — zwei kompakte Zeilen statt gequetscht).
+     Kleinerer Spaltenabstand als auf Desktop, sonst passen Logo (216px) und
+     Menü-Knopf (44px) ab 320px nicht mehr nebeneinander in Zeile 1. */
+  .masthead__inner { gap: .6rem; }
+  .masthead__toggle {
+    order: 2; margin-left: auto;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 44px; min-height: 44px;
+    background: none; border: 1px solid var(--linie); border-radius: .35rem;
+    padding: 0; cursor: pointer; color: var(--ink);
+  }
+  .masthead__cta { order: 3; flex-basis: 100%; margin-left: 0; text-align: center; padding: .6rem 1rem; }
+  .masthead__toggle:hover { color: var(--blau); border-color: var(--blau-hell); }
+  .masthead__toggle-icon,
+  .masthead__toggle-icon::before,
+  .masthead__toggle-icon::after {
+    content: ""; display: block; position: absolute;
+    width: 20px; height: 2px; background: currentColor; border-radius: 1px;
+    transition: transform .15s;
+  }
+  .masthead__toggle-icon { position: relative; }
+  .masthead__toggle-icon::before { top: -6px; left: 0; }
+  .masthead__toggle-icon::after { top: 6px; left: 0; }
+  .masthead__toggle[aria-expanded="true"] .masthead__toggle-icon { background: transparent; }
+  .masthead__toggle[aria-expanded="true"] .masthead__toggle-icon::before { top: 0; transform: rotate(45deg); }
+  .masthead__toggle[aria-expanded="true"] .masthead__toggle-icon::after { top: 0; transform: rotate(-45deg); }
+
+  /* Nav-Panel: standardmäßig eingeklappt (0 Höhe), erst bei aria-expanded="true" am
+     Menü-Knopf sichtbar UND auf volle Breite gesetzt (eigene Zeile unter Logo/CTA/Knopf). */
+  .hauptnav { order: 4; }
+  .hauptnav > ul { display: none; flex-direction: column; gap: 0; }
+  .masthead__toggle[aria-expanded="true"] ~ .hauptnav { flex-basis: 100%; }
+  .masthead__toggle[aria-expanded="true"] ~ .hauptnav > ul { display: flex; }
+
   .hauptnav a { display: block; padding: .55rem 0; border-bottom: 1px solid var(--linie); }
   .hauptnav a[aria-current="page"], .hauptnav a.is-active { border-bottom-color: var(--rot); border-bottom-width: 2px; }
-  .hauptnav .cta { margin-top: .6rem; }
-  .hauptnav .cta a { display: inline-block; }
   /* Link + Pfeil-Knopf in einer Zeile; Pfeil mind. 44x44 px Tap-Fläche */
   .hasmenu { align-items: stretch; }
   .hauptnav__link { flex: 1 1 auto; }
