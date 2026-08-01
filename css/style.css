@@ -117,6 +117,7 @@ a:hover { text-decoration: none; }
 }
 .vorstand-funktion { display: block; color: var(--ink); }
 .vorstand-ort { display: block; color: var(--grau); font-size: .95rem; }
+.vorstand-text { display: block; color: var(--ink); margin-top: .35rem; }
 
 /* ---- Kontaktseite: Anschrift + verschleierte E-Mail ---- */
 .kontakt-adresse { font-style: normal; line-height: 1.55; margin: 0 0 .5rem; }

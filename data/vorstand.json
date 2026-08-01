@@ -19,9 +19,9 @@
     "vorname": "Marko",
     "nachname": "Wolfram",
     "funktion": "Stellvertretender Vorsitzender",
-    "ort": "Probstzella",
-    "bild": "/assets/vorstand/wolfram.svg",
-    "text": ""
+    "ort": "Saalfeld-Rudolstadt",
+    "bild": "/assets/vorstand/wolfram.jpg",
+    "text": "Landrat"
   },
   {
     "vorname": "Daniel",
@@ -43,9 +43,9 @@
     "vorname": "André",
     "nachname": "Grenzdörffer",
     "funktion": "Beisitzer",
-    "ort": "",
-    "bild": "/assets/vorstand/grenzdoerffer.svg",
-    "text": ""
+    "ort": "Erfurt",
+    "bild": "/assets/vorstand/grenzdoerffer.jpg",
+    "text": "Stadtrat, Wirtschaft und Finanzen"
   },
   {
     "vorname": "Thomas",
@@ -59,9 +59,9 @@
     "vorname": "Lisa-Marie",
     "nachname": "Püchler",
     "funktion": "Beisitzerin",
-    "ort": "",
-    "bild": "/assets/vorstand/puechler.svg",
-    "text": ""
+    "ort": "Saalfeld-Rudolstadt",
+    "bild": "/assets/vorstand/puechler.jpg",
+    "text": "Kreistagsabgeordnete"
   },
   {
     "vorname": "Sven",

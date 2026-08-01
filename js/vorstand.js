@@ -13,13 +13,15 @@
     var fig = document.createElement("figure");
     fig.className = "vorstand-card";
 
+    var istPlatzhalter = /\.svg$/i.test(person.bild || "");
+
     var img = document.createElement("img");
     img.className = "vorstand-portrait";
     img.src = person.bild;
     img.width = 200;
     img.height = 200;
     img.loading = "lazy";
-    img.alt = "Platzhalter-Porträt " + person.vorname + " " + person.nachname;
+    img.alt = (istPlatzhalter ? "Platzhalter-Porträt " : "Porträt ") + person.vorname + " " + person.nachname;
     fig.appendChild(img);
 
     var cap = document.createElement("figcaption");
@@ -34,12 +36,20 @@
     funktion.textContent = person.funktion;
     cap.appendChild(funktion);
 
-    // Ort nur anzeigen, wenn belegt (Registerbeleg vorhanden)
+    // Ort nur anzeigen, wenn belegt (Registerbeleg oder Selbstauskunft vorhanden)
     if (person.ort) {
       var ort = document.createElement("span");
       ort.className = "vorstand-ort";
       ort.textContent = person.ort;
       cap.appendChild(ort);
+    }
+
+    // Kurztext nur anzeigen, wenn vorhanden (keine leere Zeile)
+    if (person.text) {
+      var text = document.createElement("span");
+      text.className = "vorstand-text";
+      text.textContent = person.text;
+      cap.appendChild(text);
     }
 
     fig.appendChild(cap);
