@@ -12,7 +12,7 @@
     "nachname": "Rieger",
     "funktion": "Stellvertretende Vorsitzende",
     "ort": "Nordhausen",
-    "bild": "/assets/vorstand/rieger.svg",
+    "bild": "/assets/vorstand/rieger.webp",
     "text": ""
   },
   {
@@ -68,7 +68,7 @@
     "nachname": "Schrade",
     "funktion": "Beisitzer",
     "ort": "",
-    "bild": "/assets/vorstand/schrade.svg",
+    "bild": "/assets/vorstand/schrade.webp",
     "text": ""
   },
   {
@@ -76,7 +76,7 @@
     "nachname": "Merz",
     "funktion": "Vorstandsmitglied für die SPD-Landtagsfraktion",
     "ort": "",
-    "bild": "/assets/vorstand/merz.svg",
+    "bild": "/assets/vorstand/merz.webp",
     "text": ""
   },
   {
