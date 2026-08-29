@@ -1,0 +1,29 @@
+name: JSON-Daten validieren
+
+# Prüft data/*.json auf gültige Syntax. Hintergrund: Redakteurinnen und
+# Redakteure pflegen data/aktuelles.json und data/vorstand.json direkt im
+# GitHub-Web-Editor (siehe REDAKTION.md). Ein vergessenes oder zu viel
+# gesetztes Komma macht die Datei ungültig, wodurch die Liste auf der
+# Website nicht mehr lädt. Dieser Check schlägt in dem Fall früh und
+# sichtbar an, statt dass der Fehler erst live auffällt.
+
+on:
+  push:
+    paths:
+      - "data/**.json"
+  pull_request:
+    paths:
+      - "data/**.json"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JSON-Dateien auf gültige Syntax prüfen
+        run: |
+          set -e
+          for f in data/*.json; do
+            echo "Prüfe $f"
+            python3 -m json.tool "$f" > /dev/null
+          done
