@@ -5,7 +5,7 @@
     "funktion": "Vorsitzender",
     "ort": "Meiningen",
     "bild": "/assets/vorstand/giesder.webp",
-    "text": ""
+    "text": "Bürgermeister in Meiningen"
   },
   {
     "vorname": "Alexandra",
@@ -13,7 +13,7 @@
     "funktion": "Stellvertretende Vorsitzende",
     "ort": "Nordhausen",
     "bild": "/assets/vorstand/rieger.webp",
-    "text": ""
+    "text": "Bürgermeisterin in Nordhausen"
   },
   {
     "vorname": "Marko",
@@ -29,7 +29,7 @@
     "funktion": "Schatzmeister",
     "ort": "",
     "bild": "/assets/vorstand/dietrich.webp",
-    "text": ""
+    "text": "Stadtrat in Eisenach"
   },
   {
     "vorname": "Andreas",
@@ -37,7 +37,7 @@
     "funktion": "Beisitzer",
     "ort": "",
     "bild": "/assets/vorstand/bausewein.webp",
-    "text": ""
+    "text": "Staatssekretär im Innenministerium"
   },
   {
     "vorname": "André",
@@ -53,7 +53,7 @@
     "funktion": "Beisitzer",
     "ort": "Gotha",
     "bild": "/assets/vorstand/lenz.webp",
-    "text": "Vertritt die SGK Thüringen bei Sitzungen des Bundesvorstands der Bundes-SGK"
+    "text": "Für die SGK Thüringen im Bundesvorstand"
   },
   {
     "vorname": "Lisa-Marie",
@@ -61,7 +61,7 @@
     "funktion": "Beisitzerin",
     "ort": "Saalfeld-Rudolstadt",
     "bild": "/assets/vorstand/puechler.webp",
-    "text": "Kreistagsabgeordnete"
+    "text": "Kreistagsabgeordnete in Saalfeld-Rudolstadt"
   },
   {
     "vorname": "Sven",
@@ -69,7 +69,7 @@
     "funktion": "Beisitzer",
     "ort": "",
     "bild": "/assets/vorstand/schrade.webp",
-    "text": ""
+    "text": "Bürgermeister in Schmölln"
   },
   {
     "vorname": "Janine",
@@ -77,7 +77,7 @@
     "funktion": "Vorstandsmitglied für die SPD-Landtagsfraktion",
     "ort": "",
     "bild": "/assets/vorstand/merz.webp",
-    "text": ""
+    "text": "SPD-Landtagsabgeordnete aus Meiningen"
   },
   {
     "vorname": "Ingo",
