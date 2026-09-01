@@ -5,7 +5,7 @@
     "funktion": "Vorsitzender",
     "ort": "Meiningen",
     "bild": "/assets/vorstand/giesder.webp",
-    "text": "Bürgermeister in Meiningen"
+    "text": "Bürgermeister"
   },
   {
     "vorname": "Alexandra",
@@ -13,7 +13,7 @@
     "funktion": "Stellvertretende Vorsitzende",
     "ort": "Nordhausen",
     "bild": "/assets/vorstand/rieger.webp",
-    "text": "Bürgermeisterin in Nordhausen"
+    "text": "Bürgermeisterin"
   },
   {
     "vorname": "Marko",
@@ -27,17 +27,17 @@
     "vorname": "Daniel",
     "nachname": "Dietrich",
     "funktion": "Schatzmeister",
-    "ort": "",
+    "ort": "Eisenach",
     "bild": "/assets/vorstand/dietrich.webp",
-    "text": "Stadtrat in Eisenach"
+    "text": "Stadtrat"
   },
   {
     "vorname": "Andreas",
     "nachname": "Bausewein",
     "funktion": "Beisitzer",
-    "ort": "",
+    "ort": "Erfurt",
     "bild": "/assets/vorstand/bausewein.webp",
-    "text": "Staatssekretär im Innenministerium"
+    "text": "Staatssekretär"
   },
   {
     "vorname": "André",
@@ -45,7 +45,7 @@
     "funktion": "Beisitzer",
     "ort": "Erfurt",
     "bild": "/assets/vorstand/grenzdoerffer.webp",
-    "text": "Stadtrat, Wirtschaft und Finanzen"
+    "text": "Stadtrat"
   },
   {
     "vorname": "Thomas",
@@ -53,7 +53,7 @@
     "funktion": "Beisitzer",
     "ort": "Gotha",
     "bild": "/assets/vorstand/lenz.webp",
-    "text": "Für die SGK Thüringen im Bundesvorstand"
+    "text": "Vertritt die SGK Thüringen im SGK-Bundesvorstand"
   },
   {
     "vorname": "Lisa-Marie",
@@ -61,23 +61,23 @@
     "funktion": "Beisitzerin",
     "ort": "Saalfeld-Rudolstadt",
     "bild": "/assets/vorstand/puechler.webp",
-    "text": "Kreistagsabgeordnete in Saalfeld-Rudolstadt"
+    "text": "Kreistagsabgeordnete"
   },
   {
     "vorname": "Sven",
     "nachname": "Schrade",
     "funktion": "Beisitzer",
-    "ort": "",
+    "ort": "Schmölln",
     "bild": "/assets/vorstand/schrade.webp",
-    "text": "Bürgermeister in Schmölln"
+    "text": "Bürgermeister"
   },
   {
     "vorname": "Janine",
     "nachname": "Merz",
     "funktion": "Vorstandsmitglied für die SPD-Landtagsfraktion",
-    "ort": "",
+    "ort": "Meiningen",
     "bild": "/assets/vorstand/merz.webp",
-    "text": "SPD-Landtagsabgeordnete aus Meiningen"
+    "text": "SPD-Landtagsabgeordnete"
   },
   {
     "vorname": "Ingo",
