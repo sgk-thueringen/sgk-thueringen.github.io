@@ -8,9 +8,10 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-  <link rel="stylesheet" href="/css/style.css?v=10">
+  <link rel="stylesheet" href="/css/style.css?v=11">
   <script src="/js/include.js?v=6" defer></script>
   <script src="/js/aktuelles.js?v=2" defer></script>
+  <script src="/js/vorstand.js?v=4" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -66,6 +67,23 @@
           dafür, sozialdemokratische Grundsätze dort zu verwirklichen, wo Politik den Alltag
           unmittelbar prägt.</p>
         <p><a href="/verein/">Mehr über den Verein &rarr;</a></p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Der Vorstand</h2>
+        <!-- Teaser aus data/vorstand.json, gerendert von js/vorstand.js
+             (renderHomeTeaser()). Horizontal scrollbarer Streifen (CSS
+             scroll-snap), kein Auto-Karussell, kein Timer. Mitglieder
+             "kraft Amtes" (§ 7 Abs. 1 Nr. 4, aktuell Lippert) werden
+             herausgefiltert — dieselbe Gruppierung wie das Haupt-Grid auf
+             /verein/vorstand/. Kein Skelett pro Kachel nötig: horizontales
+             Nachladen verschiebt nichts vertikal, min-height auf
+             .vorstand-teaser verhindert allein das kurze Zusammenklappen
+             des leeren Containers (siehe CSS). -->
+        <div id="home-vorstand-teaser" class="vorstand-teaser"></div>
+        <p><a href="/verein/vorstand/">Zum Vorstand &rarr;</a></p>
       </div>
     </section>
 

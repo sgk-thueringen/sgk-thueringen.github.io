@@ -119,6 +119,60 @@ a:hover { text-decoration: none; }
 .vorstand-ort { display: block; color: var(--grau); font-size: .95rem; }
 .vorstand-text { display: block; color: var(--ink); margin-top: .35rem; }
 
+/* ---- Startseite: Vorstands-Teaser (horizontal scrollbarer Streifen) ----
+   Eine Quelle (data/vorstand.json) wie das Haupt-Grid auf /verein/vorstand/
+   (.vorstand-grid/-card/-portrait/-name oben), hier als kompakte
+   Kachel-Reihe. CSS scroll-snap, kein Auto-Karussell, kein Timer, kein
+   JS-Scroll-Handling — Nutzer:innen scrollen selbst (Wisch/Pfeiltasten/
+   Trackpad). min-height reserviert den Platz gegen CLS, da hier bewusst
+   kein Skelett gerendert wird (horizontales Nachladen verschiebt nichts
+   vertikal; min-height verhindert nur das kurze Zusammenklappen des
+   leeren Containers vor dem Füllen). Wert = Kachelbreite/-bild (7.5rem)
+   + Abstand zum Namen (.5rem) + zweizeiliger Name im Extremfall
+   (.95rem × 1.25 Zeilenhöhe × 2), großzügig aufgerundet. */
+.vorstand-teaser {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  min-height: 11rem;
+  margin: 1.5rem 0 1rem;
+  padding: 0 0 .5rem;   /* etwas Luft, damit die Scrollbar nicht an den Bildern klebt */
+}
+.vorstand-teaser-karte {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex; flex-direction: column; align-items: center;
+  width: 7.5rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+.vorstand-teaser-portrait {
+  display: block;
+  width: 7.5rem; height: 7.5rem;
+  aspect-ratio: 1 / 1;
+  border-radius: .5rem;
+  background: var(--blau);
+  object-fit: cover;
+}
+.vorstand-teaser-name {
+  display: block;
+  margin-top: .5rem;
+  text-align: center;
+  font-size: .95rem; font-weight: 600; line-height: 1.25;
+  color: var(--blau);
+}
+.vorstand-teaser-karte:hover .vorstand-teaser-name { text-decoration: underline; }
+
+/* Sanftes Scrollen nur, wenn keine reduzierte Bewegung gewünscht ist —
+   erster Ort im Projekt mit dieser Media Query. Ohne sie (Standard:
+   "reduce" oder System nicht abgefragt-fähig) bleibt es beim sofortigen
+   Sprung ("auto"), das ist der CSS-Default und muss nicht extra gesetzt
+   werden. */
+@media (prefers-reduced-motion: no-preference) {
+  .vorstand-teaser { scroll-behavior: smooth; }
+}
+
 /* ---- Kontaktseite: Anschrift + verschleierte E-Mail ---- */
 .kontakt-adresse { font-style: normal; line-height: 1.55; margin: 0 0 .5rem; }
 .kontakt-mail { margin: 0 0 1.25rem; }
