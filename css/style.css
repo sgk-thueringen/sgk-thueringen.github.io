@@ -122,7 +122,30 @@ a:hover { text-decoration: none; }
 /* ---- Kontaktseite: Anschrift + verschleierte E-Mail ---- */
 .kontakt-adresse { font-style: normal; line-height: 1.55; margin: 0 0 .5rem; }
 .kontakt-mail { margin: 0 0 1.25rem; }
+.kontakt-telefon { margin: 0 0 1.25rem; }
 .mail-hint { color: var(--grau); font-size: .95rem; }
+
+/* Kontaktseite: „Du möchtest…“ als Kachel-Grid statt Liste. Vier gleich
+   große, klickbare Kacheln — 2x2 ab ~30rem, mobil einspaltig. Reines CSS,
+   kein JS, keine externen Requests. */
+.kontakt-kacheln {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+  max-width: 40rem;
+  padding: 0;
+}
+@media (min-width: 30rem) { .kontakt-kacheln { grid-template-columns: repeat(2, 1fr); } }
+.kontakt-kachel {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 5.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--linie); border-radius: .5rem;
+  background: var(--off-white); color: var(--blau);
+  font-weight: 600; text-decoration: none;
+}
+.kontakt-kachel:hover { background: var(--weiss); border-color: var(--blau-hell); }
 
 /* Mitglied kraft Amtes (§ 7 Abs. 1 Nr. 4) — leicht abgesetzte eigene Gruppe */
 .vorstand-amt { margin-top: 2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--linie); }
