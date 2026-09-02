@@ -12,6 +12,7 @@
   <script src="/js/include.js?v=6" defer></script>
   <script src="/js/aktuelles.js?v=2" defer></script>
   <script src="/js/vorstand.js?v=4" defer></script>
+  <script src="/js/bundes-sgk.js?v=1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -56,6 +57,26 @@
           <article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
         </div>
         <p><a href="/aktuelles/">Alle Meldungen &rarr;</a></p>
+      </div>
+    </section>
+
+    <section id="startseite-bundes-sgk">
+      <div class="container">
+        <h2>Aus dem Bundesverband</h2>
+        <!-- Meldungen aus data/bundes-sgk.json, täglich per GitHub-Actions-Workflow aus
+             bundes-sgk.de/aktuell aktualisiert (scripts/fetch-bundes-sgk.py,
+             .github/workflows/fetch-bundes-sgk.yml). Gerendert von js/bundes-sgk.js.
+             Eigenständige Datenquelle, getrennt von data/aktuelles.json (eigene
+             Meldungen). Bis zu drei Teaser, Titel verlinkt extern auf den
+             Original-Artikel (target=_blank rel=noopener) — fremdes Dokument, wird
+             verlinkt statt übernommen. Bei leerer Liste blendet render() den ganzen
+             Block aus. -->
+        <div id="bundes-sgk-liste" class="aktuelles-liste">
+          <noscript><style>.beitrag-skeleton{display:none!important}</style></noscript>
+          <article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+          <article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+          <article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+        </div>
       </div>
     </section>
 

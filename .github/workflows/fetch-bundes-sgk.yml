@@ -1,0 +1,49 @@
+name: Bundes-SGK-Feed abrufen
+
+# Holt täglich die drei neuesten Meldungen von bundes-sgk.de/aktuell
+# (scripts/fetch-bundes-sgk.py) und aktualisiert data/bundes-sgk.json.
+# Committet nur, wenn sich der Inhalt tatsächlich geändert hat — kein
+# leerer Commit bei unverändertem Stand. Bei Scraping-Fehlern schreibt
+# das Skript nichts (Exit-Code 1), dann bleibt die Datei unangetastet
+# und dieser Workflow committet ebenfalls nichts.
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # täglich 5:00 UTC
+  workflow_dispatch: {}   # manueller Test-Auslöser
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Abhängigkeiten installieren
+        run: pip install requests beautifulsoup4
+
+      - name: Feed abrufen
+        run: python scripts/fetch-bundes-sgk.py
+
+      - name: Änderung committen und pushen (nur bei tatsächlicher Änderung)
+        run: |
+          set -e
+          # Erst stagen, DANN gegen HEAD prüfen: "git diff --quiet" (ohne --cached)
+          # erkennt eine neue, noch nie committete Datei nicht als Änderung — beim
+          # allerersten Lauf (data/bundes-sgk.json existiert noch gar nicht im Repo)
+          # würde das faelschlich "keine Änderung" ergeben und nichts committen.
+          git add data/bundes-sgk.json
+          if git diff --cached --quiet -- data/bundes-sgk.json; then
+            echo "Keine Änderung an data/bundes-sgk.json — nichts zu committen."
+            exit 0
+          fi
+          git config user.name "SGK Thüringen"
+          git config user.email "sgk-thueringen@users.noreply.github.com"
+          git commit -m "Bundes-SGK-Feed: automatische Aktualisierung"
+          git push origin HEAD:main
