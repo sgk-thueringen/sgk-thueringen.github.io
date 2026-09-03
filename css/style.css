@@ -137,8 +137,14 @@ a:hover { text-decoration: none; }
   scroll-snap-type: x mandatory;
   min-height: 11rem;
   margin: 1.5rem 0 1rem;
-  padding: 0 0 .5rem;   /* etwas Luft, damit die Scrollbar nicht an den Bildern klebt */
+  padding: 0 0 .5rem;   /* etwas Luft unter den Bildern */
+  scrollbar-width: none;      /* Firefox: native Scrollleiste ausblenden */
+  -ms-overflow-style: none;   /* alte Edge-Versionen: native Scrollleiste ausblenden */
 }
+/* Chrome/Safari (WebKit): scrollbar-width wirkt dort nicht, eigener Selektor nötig.
+   Nur optisch — Scrollen per Wischen/Ziehen/Pfeiltasten bleibt unverändert möglich,
+   overflow-x:auto oben ist unberührt. */
+.vorstand-teaser::-webkit-scrollbar { display: none; }
 .vorstand-teaser-karte {
   flex: 0 0 auto;
   scroll-snap-align: start;
