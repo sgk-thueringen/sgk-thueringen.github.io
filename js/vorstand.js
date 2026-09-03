@@ -113,13 +113,16 @@
 
   // ---- Startseiten-Teaser: größere Kacheln, automatische Rotation mit
   //      Pflicht-Bedienelementen (WCAG 2.2.2). Jede Kachel ist ein
-  //      einzelner <a> (Bild + Name), verlinkt auf die Sprungmarke der
-  //      Person auf /verein/vorstand/. Mitglieder "kraft Amtes" (§ 7
-  //      Abs. 1 Nr. 4, aktuell nur Lippert) werden herausgefiltert —
-  //      dieselbe Gruppierung wie im Haupt-Grid dort, damit die Seite
-  //      nicht zwei widersprüchliche Strukturen zeigt. Bild-Alt bewusst
-  //      leer: der Name steht direkt daneben im selben Link, eine
-  //      zweite Ansage würde nur doppelt vorlesen. ----
+  //      einzelner <a> (Bild + Name + Funktion + Ort), verlinkt auf die
+  //      Sprungmarke der Person auf /verein/vorstand/. Funktion/Ort nutzen
+  //      dieselben Klassen (.vorstand-funktion/.vorstand-ort) wie das
+  //      Haupt-Grid dort — gleiche Typografie/Farbe, keine eigenen
+  //      Teaser-Klassen dafür. Mitglieder "kraft Amtes" (§ 7 Abs. 1 Nr. 4,
+  //      aktuell nur Lippert) werden herausgefiltert — dieselbe
+  //      Gruppierung wie im Haupt-Grid dort, damit die Seite nicht zwei
+  //      widersprüchliche Strukturen zeigt. Bild-Alt bewusst leer: der
+  //      Name steht direkt daneben im selben Link, eine zweite Ansage
+  //      würde nur doppelt vorlesen. ----
   var TEASER_INTERVALL_MS = 7000;
 
   function teaserKachel(person) {
@@ -141,6 +144,21 @@
     name.className = "vorstand-teaser-name";
     name.textContent = person.vorname + " " + person.nachname;
     a.appendChild(name);
+
+    var funktion = document.createElement("span");
+    funktion.className = "vorstand-funktion";
+    funktion.textContent = person.funktion;
+    a.appendChild(funktion);
+
+    // Ort nur anzeigen, wenn belegt (wie im Haupt-Grid, karte() oben) —
+    // im Teaser kommt das aktuell nicht vor (alle bis auf den kraft Amtes
+    // gefilterten Lippert haben einen Ort), Fallback trotzdem vorhanden.
+    if (person.ort) {
+      var ort = document.createElement("span");
+      ort.className = "vorstand-ort";
+      ort.textContent = person.ort;
+      a.appendChild(ort);
+    }
 
     return a;
   }
