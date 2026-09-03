@@ -156,11 +156,15 @@
     a.appendChild(name);
 
     // Hauptmandat — im Teaser bislang nicht angezeigt, jetzt ergänzt.
-    // Nur anzeigen, wenn vorhanden (keine leere Zeile), wie im Haupt-Grid.
-    if (person.text) {
+    // textKurz analog zu funktionKurz bevorzugt, falls vorhanden (aktuell
+    // nur bei Lenz gesetzt, siehe data/vorstand.json), sonst wie im
+    // Haupt-Grid das volle text-Feld. Nur anzeigen, wenn vorhanden (keine
+    // leere Zeile), wie im Haupt-Grid.
+    var textInhalt = person.textKurz || person.text;
+    if (textInhalt) {
       var text = document.createElement("span");
       text.className = "vorstand-text";
-      text.textContent = person.text;
+      text.textContent = textInhalt;
       a.appendChild(text);
     }
 

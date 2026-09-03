@@ -132,16 +132,22 @@ a:hover { text-decoration: none; }
    gerendert wird (horizontales Nachladen verschiebt nichts vertikal;
    min-height verhindert nur das kurze Zusammenklappen des leeren
    Containers vor dem Füllen). Reihenfolge in der Kachel (siehe
-   teaserKachel() in js/vorstand.js): Funktion oben, Bild, Name, Text
-   (Hauptmandat), Ort. Wert im Browser nachgemessen (natürliche
-   Kachelhöhe ohne min-height-Zwang), nicht geschätzt: aktueller
-   Extremfall ist ein Gleichstand zwischen Thomas Lenz (einzeilige
-   Funktion, aber dreizeiliger Text "Vertritt die SGK Thüringen im
-   SGK-Bundesvorstand") und Janine Merz (zweizeilige Funktion via
-   funktionKurz + zweizeiliger Text) bei je ≈331px Kachelhöhe +
-   Bodenabstand (.5rem), großzügig aufgerundet auf 21.5rem. Bei Änderung
-   von funktion/funktionKurz/text in data/vorstand.json erneut im Browser
-   nachmessen, nicht nur schätzen.
+   teaserKachel() in js/vorstand.js): Funktion oben (jetzt mit fester
+   min-height, siehe .vorstand-teaser-karte .vorstand-funktion unten —
+   deshalb trägt die Funktion selbst nicht mehr zu Höhenunterschieden
+   zwischen den Kacheln bei), Bild (fest 160×160px, ebenfalls unten),
+   Name, Text (Hauptmandat, textKurz bevorzugt), Ort. Wert erneut im
+   Browser nachgemessen (natürliche Kachelhöhe ohne min-height-Zwang,
+   nach Einführung der festen Funktion-min-height und textKurz):
+   Extremfall weiterhin ein Gleichstand zwischen Thomas Lenz (einzeilige
+   Funktion "Beisitzer", aber zweizeiliger Text via textKurz "Vertreter
+   Bundesvorstand") und Janine Merz (einzeilige Funktion via funktionKurz
+   "Vertreterin LTF", aber zweizeiliger Text "SPD-Landtagsabgeordnete")
+   bei je ≈331px Kachelhöhe + Bodenabstand (.5rem) — nahezu identisch zum
+   vorherigen Extremfall, 21.5rem bleibt daher unverändert ausreichend
+   (Puffer ≈5px, keine Kachel schneidet ab, siehe Messung). Bei Änderung
+   von funktion/funktionKurz/text/textKurz in data/vorstand.json erneut im
+   Browser nachmessen, nicht nur schätzen.
    Sichtbare Kachelanzahl responsive über max-width statt fester JS-
    Zählung: ~4 Kacheln als Grundeinstellung (10rem×4 + 1rem-Gap×3 = 43rem),
    ~5 Kacheln ab 75rem Viewportbreite (10rem×5 + 1rem×4 = 54rem). Auf
@@ -175,8 +181,15 @@ a:hover { text-decoration: none; }
 }
 .vorstand-teaser-portrait {
   display: block;
-  width: 10rem; height: 10rem;
-  aspect-ratio: 1 / 1;
+  /* Feste Breite UND Höhe in px (nicht rem, nicht aspect-ratio): das Bild
+     darf sich unter keinen Umständen stauchen oder strecken, auch nicht
+     minimal — Ursache eines früheren Höhenfehlers war genau das Fehlen
+     einer festen Höhe. flex:0 0 auto zusätzlich, weil .vorstand-teaser-
+     karte selbst ein Flex-Container ist (column) und das <img> darin ein
+     Flex-Item — ohne "flex:none" könnte ein Flex-Layout das Bild trotz
+     width/height noch stauchen. */
+  width: 160px; height: 160px;
+  flex: 0 0 auto;
   border-radius: .5rem;
   border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
   border-bottom-left-radius: 0;
@@ -203,7 +216,11 @@ a:hover { text-decoration: none; }
 .vorstand-teaser-karte .vorstand-funktion,
 .vorstand-teaser-karte .vorstand-text,
 .vorstand-teaser-karte .vorstand-ort { text-align: center; }
-.vorstand-teaser-karte .vorstand-funktion { margin-bottom: .35rem; }
+/* min-height reserviert immer den Platz für den zweizeiligen Fall (im
+   Browser nachgemessen: 1.0625rem × 1.6 Zeilenhöhe × 2 Zeilen = 3.4rem),
+   egal ob die aktuelle Funktion/funktionKurz nur eine Zeile braucht —
+   das Bild darunter soll nicht je nach Person leicht auf/ab springen. */
+.vorstand-teaser-karte .vorstand-funktion { min-height: 3.4rem; margin-bottom: .35rem; }
 
 /* Steuerung unter dem Teaser: Zurück-/Pause-Play-/Weiter-Knopf in einer
    Reihe, von js/vorstand.js eingefügt (initTeaserRotation()). */

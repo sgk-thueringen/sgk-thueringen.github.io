@@ -11,6 +11,7 @@
     "vorname": "Alexandra",
     "nachname": "Rieger",
     "funktion": "Stellvertretende Vorsitzende",
+    "funktionKurz": "Stellvertreterin",
     "ort": "Nordhausen",
     "bild": "/assets/vorstand/rieger.webp",
     "text": "Bürgermeisterin"
@@ -19,6 +20,7 @@
     "vorname": "Marko",
     "nachname": "Wolfram",
     "funktion": "Stellvertretender Vorsitzender",
+    "funktionKurz": "Stellvertreter",
     "ort": "Saalfeld-Rudolstadt",
     "bild": "/assets/vorstand/wolfram.webp",
     "text": "Landrat"
@@ -53,7 +55,8 @@
     "funktion": "Beisitzer",
     "ort": "Gotha",
     "bild": "/assets/vorstand/lenz.webp",
-    "text": "Vertritt die SGK Thüringen im SGK-Bundesvorstand"
+    "text": "Vertritt die SGK Thüringen im SGK-Bundesvorstand",
+    "textKurz": "Vertreter Bundesvorstand"
   },
   {
     "vorname": "Lisa-Marie",
@@ -75,7 +78,7 @@
     "vorname": "Janine",
     "nachname": "Merz",
     "funktion": "Vorstandsmitglied für die SPD-Landtagsfraktion",
-    "funktionKurz": "Vertreterin Landtagsfraktion",
+    "funktionKurz": "Vertreterin LTF",
     "ort": "Meiningen",
     "bild": "/assets/vorstand/merz.webp",
     "text": "SPD-Landtagsabgeordnete"
