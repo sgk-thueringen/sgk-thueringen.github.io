@@ -41,6 +41,23 @@
       </div>
     </section>
 
+    <section>
+      <div class="container">
+        <h2>Der Vorstand</h2>
+        <!-- Teaser aus data/vorstand.json, gerendert von js/vorstand.js
+             (renderHomeTeaser()). Horizontal scrollbarer Streifen (CSS
+             scroll-snap), kein Auto-Karussell, kein Timer. Mitglieder
+             "kraft Amtes" (§ 7 Abs. 1 Nr. 4, aktuell Lippert) werden
+             herausgefiltert — dieselbe Gruppierung wie das Haupt-Grid auf
+             /verein/vorstand/. Kein Skelett pro Kachel nötig: horizontales
+             Nachladen verschiebt nichts vertikal, min-height auf
+             .vorstand-teaser verhindert allein das kurze Zusammenklappen
+             des leeren Containers (siehe CSS). -->
+        <div id="home-vorstand-teaser" class="vorstand-teaser"></div>
+        <p><a href="/verein/vorstand/">Zum Vorstand &rarr;</a></p>
+      </div>
+    </section>
+
     <section id="startseite-aktuelles">
       <div class="container">
         <h2>Aktuelles</h2>
@@ -88,23 +105,6 @@
           dafür, sozialdemokratische Grundsätze dort zu verwirklichen, wo Politik den Alltag
           unmittelbar prägt.</p>
         <p><a href="/verein/">Mehr über den Verein &rarr;</a></p>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <h2>Der Vorstand</h2>
-        <!-- Teaser aus data/vorstand.json, gerendert von js/vorstand.js
-             (renderHomeTeaser()). Horizontal scrollbarer Streifen (CSS
-             scroll-snap), kein Auto-Karussell, kein Timer. Mitglieder
-             "kraft Amtes" (§ 7 Abs. 1 Nr. 4, aktuell Lippert) werden
-             herausgefiltert — dieselbe Gruppierung wie das Haupt-Grid auf
-             /verein/vorstand/. Kein Skelett pro Kachel nötig: horizontales
-             Nachladen verschiebt nichts vertikal, min-height auf
-             .vorstand-teaser verhindert allein das kurze Zusammenklappen
-             des leeren Containers (siehe CSS). -->
-        <div id="home-vorstand-teaser" class="vorstand-teaser"></div>
-        <p><a href="/verein/vorstand/">Zum Vorstand &rarr;</a></p>
       </div>
     </section>
 
