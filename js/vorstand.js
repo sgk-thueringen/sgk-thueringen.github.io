@@ -225,6 +225,12 @@
 
     var index = 0;
     var timerId = null;
+    // Merkt sich den WUNSCH des Nutzers (Pause-Knopf, Zurueck/Weiter, manuelles
+    // Scrollen) — unabhaengig davon, ob der Timer gerade laeuft. Wichtig fuer
+    // den Sichtbarkeits-Fix unten: das automatische Anhalten/Fortsetzen beim
+    // Verstecken/Zeigen des Tabs darf diesen Wunsch nicht veraendern, sonst
+    // wuerde z. B. ein Tab-Wechsel wie ein Nutzer-Pause-Klick wirken.
+    var nutzerHatPausiert = false;
     // scrollIntoView() unten loest selbst ein "scroll"-Event aus — ohne dieses Flag
     // wuerde der Scroll-Handler jeden automatischen Wechsel sofort als manuelle
     // Interaktion missverstehen und den Timer nach dem ersten Tick wieder anhalten.
@@ -244,15 +250,32 @@
       window.setTimeout(function () { eigenesScrollen = false; }, 700);
     }
 
-    function starten() {
-      if (timerId) return;
+    // timerStarten()/timerStoppen(): reine Timer-Kontrolle, OHNE Button-Anzeige
+    // und OHNE nutzerHatPausiert anzufassen — genutzt sowohl von starten()/
+    // anhalten() (Nutzer-Aktionen) als auch vom Sichtbarkeits-Handler unten
+    // (rein technisches Anhalten/Fortsetzen, das der Nutzer nie zu sehen
+    // bekommt). timerStarten() startet bewusst nicht, wenn der Tab gerade
+    // unsichtbar ist — der visibilitychange-Handler holt das beim naechsten
+    // Sichtbarwerden nach (siehe unten). Das ist der eigentliche Fix fuer den
+    // gemeldeten Fehler (siehe Kommentar bei visibilitychange).
+    function timerStarten() {
+      if (timerId || document.hidden) return;
       timerId = window.setInterval(function () { gehe(1); }, TEASER_INTERVALL_MS);
+    }
+    function timerStoppen() {
+      if (timerId) { window.clearInterval(timerId); timerId = null; }
+    }
+
+    function starten() {
+      nutzerHatPausiert = false;
+      timerStarten();
       btn.textContent = "Pause";
       btn.setAttribute("aria-label", "Automatischen Wechsel pausieren");
     }
 
     function anhalten() {
-      if (timerId) { window.clearInterval(timerId); timerId = null; }
+      nutzerHatPausiert = true;
+      timerStoppen();
       btn.textContent = "Start";
       btn.setAttribute("aria-label", "Automatischen Wechsel fortsetzen");
     }
@@ -275,11 +298,36 @@
     }, { passive: true });
     teaser.addEventListener("pointerdown", anhalten, { passive: true });
 
+    // Fix fuer gemeldeten Fehler ("mehrfach klicken, bis sich sichtbar etwas
+    // bewegt", zunehmend nach laengerer Laufzeit): Diagnose ergab, dass
+    // window.setInterval() in einem unsichtbaren Tab (document.hidden) ganz
+    // normal weiterlaeuft und gehe(1) samt Index-Erhoehung korrekt ausfuehrt —
+    // NICHT, wie zunaechst vermutet, dass anhalten()/clearInterval() die
+    // falsche oder gar keine Timer-ID trifft (das wurde per echtem Klick +
+    // Beobachtung >7 s widerlegt, siehe Bericht). Die eigentliche Ursache:
+    // die CSS-scroll-behavior:smooth-Animation von scrollIntoView() haengt am
+    // Compositor, der in einem unsichtbaren Tab pausiert — die sichtbare
+    // Scroll-Position friert ein, waehrend "index" im Hintergrund pro Tick
+    // brav weiterzaehlt. Kehrt der Nutzer zurueck, zielt der naechste Klick
+    // auf den (durch die vielen unsichtbaren Ticks) weit vorausgeeilten Index,
+    // der Sprung dorthin wirkt von der eingefrorenen Position aus aber winzig
+    // bis unsichtbar — daher die mehreren Klicks, und mehr davon, je laenger
+    // es im Hintergrund lief. Fix: Timer beim Verstecken anhalten (Index
+    // friert synchron mit der Anzeige ein), beim Wiedersichtbarwerden nur
+    // fortsetzen, wenn der Nutzer nicht selbst pausiert hatte und keine
+    // reduzierte Bewegung gewuenscht ist. Button-Anzeige bleibt dabei
+    // unveraendert (kein "Pause"/"Start"-Flackern durch bloßen Tab-Wechsel).
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        timerStoppen();
+      } else if (!nutzerHatPausiert && !reduzierteBewegungGewuenscht()) {
+        timerStarten();
+      }
+    });
+
     // Aufräumen beim Verlassen der Seite — hier unkritisch (der Browser
     // räumt beim Navigieren ohnehin auf), aber sauberer Stil.
-    window.addEventListener("pagehide", function () {
-      if (timerId) { window.clearInterval(timerId); timerId = null; }
-    });
+    window.addEventListener("pagehide", timerStoppen);
 
     if (reduzierteBewegungGewuenscht()) {
       anhalten(); // startet gar nicht erst, Knopf zeigt den Play-Zustand

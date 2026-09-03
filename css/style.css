@@ -219,8 +219,17 @@ a:hover { text-decoration: none; }
 /* min-height reserviert immer den Platz für den zweizeiligen Fall (im
    Browser nachgemessen: 1.0625rem × 1.6 Zeilenhöhe × 2 Zeilen = 3.4rem),
    egal ob die aktuelle Funktion/funktionKurz nur eine Zeile braucht —
-   das Bild darunter soll nicht je nach Person leicht auf/ab springen. */
-.vorstand-teaser-karte .vorstand-funktion { min-height: 3.4rem; margin-bottom: .35rem; }
+   das Bild darunter soll nicht je nach Person leicht auf/ab springen.
+   display:flex + align-items:flex-end schiebt den Text an den UNTEREN
+   Rand der reservierten Box (statt oben mit Leerraum darunter) — beim
+   häufigeren einzeiligen Fall sitzt die Beschriftung dadurch spürbar
+   näher am Foto, ohne die reservierte Höhe (und damit den CLS-Schutz)
+   anzutasten. justify-content:center ersetzt hier das text-align:center
+   von oben für die horizontale Zentrierung (Flex-Kontext). */
+.vorstand-teaser-karte .vorstand-funktion {
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  min-height: 3.4rem; margin-bottom: .15rem;
+}
 
 /* Steuerung unter dem Teaser: Zurück-/Pause-Play-/Weiter-Knopf in einer
    Reihe, von js/vorstand.js eingefügt (initTeaserRotation()). */
