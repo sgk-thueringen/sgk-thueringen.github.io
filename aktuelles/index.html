@@ -8,9 +8,10 @@
 <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-<link rel="stylesheet" href="/css/style.css?v=19">
+<link rel="stylesheet" href="/css/style.css?v=20">
 <script src="/js/include.js?v=6" defer></script>
 <script src="/js/aktuelles.js?v=2" defer></script>
+<script src="/js/bundes-sgk.js?v=2" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -33,6 +34,29 @@
 findest du auf <a href="https://www.bundes-sgk.de/" target="_blank" rel="noopener">bundes-sgk.de</a>.</p></noscript>
 <article class="beitrag beitrag-skeleton" aria-hidden="true"><h2>&nbsp;<br>&nbsp;</h2><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p><p class="beitrag-quelle">&nbsp;</p></article>
 <article class="beitrag beitrag-skeleton" aria-hidden="true"><h2>&nbsp;</h2><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p><p class="beitrag-quelle">&nbsp;</p></article>
+</div>
+</div>
+</section>
+<section id="bundes-sgk-block">
+<div class="container">
+<h2>Aus dem Bundesverband</h2>
+<!-- Meldungen aus data/bundes-sgk.json, täglich per GitHub-Actions-Workflow aus
+     bundes-sgk.de/aktuell aktualisiert (scripts/fetch-bundes-sgk.py,
+     .github/workflows/fetch-bundes-sgk.yml). Gerendert von js/bundes-sgk.js
+     (render(), seitenunabhängig — sucht #bundes-sgk-liste, bricht sauber ab,
+     wenn nicht vorhanden). Eigenständige Datenquelle, getrennt von
+     data/aktuelles.json (eigene Meldungen der SGK Thüringen, oben). Bis zu drei
+     Teaser, Titel verlinkt extern auf den Original-Artikel (target=_blank
+     rel=noopener) — fremdes Dokument, wird verlinkt statt übernommen. Bei leerer
+     Liste blendet render() den ganzen Block (#bundes-sgk-block) aus. Derselbe
+     Markup-Block wie auf der Startseite, dieselbe data/bundes-sgk.json — kein
+     zusätzlicher externer Request, nur ein weiterer lokaler fetch auf die
+     bereits vorhandene Datei. -->
+<div id="bundes-sgk-liste" class="aktuelles-liste">
+<noscript><style>.beitrag-skeleton{display:none!important}</style></noscript>
+<article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+<article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
+<article class="beitrag beitrag-skeleton" aria-hidden="true"><h3>&nbsp;</h3><p class="beitrag-datum">&nbsp;</p><p class="beitrag-text">&nbsp;<br>&nbsp;<br>&nbsp;</p></article>
 </div>
 </div>
 </section>

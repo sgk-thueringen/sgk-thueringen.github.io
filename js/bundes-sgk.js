@@ -1,16 +1,21 @@
 /* =====================================================================
    bundes-sgk.js — rendert bis zu drei Meldungen aus data/bundes-sgk.json
-   in #bundes-sgk-liste (Startseite, Abschnitt "Aus dem Bundesverband").
-   Die Datei wird täglich per GitHub-Actions-Workflow aus
-   bundes-sgk.de/aktuell aktualisiert (scripts/fetch-bundes-sgk.py,
-   .github/workflows/fetch-bundes-sgk.yml). Eigenständige Datenquelle,
-   getrennt von data/aktuelles.json (eigene Meldungen der SGK
-   Thüringen) — nicht vermischen. Kein Framework; der einzige Request
-   vom Frontend aus ist der eigene, lokale fetch auf
-   /data/bundes-sgk.json. Die Titel-Links selbst führen bewusst extern
-   zum Original-Artikel (target="_blank" rel="noopener") — fremdes
-   Dokument, wird verlinkt statt übernommen (siehe CLAUDE.md
-   Abschnitt 2a).
+   in #bundes-sgk-liste (Abschnitt "Aus dem Bundesverband", #bundes-sgk-
+   block). Seitenunabhängig: render() sucht die Elemente per ID und
+   bricht sauber ab, wenn sie fehlen — läuft daher unverändert auf
+   mehreren Seiten (aktuell Startseite und /aktuelles/, siehe dortiges
+   Markup), ohne dass diese Datei etwas über die jeweilige Seite wissen
+   muss. Die Datei data/bundes-sgk.json wird täglich per GitHub-Actions-
+   Workflow aus bundes-sgk.de/aktuell aktualisiert (scripts/
+   fetch-bundes-sgk.py, .github/workflows/fetch-bundes-sgk.yml) — das
+   ist der einzige Ort, der extern mit bundes-sgk.de spricht. Jede Seite,
+   die diese Datei einbindet, liest nur die bereits vorhandene lokale
+   JSON-Datei (fetch auf /data/bundes-sgk.json), kein zusätzlicher
+   externer Request pro Seite. Eigenständige Datenquelle, getrennt von
+   data/aktuelles.json (eigene Meldungen der SGK Thüringen) — nicht
+   vermischen. Die Titel-Links selbst führen bewusst extern zum
+   Original-Artikel (target="_blank" rel="noopener") — fremdes Dokument,
+   wird verlinkt statt übernommen (siehe CLAUDE.md Abschnitt 2a).
    ===================================================================== */
 (function () {
   "use strict";
@@ -46,7 +51,7 @@
   function render() {
     var liste = document.getElementById("bundes-sgk-liste");
     if (!liste) return;
-    var block = document.getElementById("startseite-bundes-sgk");
+    var block = document.getElementById("bundes-sgk-block");
     fetch("/data/bundes-sgk.json")
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (beitraege) {
