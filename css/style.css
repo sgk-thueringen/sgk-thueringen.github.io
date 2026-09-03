@@ -108,7 +108,7 @@ a:hover { text-decoration: none; }
   border-radius: .5rem;
   border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
   border-bottom-left-radius: 0;
-  border-left: 5px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
+  border-left: 2px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
   background: var(--blau);
 }
 .vorstand-card figcaption { margin-top: .6rem; }
@@ -164,7 +164,7 @@ a:hover { text-decoration: none; }
   border-radius: .5rem;
   border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
   border-bottom-left-radius: 0;
-  border-left: 5px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
+  border-left: 2px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
   background: var(--blau);
   object-fit: cover;
 }
@@ -471,7 +471,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
    restlichen Inhalt — bewusst nur an dieser einen Stelle, nicht an weiteren
    Sektionsuebergaengen. Reines Inline-SVG, kein Asset. preserveAspectRatio="none"
    laesst die Kurve die volle Breite ausfuellen, ohne Beschneidung/Letterboxing. */
-.hero-huegel { display: block; width: 100%; height: 36px; }
+.hero-huegel { display: block; width: 100%; height: 14px; }
 
 /* CTA-Button */
 .btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
