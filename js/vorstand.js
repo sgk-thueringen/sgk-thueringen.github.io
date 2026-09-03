@@ -145,9 +145,13 @@
     name.textContent = person.vorname + " " + person.nachname;
     a.appendChild(name);
 
+    // Kurzfassung optional, nur im Teaser (schmale Kachel): funktionKurz
+    // bevorzugt, falls im Datensatz vorhanden, sonst wie im Haupt-Grid
+    // das volle funktion-Feld. Aktuell nur bei Merz gesetzt (siehe
+    // data/vorstand.json).
     var funktion = document.createElement("span");
     funktion.className = "vorstand-funktion";
-    funktion.textContent = person.funktion;
+    funktion.textContent = person.funktionKurz || person.funktion;
     a.appendChild(funktion);
 
     // Ort nur anzeigen, wenn belegt (wie im Haupt-Grid, karte() oben) —

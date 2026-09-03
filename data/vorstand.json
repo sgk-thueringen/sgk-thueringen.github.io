@@ -75,6 +75,7 @@
     "vorname": "Janine",
     "nachname": "Merz",
     "funktion": "Vorstandsmitglied für die SPD-Landtagsfraktion",
+    "funktionKurz": "Vertreterin Landtagsfraktion",
     "ort": "Meiningen",
     "bild": "/assets/vorstand/merz.webp",
     "text": "SPD-Landtagsabgeordnete"

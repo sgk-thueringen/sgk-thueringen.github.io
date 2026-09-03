@@ -132,11 +132,15 @@ a:hover { text-decoration: none; }
    gerendert wird (horizontales Nachladen verschiebt nichts vertikal;
    min-height verhindert nur das kurze Zusammenklappen des leeren
    Containers vor dem Füllen). Wert = Kachelbreite/-bild (10rem) + Abstand
-   zum Namen (.5rem) + zweizeiliger Name im Extremfall (.95rem × 1.25
-   Zeilenhöhe × 2) + Funktion/Ort im Extremfall (Merz: "Vorstandsmitglied
-   für die SPD-Landtagsfraktion", bei 10rem Kachelbreite mehrzeilig, gleiche
-   Typografie wie /verein/vorstand/, also 1.0625rem × 1.6 Zeilenhöhe), im
-   Browser nachgemessen, großzügig aufgerundet.
+   zum Namen (.5rem) + Name (eine Zeile bei allen zehn) + Funktion/Ort im
+   Extremfall, im Browser nachgemessen (natürliche Kachelhöhe ohne
+   min-height-Zwang): aktuell zweizeilige Funktion bei Rieger
+   ("Stellvertretende Vorsitzende"), Wolfram ("Stellvertretender
+   Vorsitzender") und Merz (funktionKurz "Vertreterin Landtagsfraktion",
+   siehe js/vorstand.js) gleichauf mit ≈266px Kachelhöhe + Bodenabstand
+   (.5rem), großzügig aufgerundet auf 17.5rem. Bei Änderung von
+   funktion/funktionKurz in data/vorstand.json erneut im Browser
+   nachmessen, nicht nur schätzen.
    Sichtbare Kachelanzahl responsive über max-width statt fester JS-
    Zählung: ~4 Kacheln als Grundeinstellung (10rem×4 + 1rem-Gap×3 = 43rem),
    ~5 Kacheln ab 75rem Viewportbreite (10rem×5 + 1rem×4 = 54rem). Auf
@@ -148,7 +152,7 @@ a:hover { text-decoration: none; }
   gap: 1rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  min-height: 21rem;
+  min-height: 17.5rem;
   max-width: 43rem;
   margin: 1.5rem 0 1rem;
   padding: 0 0 .5rem;   /* etwas Luft unter den Bildern */
