@@ -113,16 +113,17 @@
 
   // ---- Startseiten-Teaser: größere Kacheln, automatische Rotation mit
   //      Pflicht-Bedienelementen (WCAG 2.2.2). Jede Kachel ist ein
-  //      einzelner <a> (Bild + Name + Funktion + Ort), verlinkt auf die
-  //      Sprungmarke der Person auf /verein/vorstand/. Funktion/Ort nutzen
-  //      dieselben Klassen (.vorstand-funktion/.vorstand-ort) wie das
-  //      Haupt-Grid dort — gleiche Typografie/Farbe, keine eigenen
-  //      Teaser-Klassen dafür. Mitglieder "kraft Amtes" (§ 7 Abs. 1 Nr. 4,
-  //      aktuell nur Lippert) werden herausgefiltert — dieselbe
-  //      Gruppierung wie im Haupt-Grid dort, damit die Seite nicht zwei
-  //      widersprüchliche Strukturen zeigt. Bild-Alt bewusst leer: der
-  //      Name steht direkt daneben im selben Link, eine zweite Ansage
-  //      würde nur doppelt vorlesen. ----
+  //      einzelner <a>, verlinkt auf die Sprungmarke der Person auf
+  //      /verein/vorstand/. Aufbau von oben nach unten: Funktion (kleine
+  //      Beschriftung oberhalb des Bildes), Bild, Name (fett), Hauptmandat
+  //      (person.text), Ort. Funktion/Text/Ort nutzen dieselben Klassen
+  //      (.vorstand-funktion/-text/-ort) wie das Haupt-Grid dort — gleiche
+  //      Typografie/Farbe, keine eigenen Teaser-Klassen dafür. Mitglieder
+  //      "kraft Amtes" (§ 7 Abs. 1 Nr. 4, aktuell nur Lippert) werden
+  //      herausgefiltert — dieselbe Gruppierung wie im Haupt-Grid dort,
+  //      damit die Seite nicht zwei widersprüchliche Strukturen zeigt.
+  //      Bild-Alt bewusst leer: der Name steht direkt daneben im selben
+  //      Link, eine zweite Ansage würde nur doppelt vorlesen. ----
   var TEASER_INTERVALL_MS = 7000;
 
   function teaserKachel(person) {
@@ -130,6 +131,15 @@
     a.className = "vorstand-teaser-karte";
     var id = bildId(person.bild);
     a.href = "/verein/vorstand/" + (id ? "#" + id : "");
+
+    // Kurzfassung optional, nur im Teaser (schmale Kachel): funktionKurz
+    // bevorzugt, falls im Datensatz vorhanden, sonst wie im Haupt-Grid
+    // das volle funktion-Feld. Aktuell nur bei Merz gesetzt (siehe
+    // data/vorstand.json). Steht hier bewusst VOR dem Bild.
+    var funktion = document.createElement("span");
+    funktion.className = "vorstand-funktion";
+    funktion.textContent = person.funktionKurz || person.funktion;
+    a.appendChild(funktion);
 
     var img = document.createElement("img");
     img.className = "vorstand-teaser-portrait";
@@ -145,14 +155,14 @@
     name.textContent = person.vorname + " " + person.nachname;
     a.appendChild(name);
 
-    // Kurzfassung optional, nur im Teaser (schmale Kachel): funktionKurz
-    // bevorzugt, falls im Datensatz vorhanden, sonst wie im Haupt-Grid
-    // das volle funktion-Feld. Aktuell nur bei Merz gesetzt (siehe
-    // data/vorstand.json).
-    var funktion = document.createElement("span");
-    funktion.className = "vorstand-funktion";
-    funktion.textContent = person.funktionKurz || person.funktion;
-    a.appendChild(funktion);
+    // Hauptmandat — im Teaser bislang nicht angezeigt, jetzt ergänzt.
+    // Nur anzeigen, wenn vorhanden (keine leere Zeile), wie im Haupt-Grid.
+    if (person.text) {
+      var text = document.createElement("span");
+      text.className = "vorstand-text";
+      text.textContent = person.text;
+      a.appendChild(text);
+    }
 
     // Ort nur anzeigen, wenn belegt (wie im Haupt-Grid, karte() oben) —
     // im Teaser kommt das aktuell nicht vor (alle bis auf den kraft Amtes
@@ -178,14 +188,36 @@
   // jeder manuellen Interaktion mit dem Streifen selbst (scroll/
   // pointerdown, faengt per Event-Bubbling auch Klicks auf einzelne
   // Kacheln ab) — kein Auto-Resume danach, nur der Knopf startet wieder.
+  // Zusaetzlich zwei sichtbare Vor-/Zurueck-Knoepfe: funktionieren
+  // unabhaengig vom Pause-Zustand (auch waehrend die Automatik laeuft),
+  // pausieren die Automatik aber bei jedem Klick zusaetzlich mit —
+  // Nutzer sollen nicht gegen den naechsten Auto-Tick ankaempfen muessen.
   function initTeaserRotation(teaser) {
     var karten = Array.prototype.slice.call(teaser.querySelectorAll(".vorstand-teaser-karte"));
-    if (karten.length < 2) return; // nichts zu rotieren, kein Knopf noetig
+    if (karten.length < 2) return; // nichts zu rotieren, keine Steuerung noetig
+
+    var steuerung = document.createElement("div");
+    steuerung.className = "vorstand-teaser-steuerung";
+    teaser.insertAdjacentElement("afterend", steuerung);
+
+    var zurueckBtn = document.createElement("button");
+    zurueckBtn.type = "button";
+    zurueckBtn.className = "vorstand-teaser-nav";
+    zurueckBtn.setAttribute("aria-label", "Vorherige Person");
+    zurueckBtn.textContent = "‹";
+    steuerung.appendChild(zurueckBtn);
 
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "vorstand-teaser-pause";
-    teaser.insertAdjacentElement("afterend", btn);
+    steuerung.appendChild(btn);
+
+    var weiterBtn = document.createElement("button");
+    weiterBtn.type = "button";
+    weiterBtn.className = "vorstand-teaser-nav";
+    weiterBtn.setAttribute("aria-label", "Nächste Person");
+    weiterBtn.textContent = "›";
+    steuerung.appendChild(weiterBtn);
 
     var index = 0;
     var timerId = null;
@@ -194,8 +226,12 @@
     // Interaktion missverstehen und den Timer nach dem ersten Tick wieder anhalten.
     var eigenesScrollen = false;
 
-    function weiter() {
-      index = (index + 1) % karten.length;
+    // schritt: +1 (weiter) oder -1 (zurueck), zyklisch mit Wrap in beide
+    // Richtungen. Von weiter() (Auto-Tick) UND den beiden Knoepfen genutzt,
+    // damit "index" immer den tatsaechlich sichtbaren Stand kennt — auch
+    // nach manueller Navigation, falls die Automatik spaeter fortgesetzt wird.
+    function gehe(schritt) {
+      index = (index + schritt + karten.length) % karten.length;
       eigenesScrollen = true;
       karten[index].scrollIntoView({ inline: "start", block: "nearest" });
       // scroll-behavior:smooth (siehe CSS) animiert kurz nach; Flag erst danach
@@ -206,7 +242,7 @@
 
     function starten() {
       if (timerId) return;
-      timerId = window.setInterval(weiter, TEASER_INTERVALL_MS);
+      timerId = window.setInterval(function () { gehe(1); }, TEASER_INTERVALL_MS);
       btn.textContent = "Pause";
       btn.setAttribute("aria-label", "Automatischen Wechsel pausieren");
     }
@@ -221,9 +257,14 @@
       if (timerId) anhalten(); else starten();
     });
 
+    zurueckBtn.addEventListener("click", function () { gehe(-1); anhalten(); });
+    weiterBtn.addEventListener("click", function () { gehe(1); anhalten(); });
+
     // Manuelle Interaktion pausiert sofort und dauerhaft (kein Auto-Resume).
     // Beim "scroll"-Event zaehlt der eigene programmatische Scroll (siehe
-    // eigenesScrollen oben) ausdruecklich NICHT als manuelle Interaktion.
+    // eigenesScrollen oben) ausdruecklich NICHT als manuelle Interaktion —
+    // gilt fuer den Auto-Tick genauso wie fuer die beiden Knoepfe oben, die
+    // sich unabhaengig davon selbst um anhalten() kuemmern.
     teaser.addEventListener("scroll", function () {
       if (eigenesScrollen) return;
       anhalten();

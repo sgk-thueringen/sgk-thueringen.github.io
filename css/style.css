@@ -131,15 +131,16 @@ a:hover { text-decoration: none; }
    min-height reserviert den Platz gegen CLS, da hier bewusst kein Skelett
    gerendert wird (horizontales Nachladen verschiebt nichts vertikal;
    min-height verhindert nur das kurze Zusammenklappen des leeren
-   Containers vor dem Füllen). Wert = Kachelbreite/-bild (10rem) + Abstand
-   zum Namen (.5rem) + Name (eine Zeile bei allen zehn) + Funktion/Ort im
-   Extremfall, im Browser nachgemessen (natürliche Kachelhöhe ohne
-   min-height-Zwang): aktuell zweizeilige Funktion bei Rieger
-   ("Stellvertretende Vorsitzende"), Wolfram ("Stellvertretender
-   Vorsitzender") und Merz (funktionKurz "Vertreterin Landtagsfraktion",
-   siehe js/vorstand.js) gleichauf mit ≈266px Kachelhöhe + Bodenabstand
-   (.5rem), großzügig aufgerundet auf 17.5rem. Bei Änderung von
-   funktion/funktionKurz in data/vorstand.json erneut im Browser
+   Containers vor dem Füllen). Reihenfolge in der Kachel (siehe
+   teaserKachel() in js/vorstand.js): Funktion oben, Bild, Name, Text
+   (Hauptmandat), Ort. Wert im Browser nachgemessen (natürliche
+   Kachelhöhe ohne min-height-Zwang), nicht geschätzt: aktueller
+   Extremfall ist ein Gleichstand zwischen Thomas Lenz (einzeilige
+   Funktion, aber dreizeiliger Text "Vertritt die SGK Thüringen im
+   SGK-Bundesvorstand") und Janine Merz (zweizeilige Funktion via
+   funktionKurz + zweizeiliger Text) bei je ≈331px Kachelhöhe +
+   Bodenabstand (.5rem), großzügig aufgerundet auf 21.5rem. Bei Änderung
+   von funktion/funktionKurz/text in data/vorstand.json erneut im Browser
    nachmessen, nicht nur schätzen.
    Sichtbare Kachelanzahl responsive über max-width statt fester JS-
    Zählung: ~4 Kacheln als Grundeinstellung (10rem×4 + 1rem-Gap×3 = 43rem),
@@ -152,7 +153,7 @@ a:hover { text-decoration: none; }
   gap: 1rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  min-height: 17.5rem;
+  min-height: 21.5rem;
   max-width: 43rem;
   margin: 1.5rem 0 1rem;
   padding: 0 0 .5rem;   /* etwas Luft unter den Bildern */
@@ -191,27 +192,40 @@ a:hover { text-decoration: none; }
   color: var(--blau);
 }
 .vorstand-teaser-karte:hover .vorstand-teaser-name { text-decoration: underline; }
-/* Funktion/Ort: dieselben Klassen wie im Haupt-Grid (.vorstand-funktion/
-   -ort weiter oben), nur hier zentriert — die Teaser-Kachel ist eine
-   schmale, mittig ausgerichtete Spalte (align-items:center oben), im
-   Haupt-Grid dagegen linksbündiger Fließtext. Typografie/Farbe bleiben
-   unverändert dieselben. */
+/* Funktion/Text/Ort: dieselben Klassen wie im Haupt-Grid (.vorstand-
+   funktion/-text/-ort weiter oben), nur hier zentriert — die Teaser-
+   Kachel ist eine schmale, mittig ausgerichtete Spalte (align-items:
+   center oben), im Haupt-Grid dagegen linksbündiger Fließtext.
+   Typografie/Farbe bleiben unverändert dieselben. Die Funktion steht im
+   Teaser als einzige der drei VOR dem Bild (siehe teaserKachel() in
+   js/vorstand.js) — deshalb der eigene Bodenabstand hier, den sie im
+   Haupt-Grid (nach dem Namen) nicht braucht. */
 .vorstand-teaser-karte .vorstand-funktion,
+.vorstand-teaser-karte .vorstand-text,
 .vorstand-teaser-karte .vorstand-ort { text-align: center; }
+.vorstand-teaser-karte .vorstand-funktion { margin-bottom: .35rem; }
 
-/* Pause/Play-Knopf für den automatischen Wechsel (WCAG 2.2.2), von
-   js/vorstand.js eingefügt. Mindestens 44×44 px Tastfläche wie die
-   übrigen Bedienelemente im Header (.masthead__toggle). */
-.vorstand-teaser-pause {
+/* Steuerung unter dem Teaser: Zurück-/Pause-Play-/Weiter-Knopf in einer
+   Reihe, von js/vorstand.js eingefügt (initTeaserRotation()). */
+.vorstand-teaser-steuerung {
+  display: flex; align-items: center; gap: .5rem;
+  margin-top: .5rem;
+}
+/* Pause/Play- und Vor-/Zurück-Knöpfe (WCAG 2.2.2). Mindestens 44×44 px
+   Tastfläche wie die übrigen Bedienelemente im Header
+   (.masthead__toggle). Die Pfeil-Knöpfe sind quadratisch, der Pause/
+   Play-Knopf breiter wegen seines Textlabels. */
+.vorstand-teaser-pause,
+.vorstand-teaser-nav {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 44px; min-height: 44px;
-  margin-top: .5rem;
-  padding: 0 1rem;
   border: 1px solid var(--linie); border-radius: .35rem;
   background: var(--weiss); color: var(--ink);
   font: inherit; font-weight: 600; cursor: pointer;
 }
-.vorstand-teaser-pause:hover { border-color: var(--blau-hell); color: var(--blau); }
+.vorstand-teaser-pause { padding: 0 1rem; }
+.vorstand-teaser-nav { padding: 0; font-size: 1.25rem; line-height: 1; }
+.vorstand-teaser-pause:hover, .vorstand-teaser-nav:hover { border-color: var(--blau-hell); color: var(--blau); }
 
 /* Sanftes Scrollen nur, wenn keine reduzierte Bewegung gewünscht ist —
    erster Ort im Projekt mit dieser Media Query. Ohne sie (Standard:
