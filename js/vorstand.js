@@ -11,7 +11,7 @@
    Teaser-Streifen leer, der Link "Zum Vorstand" darunter bleibt
    bestehen (renderHomeTeaser()).
 
-   Der Teaser rückt automatisch alle 10 s um eine Kachel weiter
+   Der Teaser rückt automatisch alle 7 s um eine Kachel weiter
    (initTeaserRotation(), WCAG 2.2.2): manuelles Scrollen/Wischen/
    Klicken pausiert sofort und dauerhaft (kein Auto-Resume), zusätzlich
    gibt es einen sichtbaren, tastaturbedienbaren Pause/Play-Knopf. Bei
@@ -120,7 +120,7 @@
   //      nicht zwei widersprüchliche Strukturen zeigt. Bild-Alt bewusst
   //      leer: der Name steht direkt daneben im selben Link, eine
   //      zweite Ansage würde nur doppelt vorlesen. ----
-  var TEASER_INTERVALL_MS = 10000;
+  var TEASER_INTERVALL_MS = 7000;
 
   function teaserKachel(person) {
     var a = document.createElement("a");
@@ -149,7 +149,7 @@
     return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }
 
-  // Automatischer Wechsel alle 10 s, zyklisch (wrap am Ende zurück zum
+  // Automatischer Wechsel alle 7 s, zyklisch (wrap am Ende zurück zum
   // Anfang). Pflicht-Bedienelemente nach WCAG 2.2.2 (Pause, Stop oder
   // Hide fuer automatisch bewegten Inhalt): sichtbarer, tastaturbedien-
   // barer Pause/Play-Knopf PLUS sofortiges, dauerhaftes Pausieren bei
