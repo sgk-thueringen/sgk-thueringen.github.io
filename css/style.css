@@ -104,7 +104,11 @@ a:hover { text-decoration: none; }
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
+  object-fit: cover;   /* verhindert minimales Verzerren durch den linken Rand unten */
   border-radius: .5rem;
+  border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
+  border-bottom-left-radius: 0;
+  border-left: 5px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
   background: var(--blau);
 }
 .vorstand-card figcaption { margin-top: .6rem; }
@@ -158,6 +162,9 @@ a:hover { text-decoration: none; }
   width: 7.5rem; height: 7.5rem;
   aspect-ratio: 1 / 1;
   border-radius: .5rem;
+  border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
+  border-bottom-left-radius: 0;
+  border-left: 5px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
   background: var(--blau);
   object-fit: cover;
 }
@@ -453,10 +460,18 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 }
 
 /* ---- Hero (Startseite) ---- */
-.hero { background: var(--off-white); border-bottom: 1px solid var(--linie); }
+.hero { background: var(--off-white); }   /* kein border-bottom mehr — die Huegellinie
+                                              darunter uebernimmt die Abgrenzung, siehe
+                                              .hero-huegel */
 .hero__title { margin: 0; }   /* H1 umschließt die Wortmarke; kein Extra-Abstand/-Farbe */
 .hero__logo { display: block; width: 100%; max-width: 30rem; height: auto; margin-bottom: 1.25rem; }
 .hero p.lead { font-size: 1.2rem; color: var(--grau); }
+
+/* Huegellinie: einzelne, reduzierte Wellenform als Uebergang zwischen Hero und dem
+   restlichen Inhalt — bewusst nur an dieser einen Stelle, nicht an weiteren
+   Sektionsuebergaengen. Reines Inline-SVG, kein Asset. preserveAspectRatio="none"
+   laesst die Kurve die volle Breite ausfuellen, ohne Beschneidung/Letterboxing. */
+.hero-huegel { display: block; width: 100%; height: 36px; }
 
 /* CTA-Button */
 .btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
