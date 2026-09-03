@@ -2,14 +2,20 @@
    vorstand.js — rendert den Landesvorstand clientseitig aus
    data/vorstand.json. Zwei Ausgabeorte, eine Datenquelle (wie bei
    aktuelles.js): das vollständige Raster #vorstand-grid auf
-   /verein/vorstand/ (render()) und der horizontal scrollbare
-   Startseiten-Teaser #home-vorstand-teaser (renderHomeTeaser()).
+   /verein/vorstand/ (render()) und der Startseiten-Teaser
+   #home-vorstand-teaser (renderHomeTeaser()).
    Einzige Datenquelle ist die JSON; Pflege ohne HTML-Kenntnis möglich.
    Kein Framework, keine externen Requests (nur eigene Datei).
    Fällt die JSON aus, bleibt der statische <noscript>/Fallback-Text
    samt Geschäftsstellen-Hinweis stehen (render()) bzw. bleibt der
    Teaser-Streifen leer, der Link "Zum Vorstand" darunter bleibt
    bestehen (renderHomeTeaser()).
+
+   Der Teaser rückt automatisch alle 10 s um eine Kachel weiter
+   (initTeaserRotation(), WCAG 2.2.2): manuelles Scrollen/Wischen/
+   Klicken pausiert sofort und dauerhaft (kein Auto-Resume), zusätzlich
+   gibt es einen sichtbaren, tastaturbedienbaren Pause/Play-Knopf. Bei
+   prefers-reduced-motion:reduce startet der Timer erst gar nicht.
    ===================================================================== */
 (function () {
   "use strict";
@@ -105,15 +111,17 @@
       });
   }
 
-  // ---- Startseiten-Teaser: horizontal scrollbarer Streifen (CSS scroll-
-  //      snap, kein Auto-Karussell, kein Timer, kein Scroll-JS). Jede
-  //      Kachel ist ein einzelner <a> (Bild + Name), verlinkt auf die
-  //      Sprungmarke der Person auf /verein/vorstand/. Mitglieder "kraft
-  //      Amtes" (§ 7 Abs. 1 Nr. 4, aktuell nur Lippert) werden herausge-
-  //      filtert — dieselbe Gruppierung wie im Haupt-Grid dort, damit die
-  //      Seite nicht zwei widersprüchliche Strukturen zeigt. Bild-Alt
-  //      bewusst leer: der Name steht direkt daneben im selben Link,
-  //      eine zweite Ansage würde nur doppelt vorlesen. ----
+  // ---- Startseiten-Teaser: größere Kacheln, automatische Rotation mit
+  //      Pflicht-Bedienelementen (WCAG 2.2.2). Jede Kachel ist ein
+  //      einzelner <a> (Bild + Name), verlinkt auf die Sprungmarke der
+  //      Person auf /verein/vorstand/. Mitglieder "kraft Amtes" (§ 7
+  //      Abs. 1 Nr. 4, aktuell nur Lippert) werden herausgefiltert —
+  //      dieselbe Gruppierung wie im Haupt-Grid dort, damit die Seite
+  //      nicht zwei widersprüchliche Strukturen zeigt. Bild-Alt bewusst
+  //      leer: der Name steht direkt daneben im selben Link, eine
+  //      zweite Ansage würde nur doppelt vorlesen. ----
+  var TEASER_INTERVALL_MS = 10000;
+
   function teaserKachel(person) {
     var a = document.createElement("a");
     a.className = "vorstand-teaser-karte";
@@ -123,8 +131,8 @@
     var img = document.createElement("img");
     img.className = "vorstand-teaser-portrait";
     img.src = person.bild;
-    img.width = 120;
-    img.height = 120;
+    img.width = 160;
+    img.height = 160;
     img.loading = "lazy";
     img.alt = "";
     a.appendChild(img);
@@ -135,6 +143,82 @@
     a.appendChild(name);
 
     return a;
+  }
+
+  function reduzierteBewegungGewuenscht() {
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  // Automatischer Wechsel alle 10 s, zyklisch (wrap am Ende zurück zum
+  // Anfang). Pflicht-Bedienelemente nach WCAG 2.2.2 (Pause, Stop oder
+  // Hide fuer automatisch bewegten Inhalt): sichtbarer, tastaturbedien-
+  // barer Pause/Play-Knopf PLUS sofortiges, dauerhaftes Pausieren bei
+  // jeder manuellen Interaktion mit dem Streifen selbst (scroll/
+  // pointerdown, faengt per Event-Bubbling auch Klicks auf einzelne
+  // Kacheln ab) — kein Auto-Resume danach, nur der Knopf startet wieder.
+  function initTeaserRotation(teaser) {
+    var karten = Array.prototype.slice.call(teaser.querySelectorAll(".vorstand-teaser-karte"));
+    if (karten.length < 2) return; // nichts zu rotieren, kein Knopf noetig
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "vorstand-teaser-pause";
+    teaser.insertAdjacentElement("afterend", btn);
+
+    var index = 0;
+    var timerId = null;
+    // scrollIntoView() unten loest selbst ein "scroll"-Event aus — ohne dieses Flag
+    // wuerde der Scroll-Handler jeden automatischen Wechsel sofort als manuelle
+    // Interaktion missverstehen und den Timer nach dem ersten Tick wieder anhalten.
+    var eigenesScrollen = false;
+
+    function weiter() {
+      index = (index + 1) % karten.length;
+      eigenesScrollen = true;
+      karten[index].scrollIntoView({ inline: "start", block: "nearest" });
+      // scroll-behavior:smooth (siehe CSS) animiert kurz nach; Flag erst danach
+      // wieder loeschen, sonst wird das Ende der eigenen Animation als Nutzer-
+      // Scroll gewertet.
+      window.setTimeout(function () { eigenesScrollen = false; }, 700);
+    }
+
+    function starten() {
+      if (timerId) return;
+      timerId = window.setInterval(weiter, TEASER_INTERVALL_MS);
+      btn.textContent = "Pause";
+      btn.setAttribute("aria-label", "Automatischen Wechsel pausieren");
+    }
+
+    function anhalten() {
+      if (timerId) { window.clearInterval(timerId); timerId = null; }
+      btn.textContent = "Start";
+      btn.setAttribute("aria-label", "Automatischen Wechsel fortsetzen");
+    }
+
+    btn.addEventListener("click", function () {
+      if (timerId) anhalten(); else starten();
+    });
+
+    // Manuelle Interaktion pausiert sofort und dauerhaft (kein Auto-Resume).
+    // Beim "scroll"-Event zaehlt der eigene programmatische Scroll (siehe
+    // eigenesScrollen oben) ausdruecklich NICHT als manuelle Interaktion.
+    teaser.addEventListener("scroll", function () {
+      if (eigenesScrollen) return;
+      anhalten();
+    }, { passive: true });
+    teaser.addEventListener("pointerdown", anhalten, { passive: true });
+
+    // Aufräumen beim Verlassen der Seite — hier unkritisch (der Browser
+    // räumt beim Navigieren ohnehin auf), aber sauberer Stil.
+    window.addEventListener("pagehide", function () {
+      if (timerId) { window.clearInterval(timerId); timerId = null; }
+    });
+
+    if (reduzierteBewegungGewuenscht()) {
+      anhalten(); // startet gar nicht erst, Knopf zeigt den Play-Zustand
+    } else {
+      starten();
+    }
   }
 
   function renderHomeTeaser() {
@@ -150,6 +234,7 @@
         }
         teaser.innerHTML = "";
         teaser.appendChild(frag);
+        initTeaserRotation(teaser);
       })
       .catch(function () {
         // Fallback: Streifen bleibt leer, Link "Zum Vorstand" darunter bleibt bestehen
