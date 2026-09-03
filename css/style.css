@@ -229,6 +229,7 @@ a:hover { text-decoration: none; }
 .vorstand-teaser-karte .vorstand-funktion {
   display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
   min-height: 3.4rem; margin-bottom: .15rem;
+  color: var(--grau);   /* dieselbe Variable wie .vorstand-ort oben — kein neuer Wert, weniger dominant als der Standard-Ink-Ton */
 }
 
 /* Steuerung unter dem Teaser: Zurück-/Pause-Play-/Weiter-Knopf in einer
