@@ -312,7 +312,9 @@ a:hover { text-decoration: none; }
   max-width: 55ch;
 }
 
-/* Bild-Platzhalter (Layout vorgesehen, noch kein Bild eingebunden) */
+/* Bild-Platzhalter (Layout vorgesehen, noch kein Bild eingebunden). Bleibt
+   erhalten, auch wenn aktuell keine Seite mehr einen echten Platzhalter
+   zeigt — für künftige Seiten mit noch fehlendem Foto weiter nutzbar. */
 .bild-platzhalter { margin: 2rem 0; }
 .bild-platzhalter__box {
   display: flex; align-items: center; justify-content: center;
@@ -322,6 +324,17 @@ a:hover { text-decoration: none; }
   font-weight: 600; text-align: center; padding: 1rem;
 }
 .bild-platzhalter figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; max-width: 32rem; }
+
+/* Echtes Content-Foto im Fließtext (z. B. /emil-boehme-preis/) — eigene
+   Klasse statt .bild-platzhalter, weil dessen Name nach dem Einfügen
+   eines echten Bildes nicht mehr zutrifft. max-width wie beim
+   Platzhalter (32rem), aspect-ratio hier 4/3 (Originalseitenverhältnis
+   des ersten eingefügten Fotos, 1109×832px, bewusst nicht auf 3/2
+   zugeschnitten). figcaption-Stil 1:1 vom Platzhalter übernommen
+   (gleiche Farbe/Größe), nur die Elternklasse ist eine andere. */
+.content-bild { margin: 2rem 0; max-width: 32rem; }
+.content-bild img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: .5rem; }
+.content-bild figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; max-width: 32rem; }
 
 /* Entwurf-/Warnhinweis — nicht übersehbar (roter Rahmen, Off-White) */
 .entwurf-box {
