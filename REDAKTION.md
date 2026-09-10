@@ -56,6 +56,10 @@ ein Beitrag folgt:
 - **Diese eine Datei pflegt zwei Stellen:** Die drei neuesten Einträge erscheinen automatisch
   auch als kurzer Anriss auf der **Startseite** — dort wird **nichts** zusätzlich gepflegt.
   Ist die Liste leer, blendet die Startseite den Aktuelles-Block einfach aus.
+- **Bei jeder Veranstaltungs-Ankündigung** müssen **Was** (Thema), **Wann** (Datum + Uhrzeit)
+  und **Wo** (Ort) auf den ersten Blick optisch erkennbar sein — als eigene, hervorgehobene
+  Elemente, nicht nur in einem Fließtext-Satz versteckt. Gilt für alle Termin-Banner und
+  ähnliche Ankündigungen.
 
 ## 3. Vorstandsdaten pflegen
 

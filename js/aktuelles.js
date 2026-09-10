@@ -161,6 +161,18 @@
         titel.className = "termin-banner__titel";
         titel.textContent = termin.titel || "";
 
+        // Wann/Wo optisch abgesetzt direkt unter dem Titel — siehe REDAKTION.md
+        // Abschnitt 2 ("Was/Wann/Wo auf den ersten Blick erkennbar"). Nur
+        // rendern, wenn BEIDE Felder vorhanden sind; fehlt eins, einfach
+        // weglassen statt eine unvollständige Zeile ("· Leonardo Hotel Weimar")
+        // zu zeigen. "Was" (Titel) steht bereits als eigene h2 direkt darüber.
+        var wannWo = null;
+        if (termin.wannAnzeige && termin.ort) {
+          wannWo = document.createElement("p");
+          wannWo.className = "termin-banner__wannwo";
+          wannWo.textContent = termin.wannAnzeige + " · " + termin.ort;
+        }
+
         var text = document.createElement("p");
         text.className = "termin-banner__text";
         text.textContent = ersterSatz(termin.text);
@@ -193,6 +205,7 @@
         inhalt.innerHTML = "";
         inhalt.appendChild(datum);
         inhalt.appendChild(titel);
+        if (wannWo) inhalt.appendChild(wannWo);
         inhalt.appendChild(text);
         inhalt.appendChild(aktionen);
       })

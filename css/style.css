@@ -587,6 +587,23 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-banner { background: var(--blau); color: var(--weiss); }
 .termin-banner h2.termin-banner__titel { color: var(--weiss); margin: 0 0 .35rem; }
 .termin-banner__datum { color: var(--weiss); opacity: .85; font-size: .95rem; margin: 0 0 .35rem; }
+/* Wann/Wo — REDAKTION.md: bei jeder Veranstaltungs-Ankündigung müssen Was/Wann/Wo
+   auf den ersten Blick erkennbar sein, als eigenes Element, nicht im Fließtext
+   versteckt. Deutlich größer/fetter als .termin-banner__text (1.0625rem/400,
+   siehe Basis-Regel body), aber kleiner als .termin-banner__titel (h2,
+   clamp(1.35rem, 3vw, 1.9rem)/700). rgba(255,255,255,.92) statt vollem Weiß —
+   dezent abgesetzt vom Titel, Kontrast gegen --blau im Browser real gemessen
+   (Composite-Farbe gegen den Bannerhintergrund, nicht nur die Alpha-Zahl):
+   8,42:1 — weit über WCAG-AA für Fließtext (4,5:1), nicht nur für den
+   Großtext-Schwellwert (3:1). */
+.termin-banner__wannwo {
+  display: block;
+  margin: 0 0 .5rem;
+  font-family: var(--font-titel);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, .92);
+}
 .termin-banner__text { color: var(--weiss); max-width: 56ch; }
 .termin-banner__aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin: 1rem 0 0; }
 /* Normaler .btn (blau/weiß) verschwindet auf blauem Grund — invertierte Variante
@@ -607,6 +624,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-skeleton { background: rgba(255, 255, 255, .25); color: transparent; border-radius: .25rem; }
 .termin-banner__datum.termin-skeleton { width: 8rem; }
 .termin-banner__titel.termin-skeleton { width: min(28rem, 80%); }
+.termin-banner__wannwo.termin-skeleton { width: min(18rem, 70%); }
 .termin-banner__text.termin-skeleton { width: min(32rem, 95%); }
 .btn--invers.termin-skeleton { width: 10rem; }
 
