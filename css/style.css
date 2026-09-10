@@ -559,13 +559,19 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
    Headline im Hero, deshalb deutlich größer als ein normaler Content-H1
    (dort clamp(1.7rem, 4vw, 2.5rem), siehe Basis-Regel oben). Font-Family/
    Farbe kommen zwar schon von der globalen h1-Regel, hier trotzdem explizit
-   wiederholt, damit die Hero-Überschrift unabhängig davon feststeht. */
+   wiederholt, damit die Hero-Überschrift unabhängig davon feststeht.
+   Größe kalibriert gegen die H2 "Der Vorstand" (per getComputedStyle
+   nachgemessen, nicht nur behauptet): bei 1280px 43,5px vs. 30,4px = Faktor
+   1,43 (Ziel 1,4–1,6×); bei 375/320px 25,6px vs. 21,6px = Faktor 1,19
+   (Ziel: mindestens gleich groß, eher etwas größer). Bei Änderung der
+   Basis-h2-Regel oder dieser Regel erneut so nachmessen, nicht nur den
+   Zahlenwert anpassen und hoffen. */
 .hero__title {
   margin: 0;
   font-family: var(--font-titel);
   font-weight: 700;
   color: var(--blau);
-  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
   line-height: 1.2;
   max-width: 46rem;
 }
