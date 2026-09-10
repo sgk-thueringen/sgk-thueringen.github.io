@@ -565,7 +565,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   font-family: var(--font-titel);
   font-weight: 700;
   color: var(--blau);
-  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
   line-height: 1.2;
   max-width: 46rem;
 }
