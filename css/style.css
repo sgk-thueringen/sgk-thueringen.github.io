@@ -563,6 +563,37 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
 .btn:hover { background: #162F6E; }
 
+/* ---- Termin-Banner (Startseite, nach dem Hero) ----
+   data/aktuelles.json, gerendert von js/aktuelles.js (renderTerminBanner()).
+   Flächenfarbe var(--blau) statt nur Button — optische Anlehnung an den
+   "Mitglied werden"-Button (.btn oben), aber als ganzer Abschnittshintergrund.
+   Keine neuen Farben, nur bestehende Tokens (--blau/--weiss/--off-white). */
+.termin-banner { background: var(--blau); color: var(--weiss); }
+.termin-banner h2.termin-banner__titel { color: var(--weiss); margin: 0 0 .35rem; }
+.termin-banner__datum { color: var(--weiss); opacity: .85; font-size: .95rem; margin: 0 0 .35rem; }
+.termin-banner__text { color: var(--weiss); max-width: 56ch; }
+.termin-banner__aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin: 1rem 0 0; }
+/* Normaler .btn (blau/weiß) verschwindet auf blauem Grund — invertierte Variante
+   für Banner/dunkle Flächen, dieselben Tokens, nur vertauscht. */
+.btn--invers { background: var(--weiss); color: var(--blau); }
+.btn--invers:hover { background: var(--off-white); }
+.termin-banner__mehr { color: var(--weiss); text-decoration: underline; text-underline-offset: .15em; }
+.termin-banner__mehr:hover { text-decoration: none; }
+/* Globaler Fokus-Rahmen (:focus-visible weiter unten) ist var(--blau) — auf dem
+   blauen Bannerhintergrund kaum sichtbar. Hier auf Weiß umgestellt, sonst
+   identische Regel, nur die Rahmenfarbe getauscht. */
+.termin-banner a:focus-visible,
+.termin-banner .btn--invers:focus-visible { outline-color: var(--weiss); }
+
+/* Skelett-Platzhalter im Banner: dieselbe Technik wie .beitrag-skeleton weiter
+   unten (Text unsichtbar, Balken in Formfarbe), nur an den dunklen Hintergrund
+   angepasst (halbtransparentes Weiß statt --linie). */
+.termin-skeleton { background: rgba(255, 255, 255, .25); color: transparent; border-radius: .25rem; }
+.termin-banner__datum.termin-skeleton { width: 8rem; }
+.termin-banner__titel.termin-skeleton { width: min(28rem, 80%); }
+.termin-banner__text.termin-skeleton { width: min(32rem, 95%); }
+.btn--invers.termin-skeleton { width: 10rem; }
+
 /* Karten-Raster für Übersicht */
 .raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.25rem; }
 .karte { border: 1px solid var(--linie); border-radius: .5rem; padding: 1.25rem; background: var(--weiss); }

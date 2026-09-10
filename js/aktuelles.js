@@ -1,13 +1,16 @@
 /* =====================================================================
-   aktuelles.js — rendert die Nachrichtenliste clientseitig aus
-   data/aktuelles.json in #aktuelles-liste (/aktuelles/) UND den
+   aktuelles.js — rendert clientseitig aus data/aktuelles.json:
+   die Nachrichtenliste in #aktuelles-liste (/aktuelles/), den
    Kurz-Anriss der drei neuesten Beiträge in #home-aktuelles-liste
-   (Startseite). Eine Quelle (data/aktuelles.json), zwei Ausgabeorte.
-   Neueste zuerst. Einzige Datenquelle ist die JSON; Pflege ohne
+   (Startseite) und den Termin-Banner in #home-termin-banner
+   (Startseite, direkt nach dem Hero — der zeitlich nächste anstehende
+   Termin, falls einer existiert). Eine Quelle (data/aktuelles.json),
+   drei Ausgabeorte. Einzige Datenquelle ist die JSON; Pflege ohne
    HTML-Kenntnis möglich. Jeder Beitrag ist ein eigenständiges <article>
    mit id=slug — so kann ein Beitrag später ohne Umbau auf eine
-   Einzelseite /aktuelles/<slug>/ umziehen. Kein Framework, keine
-   externen Requests (nur eigene Datei).
+   Einzelseite /aktuelles/<slug>/ umziehen; der Termin-Banner verlinkt
+   darüber auch dorthin (siehe renderTerminBanner()). Kein Framework,
+   keine externen Requests (nur eigene Datei).
    ===================================================================== */
 (function () {
   "use strict";
@@ -117,9 +120,91 @@
       });
   }
 
+  // Ersten Satz aus dem Volltext schneiden (bis zum ersten ". ", sonst der
+  // ganze Text) — der Banner ist ein Hinweis, kein Artikel, daher keine
+  // Kürzung mit "…" mitten im Satz.
+  function ersterSatz(text) {
+    if (!text) return "";
+    var i = text.indexOf(". ");
+    return i === -1 ? text : text.slice(0, i + 1);
+  }
+
+  // Termin-Banner (Startseite, direkt nach dem Hero): zeigt den zeitlich
+  // nächsten anstehenden Termin (datum > heute, ISO-String-Vergleich reicht
+  // bei Format JJJJ-MM-TT). Existiert keiner, bleibt der Block ausgeblendet —
+  // #home-termin-banner startet sichtbar mit Skelett (siehe HTML) und wird
+  // hier bei Bedarf per hidden=true wieder versteckt, analog zu renderHome()
+  // oben und render() in bundes-sgk.js.
+  function renderTerminBanner() {
+    var banner = document.getElementById("home-termin-banner");
+    var inhalt = document.getElementById("home-termin-inhalt");
+    if (!banner || !inhalt) return;
+    fetch("/data/aktuelles.json")
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (beitraege) {
+        var heute = new Date().toISOString().slice(0, 10);
+        var kommende = beitraege.filter(function (b) { return b.datum && b.datum > heute; });
+        // aufsteigend sortiert — der zeitlich nächste zuerst (Gegenrichtung zu
+        // sortiertNeuesteZuerst() oben, die für Rückblick-Listen neueste zuerst will)
+        kommende.sort(function (a, b) { return (a.datum < b.datum) ? -1 : (a.datum > b.datum) ? 1 : 0; });
+        if (kommende.length === 0) { banner.hidden = true; return; }
+        var termin = kommende[0];
+
+        var datum = document.createElement("p");
+        datum.className = "termin-banner__datum";
+        var t = document.createElement("time");
+        if (termin.datum) t.setAttribute("datetime", termin.datum);
+        t.textContent = termin.datumAnzeige || termin.datum || "";
+        datum.appendChild(t);
+
+        var titel = document.createElement("h2");
+        titel.className = "termin-banner__titel";
+        titel.textContent = termin.titel || "";
+
+        var text = document.createElement("p");
+        text.className = "termin-banner__text";
+        text.textContent = ersterSatz(termin.text);
+
+        var aktionen = document.createElement("p");
+        aktionen.className = "termin-banner__aktionen";
+        // quelleUrl/quelleLabel wie bei beitrag() oben fremdes Ziel, eigener Tab —
+        // Label hier aber bewusst fest "Jetzt anmelden" statt quelleLabel: der
+        // Banner ist eine Einladung, quelleLabel ist für /aktuelles/ generischer
+        // formuliert (z. B. "Erklärung im Wortlaut bei der Bundes-SGK").
+        if (termin.quelleUrl) {
+          var anmelden = document.createElement("a");
+          anmelden.className = "btn btn--invers";
+          anmelden.href = termin.quelleUrl;
+          anmelden.target = "_blank";
+          anmelden.rel = "noopener";
+          anmelden.textContent = "Jetzt anmelden";
+          aktionen.appendChild(anmelden);
+        }
+        // Verweis auf den vollen Beitrag: id=slug wird von beitrag() oben
+        // gesetzt (render(), /aktuelles/) — hier wiederverwendet, nicht neu erfunden.
+        if (termin.slug) {
+          var mehr = document.createElement("a");
+          mehr.className = "termin-banner__mehr";
+          mehr.href = "/aktuelles/#" + termin.slug;
+          mehr.textContent = "Mehr erfahren";
+          aktionen.appendChild(mehr);
+        }
+
+        inhalt.innerHTML = "";
+        inhalt.appendChild(datum);
+        inhalt.appendChild(titel);
+        inhalt.appendChild(text);
+        inhalt.appendChild(aktionen);
+      })
+      .catch(function () {
+        // Fallback: Skelett bleibt sichtbar (siehe HTML) — wie bei renderHome() oben
+      });
+  }
+
   function init() {
     render();
     renderHome();
+    renderTerminBanner();
   }
 
   if (document.readyState === "loading") {

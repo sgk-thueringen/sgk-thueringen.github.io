@@ -8,9 +8,9 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-  <link rel="stylesheet" href="/css/style.css?v=21">
+  <link rel="stylesheet" href="/css/style.css?v=22">
   <script src="/js/include.js?v=6" defer></script>
-  <script src="/js/aktuelles.js?v=2" defer></script>
+  <script src="/js/aktuelles.js?v=3" defer></script>
   <script src="/js/vorstand.js?v=10" defer></script>
   <script src="/js/bundes-sgk.js?v=2" defer></script>
 </head>
@@ -38,6 +38,28 @@
              width="849" height="242"></h1>
         <p class="lead">Sozialdemokratische Kommunalpolitik in Thüringen — vom Ortschaftsrat bis zur Landrätin.</p>
         <p><a class="btn" href="/mitglied-werden/">Mitglied werden</a></p>
+      </div>
+    </section>
+
+    <section class="termin-banner" id="home-termin-banner">
+      <div class="container">
+        <!-- Nächster anstehender Termin aus data/aktuelles.json, gerendert von
+             js/aktuelles.js (renderTerminBanner()): der zeitlich nächste Eintrag
+             mit datum > heute. Eine Quelle, dritter Ausgabeort neben
+             #aktuelles-liste und #home-aktuelles-liste — siehe dortige
+             Kommentare. Skelett-Platzhalter reserviert Platz gegen CLS für den
+             "gezeigt"-Fall (ein Termin steht an); existiert keiner, blendet
+             renderTerminBanner() den ganzen Block aus (hidden), der Bereich
+             kollabiert dann auf Höhe 0 — betrifft nur den seltenen Fall ganz
+             ohne anstehenden Termin. Ohne JavaScript vollständig ausgeblendet:
+             kein statischer Fallback-Text, da ohne JS kein Termin ermittelbar ist. -->
+        <noscript><style>#home-termin-banner{display:none!important}</style></noscript>
+        <div id="home-termin-inhalt">
+          <p class="termin-banner__datum termin-skeleton" aria-hidden="true">&nbsp;</p>
+          <h2 class="termin-banner__titel termin-skeleton" aria-hidden="true">&nbsp;<br>&nbsp;</h2>
+          <p class="termin-banner__text termin-skeleton" aria-hidden="true">&nbsp;<br>&nbsp;</p>
+          <p class="termin-banner__aktionen"><a class="btn btn--invers termin-skeleton" aria-hidden="true">&nbsp;</a></p>
+        </div>
       </div>
     </section>
 
