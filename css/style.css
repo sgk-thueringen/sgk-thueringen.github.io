@@ -555,7 +555,23 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
                                               Muster der uebrigen Abschnittsuebergaenge
                                               auf der Seite (keiner davon hat eine
                                               Trennlinie) */
-.hero__title { margin: 0; }   /* H1 umschließt die Wortmarke; kein Extra-Abstand/-Farbe */
+/* Echte Text-Überschrift statt Wortmarken-Bild (siehe index.html) — die einzige
+   Headline im Hero, deshalb deutlich größer als ein normaler Content-H1
+   (dort clamp(1.7rem, 4vw, 2.5rem), siehe Basis-Regel oben). Font-Family/
+   Farbe kommen zwar schon von der globalen h1-Regel, hier trotzdem explizit
+   wiederholt, damit die Hero-Überschrift unabhängig davon feststeht. */
+.hero__title {
+  margin: 0;
+  font-family: var(--font-titel);
+  font-weight: 700;
+  color: var(--blau);
+  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  line-height: 1.2;
+  max-width: 46rem;
+}
+/* .hero__logo: verwaist seit der Umstellung auf Text-Überschrift oben — keine
+   Seite bindet die Wortmarke im Hero mehr ein. Nicht entfernt (siehe
+   Bericht), falls sie andernorts noch gebraucht wird. */
 .hero__logo { display: block; width: 100%; max-width: 30rem; height: auto; margin-bottom: 1.25rem; }
 .hero p.lead { font-size: 1.2rem; color: var(--grau); }
 
