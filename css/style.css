@@ -76,6 +76,14 @@ p { margin: 0 0 1em; max-width: 64ch; }
 .beitrag:first-child { padding-top: 0; margin-top: 0; border-top: 0; }
 .beitrag h2, .beitrag h3 { margin-top: 0; margin-bottom: .15rem; }
 .beitrag-datum { color: var(--grau); font-size: .95rem; margin: 0 0 .6rem; }
+/* Wann/Wo — dieselben Felder (wannAnzeige/ort) wie im Termin-Banner
+   (.termin-banner__wannwo), aber bewusst dezent statt der fetten
+   Weiß-auf-Blau-Bannerkontrast: hier normaler Seitenhintergrund, daher
+   var(--blau) (wie Überschriften/Links) statt var(--grau), etwas
+   Gewicht per font-weight, aber kein Fließtext-Volumen wie der Titel.
+   In der Startseiten-Teaser-Kürze (#startseite-aktuelles) kompakter,
+   passend zur dortigen h3-Verkleinerung (siehe Kommentar weiter unten). */
+.beitrag-wannwo { color: var(--blau); font-weight: 600; font-size: .95rem; margin: 0 0 .6rem; }
 .beitrag-quelle { margin-top: .6rem; }
 
 /* Dokument-Download / PDF-Vorschau */
@@ -441,6 +449,9 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
    wie /aktuelles/, siehe js/aktuelles.js renderHome()). Reine Wiederverwendung
    der .aktuelles-liste/.beitrag-Regeln oben, nur mit h3 statt h2. */
 #startseite-aktuelles .aktuelles-liste { margin-top: 1.25rem; }
+/* Wann/Wo in dieser Kürze noch kompakter als auf /aktuelles/ — passend zur
+   dortigen h3-Verkleinerung, kein eigener Klassenname nötig. */
+#startseite-aktuelles .beitrag-wannwo { font-size: .85rem; }
 
 /* ---- Header / Masthead ---- */
 .masthead { border-bottom: 1px solid var(--linie); background: var(--weiss); }

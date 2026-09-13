@@ -30,11 +30,24 @@
     var titel = document.createElement("h2");
     titel.textContent = b.titel || "";
 
+    // Wann/Wo — dieselben Felder wie im Termin-Banner (renderTerminBanner()),
+    // aber dezenter Stil statt Banner-Optik (siehe .beitrag-wannwo, CSS).
+    // wannWoText() liefert null, wenn eins der beiden Felder fehlt (z. B. bei
+    // den Bundes-SGK-Meldungen) — dann einfach keine Zeile, kein Platzhalter.
+    var wannwoText = wannWoText(b);
+    var wannwo = null;
+    if (wannwoText) {
+      wannwo = document.createElement("p");
+      wannwo.className = "beitrag-wannwo";
+      wannwo.textContent = wannwoText;
+    }
+
     var text = document.createElement("p");
     text.textContent = b.text || "";
 
     art.appendChild(titel);
     art.appendChild(datum);
+    if (wannwo) art.appendChild(wannwo);
     art.appendChild(text);
 
     // Quelle: fremde Seite -> Link (nicht hochladen), in neuem Tab
@@ -69,13 +82,33 @@
     t.textContent = b.datumAnzeige || b.datum || "";
     datum.appendChild(t);
 
+    // Wann/Wo wie in beitrag() oben — hier kompakter (siehe CSS-Scoping unter
+    // #startseite-aktuelles), passend zur bestehenden Teaser-Kürze.
+    var wannwoText = wannWoText(b);
+    var wannwo = null;
+    if (wannwoText) {
+      wannwo = document.createElement("p");
+      wannwo.className = "beitrag-wannwo";
+      wannwo.textContent = wannwoText;
+    }
+
     var text = document.createElement("p");
     text.textContent = b.text || "";
 
     art.appendChild(titel);
     art.appendChild(datum);
+    if (wannwo) art.appendChild(wannwo);
     art.appendChild(text);
     return art;
+  }
+
+  // Wann/Wo als ein zusammengesetzter Text — von beitrag(), teaser() und
+  // renderTerminBanner() gemeinsam genutzt, damit die Regel "nur rendern,
+  // wenn BEIDE Felder vorhanden sind" nur an einer Stelle steht. Liefert
+  // null, wenn wannAnzeige oder ort fehlt (z. B. Bundes-SGK-Meldungen ohne
+  // Termin-Charakter) — dann zeigt keiner der drei Ausgabeorte eine Zeile.
+  function wannWoText(b) {
+    return (b.wannAnzeige && b.ort) ? (b.wannAnzeige + " · " + b.ort) : null;
   }
 
   function sortiertNeuesteZuerst(beitraege) {
@@ -162,15 +195,16 @@
         titel.textContent = termin.titel || "";
 
         // Wann/Wo optisch abgesetzt direkt unter dem Titel — siehe REDAKTION.md
-        // Abschnitt 2 ("Was/Wann/Wo auf den ersten Blick erkennbar"). Nur
-        // rendern, wenn BEIDE Felder vorhanden sind; fehlt eins, einfach
-        // weglassen statt eine unvollständige Zeile ("· Leonardo Hotel Weimar")
-        // zu zeigen. "Was" (Titel) steht bereits als eigene h2 direkt darüber.
+        // Abschnitt 2 ("Was/Wann/Wo auf den ersten Blick erkennbar"). Dieselbe
+        // wannWoText()-Regel (beide Felder nötig) wie bei beitrag()/teaser()
+        // unten — hier nur mit eigener Banner-Klasse statt .beitrag-wannwo.
+        // "Was" (Titel) steht bereits als eigene h2 direkt darüber.
+        var wannWoInhalt = wannWoText(termin);
         var wannWo = null;
-        if (termin.wannAnzeige && termin.ort) {
+        if (wannWoInhalt) {
           wannWo = document.createElement("p");
           wannWo.className = "termin-banner__wannwo";
-          wannWo.textContent = termin.wannAnzeige + " · " + termin.ort;
+          wannWo.textContent = wannWoInhalt;
         }
 
         var text = document.createElement("p");
