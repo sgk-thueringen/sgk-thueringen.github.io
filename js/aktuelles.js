@@ -20,13 +20,6 @@
     art.className = "beitrag";
     if (b.slug) art.id = b.slug;
 
-    var datum = document.createElement("p");
-    datum.className = "beitrag-datum";
-    var t = document.createElement("time");
-    if (b.datum) t.setAttribute("datetime", b.datum);
-    t.textContent = b.datumAnzeige || b.datum || "";
-    datum.appendChild(t);
-
     var titel = document.createElement("h2");
     titel.textContent = b.titel || "";
 
@@ -34,19 +27,31 @@
     // aber dezenter Stil statt Banner-Optik (siehe .beitrag-wannwo, CSS).
     // wannWoText() liefert null, wenn eins der beiden Felder fehlt (z. B. bei
     // den Bundes-SGK-Meldungen) — dann einfach keine Zeile, kein Platzhalter.
+    // Enthält wannWoText() bereits das Datum (wannAnzeige), entfällt die
+    // separate .beitrag-datum-Zeile, damit das Datum nicht doppelt erscheint
+    // (einmal kurz, einmal als Teil von Wann/Wo) — nur eine der beiden Zeilen
+    // wird je Beitrag gerendert.
     var wannwoText = wannWoText(b);
+    var datum = null;
     var wannwo = null;
     if (wannwoText) {
       wannwo = document.createElement("p");
       wannwo.className = "beitrag-wannwo";
       wannwo.textContent = wannwoText;
+    } else {
+      datum = document.createElement("p");
+      datum.className = "beitrag-datum";
+      var t = document.createElement("time");
+      if (b.datum) t.setAttribute("datetime", b.datum);
+      t.textContent = b.datumAnzeige || b.datum || "";
+      datum.appendChild(t);
     }
 
     var text = document.createElement("p");
     text.textContent = b.text || "";
 
     art.appendChild(titel);
-    art.appendChild(datum);
+    if (datum) art.appendChild(datum);
     if (wannwo) art.appendChild(wannwo);
     art.appendChild(text);
 
@@ -75,28 +80,31 @@
     link.textContent = b.titel || "";
     titel.appendChild(link);
 
-    var datum = document.createElement("p");
-    datum.className = "beitrag-datum";
-    var t = document.createElement("time");
-    if (b.datum) t.setAttribute("datetime", b.datum);
-    t.textContent = b.datumAnzeige || b.datum || "";
-    datum.appendChild(t);
-
     // Wann/Wo wie in beitrag() oben — hier kompakter (siehe CSS-Scoping unter
-    // #startseite-aktuelles), passend zur bestehenden Teaser-Kürze.
+    // #startseite-aktuelles), passend zur bestehenden Teaser-Kürze. Enthält
+    // wannWoText() bereits das Datum, entfällt die separate .beitrag-datum-
+    // Zeile (siehe beitrag() oben) — auch hier nur eine Datumszeile pro Beitrag.
     var wannwoText = wannWoText(b);
+    var datum = null;
     var wannwo = null;
     if (wannwoText) {
       wannwo = document.createElement("p");
       wannwo.className = "beitrag-wannwo";
       wannwo.textContent = wannwoText;
+    } else {
+      datum = document.createElement("p");
+      datum.className = "beitrag-datum";
+      var t = document.createElement("time");
+      if (b.datum) t.setAttribute("datetime", b.datum);
+      t.textContent = b.datumAnzeige || b.datum || "";
+      datum.appendChild(t);
     }
 
     var text = document.createElement("p");
     text.textContent = b.text || "";
 
     art.appendChild(titel);
-    art.appendChild(datum);
+    if (datum) art.appendChild(datum);
     if (wannwo) art.appendChild(wannwo);
     art.appendChild(text);
     return art;
@@ -183,13 +191,6 @@
         if (kommende.length === 0) { banner.hidden = true; return; }
         var termin = kommende[0];
 
-        var datum = document.createElement("p");
-        datum.className = "termin-banner__datum";
-        var t = document.createElement("time");
-        if (termin.datum) t.setAttribute("datetime", termin.datum);
-        t.textContent = termin.datumAnzeige || termin.datum || "";
-        datum.appendChild(t);
-
         var titel = document.createElement("h2");
         titel.className = "termin-banner__titel";
         titel.textContent = termin.titel || "";
@@ -198,13 +199,24 @@
         // Abschnitt 2 ("Was/Wann/Wo auf den ersten Blick erkennbar"). Dieselbe
         // wannWoText()-Regel (beide Felder nötig) wie bei beitrag()/teaser()
         // unten — hier nur mit eigener Banner-Klasse statt .beitrag-wannwo.
-        // "Was" (Titel) steht bereits als eigene h2 direkt darüber.
+        // "Was" (Titel) steht bereits als eigene h2 direkt darüber. Enthält
+        // wannWoText() bereits das Datum (wannAnzeige), entfällt die separate
+        // .termin-banner__datum-Zeile — sonst erschiene das Datum doppelt
+        // (einmal kurz, einmal als Teil von Wann/Wo).
         var wannWoInhalt = wannWoText(termin);
+        var datum = null;
         var wannWo = null;
         if (wannWoInhalt) {
           wannWo = document.createElement("p");
           wannWo.className = "termin-banner__wannwo";
           wannWo.textContent = wannWoInhalt;
+        } else {
+          datum = document.createElement("p");
+          datum.className = "termin-banner__datum";
+          var t = document.createElement("time");
+          if (termin.datum) t.setAttribute("datetime", termin.datum);
+          t.textContent = termin.datumAnzeige || termin.datum || "";
+          datum.appendChild(t);
         }
 
         var text = document.createElement("p");
@@ -237,7 +249,7 @@
         }
 
         inhalt.innerHTML = "";
-        inhalt.appendChild(datum);
+        if (datum) inhalt.appendChild(datum);
         inhalt.appendChild(titel);
         if (wannWo) inhalt.appendChild(wannWo);
         inhalt.appendChild(text);
