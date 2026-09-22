@@ -1,5 +1,12 @@
 [
   {
+    "titel": "Wahlen 2026 in Berlin",
+    "url": "https://www.bundes-sgk.de/artikel/wahlen-2026-berlin",
+    "datum": "2026-09-21",
+    "datumAnzeige": "21. September 2026",
+    "text": "In Berlin fanden am 20. September 2026 Wahlen zum Abgeordnetenhaus und zu Bezirksverordnetenversammlungen in den 12 Berliner Bezirken statt."
+  },
+  {
     "titel": "Niedersachsen hat gewählt",
     "url": "https://www.bundes-sgk.de/artikel/niedersachsen-hat-gewaehlt",
     "datum": "2026-09-15",
@@ -12,12 +19,5 @@
     "datum": "2026-08-31",
     "datumAnzeige": "31. August 2026",
     "text": "Dr. Manfred Sternberg geht nach langjähriger Tätigkeit für die Bundes-SGK e.V. in den Ruhestand. Am 1. September 2026 wird Tim Kähler seine Nachfolge antreten. Tim Kähler wurde am 30. Januar 2026…"
-  },
-  {
-    "titel": "Braunschweiger Erklärung – Stärkung der kommunalen Haushalte",
-    "url": "https://www.bundes-sgk.de/artikel/braunschweiger-erklaerung-staerkung-kommunalen-haushalte",
-    "datum": "2026-06-19",
-    "datumAnzeige": "19. Juni 2026",
-    "text": "Braunschweiger Erklärung – Stärkung der kommunalen Haushalte 1. In Anbetracht der Defizite in den kommunalen Haushalten, die sich nach der Kassenstatistik des Statistischen Bundesamtes in der Summe…"
   }
 ]
