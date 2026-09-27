@@ -34,6 +34,15 @@ while ($true) {
   $client = $listener.AcceptTcpClient()
   try {
     $stream = $client.GetStream()
+    # Lese-Timeout: ohne ihn blockiert eine Verbindung, die zwar verbindet aber
+    # keine (oder keine vollständige) Anfrage schickt (z. B. ein spekulativ
+    # geöffneter/gepoolter Browser-Socket), ReadLine() für immer — und weil
+    # diese Schleife Verbindungen nacheinander statt parallel bearbeitet, blieb
+    # dann JEDE weitere Anfrage stecken (beobachteter Hänger, siehe Commit-
+    # Nachricht). "Connection: close" in der Antwort (unten) betrifft nur die
+    # Serverseite nach dem Antworten, nicht das Warten auf die Anfrage davor.
+    $client.ReceiveTimeout = 3000
+    $stream.ReadTimeout = 3000
     $reader = New-Object IO.StreamReader($stream)
     $requestLine = $reader.ReadLine()
     # Restliche Header verwerfen (bis zur Leerzeile) — werden für einen
