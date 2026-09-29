@@ -368,6 +368,13 @@ a:hover { text-decoration: none; }
    Überschrift nicht neben dem Bild "klemmt", sondern sauber darunter beginnt. */
 h2 { clear: both; }
 
+/* ---- JET-Düsenjet-Emblem (nur /jet-foerderpreis/) ----
+   Bewusste, markierte CI-Ausnahme nur für diese eine Seite — siehe
+   Kommentar in jet-foerderpreis/index.html. Transparentes PNG, deshalb kein
+   eigener Hintergrund/Rahmen nötig (anders als .content-bild-Fotos). */
+.jet-banner { display: block; width: 100%; max-width: 26rem; height: auto; margin: 0 0 1.5rem; }
+.jet-icon-inline { display: inline-block; height: 1.3em; width: auto; vertical-align: -.2em; margin-left: .4rem; }
+
 /* Entwurf-/Warnhinweis — nicht übersehbar (roter Rahmen, Off-White) */
 .entwurf-box {
   border: 2px solid var(--rot); border-left-width: 6px; border-radius: .5rem;
