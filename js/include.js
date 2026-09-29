@@ -10,7 +10,7 @@
   // Version der Partials — an die Fetch-URL angehängt, damit geänderte Header/Footer
   // ohne hartes Neuladen ankommen. Bei Änderung an einem Partial hochzählen (und die
   // Versionsnummer von include.js selbst in den Seiten mit anheben).
-  var ASSET_V = "6";
+  var ASSET_V = "7";
 
   function markActive() {
     var header = document.querySelector(".masthead");
