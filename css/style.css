@@ -60,11 +60,7 @@ h3 { font-size: clamp(1.05rem, 2.2vw, 1.25rem); margin-top: 1.75rem; }
 p { margin: 0 0 1em; max-width: 64ch; }
 
 /* Inhaltsliste (z. B. „Was wir tun") — semantische ul, auf Mobil luftiger */
-/* clear:both, damit eine Liste nie neben einem floatenden .content-bild--seite
-   startet — Aufzählungspunkte neben einem Float können sonst je nach Zeilen-
-   umbruch uneinheitlich einrücken (Zeile innerhalb des Floats schmal, Zeile
-   nach Floatende plötzlich volle Breite). Wirkungslos, wo nichts floatet. */
-.textliste { max-width: 64ch; padding-left: 1.25rem; line-height: 1.55; clear: both; }
+.textliste { max-width: 64ch; padding-left: 1.25rem; line-height: 1.55; }
 .textliste li { margin-bottom: .55rem; }
 @media (max-width: 48rem) { .textliste li { margin-bottom: 1rem; } }
 
@@ -348,25 +344,19 @@ a:hover { text-decoration: none; }
 .content-bild img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: .5rem; }
 .content-bild figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; max-width: 32rem; }
 
-/* Seitlich fließendes Content-Foto (z. B. /jet-foerderpreis/) — Variante von
-   .content-bild für Bild neben Fließtext statt Vollbreite. Auf Mobil (< 40rem)
-   identisch zu .content-bild (volle Breite, kein Float) — Lesbarkeit geht auf
-   schmalen Screens vor, ein schmal umflossenes Bild würde den Text dort nur
-   auf wenige Zeichen pro Zeile quetschen. Erst ab 40rem als Float mit fester
-   Breite. aspect-ratio 3/2 = derselbe Wert wie .bild-platzhalter oben (keine
-   neue Ratio eingeführt). Elternelement braucht KEIN eigenes clearfix: die
-   nachfolgende h2 räumt den Float selbst ab (siehe clear:both dort). */
+/* Content-Foto mit 3/2 statt 4/3 (z. B. /jet-foerderpreis/) — sonst identisch
+   zu .content-bild oben, nur die Bildkante anders (Originalzuschnitt der
+   Fotos). Erster Versuch war eine seitlich umfließende (float) Variante;
+   die wurde wieder verworfen, weil nebenstehender Fließtext dadurch pro
+   Abschnitt unterschiedlich breite Zeilen bekam und der Textblock beim
+   Lesen "sprang", sobald der Float endete (z. B. eine Liste, die neben dem
+   Bild schmal beginnt und dann plötzlich auf volle Breite springt). Jetzt
+   wie .content-bild ein normaler Block ohne Float — ruhiger Lesefluss,
+   volle Zeilenbreite durchgehend, aspect-ratio 3/2 = derselbe Wert wie
+   .bild-platzhalter oben (keine neue Ratio eingeführt). */
 .content-bild--seite { margin: 2rem 0; max-width: 32rem; }
 .content-bild--seite img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: .5rem; }
 .content-bild--seite figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; }
-@media (min-width: 40rem) {
-  .content-bild--seite { max-width: 20rem; }
-  .content-bild--seite.content-bild--links { float: left; margin: .25rem 1.75rem 1.5rem 0; }
-  .content-bild--seite.content-bild--rechts { float: right; margin: .25rem 0 1.5rem 1.75rem; }
-}
-/* Räumt ein vorangegangenes .content-bild--seite ab, damit die nächste
-   Überschrift nicht neben dem Bild "klemmt", sondern sauber darunter beginnt. */
-h2 { clear: both; }
 
 /* ---- JET-Düsenjet-Emblem (nur /jet-foerderpreis/) ----
    Bewusste, markierte CI-Ausnahme nur für diese eine Seite — siehe
