@@ -272,8 +272,8 @@
         titel.className = "termin-banner__titel";
         titel.textContent = termin.titel || "";
 
-        // Wann/Wo optisch abgesetzt direkt unter dem Titel — siehe REDAKTION.md
-        // Abschnitt 2 ("Was/Wann/Wo auf den ersten Blick erkennbar"). Dieselbe
+        // Wann/Wo optisch abgesetzt direkt unter dem Titel — Redaktionsregel
+        // ("Was/Wann/Wo auf den ersten Blick erkennbar"). Dieselbe
         // wannWoText()-Regel (beide Felder nötig) wie bei beitrag()/teaser()
         // unten — hier nur mit eigener Banner-Klasse statt .beitrag-wannwo.
         // "Was" (Titel) steht bereits als eigene h2 direkt darüber. Enthält

@@ -635,7 +635,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-banner { background: var(--blau); color: var(--weiss); }
 .termin-banner h2.termin-banner__titel { color: var(--weiss); margin: 0 0 .35rem; }
 .termin-banner__datum { color: var(--weiss); opacity: .85; font-size: .95rem; margin: 0 0 .35rem; }
-/* Wann/Wo — REDAKTION.md: bei jeder Veranstaltungs-Ankündigung müssen Was/Wann/Wo
+/* Wann/Wo — Redaktionsregel: bei jeder Veranstaltungs-Ankündigung müssen Was/Wann/Wo
    auf den ersten Blick erkennbar sein, als eigenes Element, nicht im Fließtext
    versteckt. Deutlich größer/fetter als .termin-banner__text (1.0625rem/400,
    siehe Basis-Regel body), aber kleiner als .termin-banner__titel (h2,
