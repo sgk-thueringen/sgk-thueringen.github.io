@@ -676,6 +676,23 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-banner__text.termin-skeleton { width: min(32rem, 95%); }
 .btn--invers.termin-skeleton { width: 10rem; }
 
+/* ---- JET-Band (Startseite, unter dem Termin-Banner) ----
+   data/jet.json, gerendert von js/aktuelles.js (renderJetBand()). Bewusst
+   anders als der blaue Termin-Banner: helle Fläche (--off-white), roter
+   Balken links (--rot nur als Akzent), dunkler Text (--ink/--blau). */
+.jet-band { background: var(--off-white); border-left: 8px solid var(--rot); }
+.jet-band .container { padding-block: 1.25rem; }
+.jet-band h2.jet-band__titel { color: var(--blau); font-size: clamp(1.25rem, 3vw, 1.7rem); margin: 0 0 .5rem; }
+.jet-band__wannwo { margin: 0 0 .25rem; font-family: var(--font-titel); font-weight: 700; font-size: 1.15rem; color: var(--ink); max-width: none; }
+.jet-band__preise { margin: .5rem 0 0; font-size: .95rem; color: var(--grau); }
+.jet-band__aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin: .9rem 0 0; }
+.jet-band__aktionen a:not(.btn) { color: var(--blau); text-decoration: underline; text-underline-offset: .15em; }
+.jet-band__aktionen a:not(.btn):hover { text-decoration: none; }
+.jet-skeleton { background: var(--linie); color: transparent; border-radius: .25rem; }
+.jet-band__titel.jet-skeleton { width: min(30rem, 90%); }
+.jet-band__wannwo.jet-skeleton { width: min(24rem, 85%); }
+.jet-band .btn.jet-skeleton { width: 9rem; }
+
 /* Karten-Raster für Übersicht */
 .raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.25rem; }
 .karte { border: 1px solid var(--linie); border-radius: .5rem; padding: 1.25rem; background: var(--weiss); }

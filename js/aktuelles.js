@@ -61,8 +61,10 @@
       q.className = "beitrag-quelle";
       var a = document.createElement("a");
       a.href = b.quelleUrl;
-      a.target = "_blank";
-      a.rel = "noopener";
+      if (b.quelleUrl.charAt(0) !== "/") {   // interne Ziele im selben Tab
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
       a.textContent = b.quelleLabel;
       q.appendChild(a);
       art.appendChild(q);
@@ -170,8 +172,78 @@
     return i === -1 ? text : text.slice(0, i + 1);
   }
 
+  // Heutiges Datum lokal (nicht UTC) als JJJJ-MM-TT.
+  function heuteLokal() {
+    var d = new Date();
+    function z(n) { return (n < 10 ? "0" : "") + n; }
+    return d.getFullYear() + "-" + z(d.getMonth() + 1) + "-" + z(d.getDate());
+  }
+
+  var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
+    "August", "September", "Oktober", "November", "Dezember"];
+  function datumLang(iso) {
+    var t = iso.split("-");
+    return parseInt(t[2], 10) + ". " + MONATE[parseInt(t[1], 10) - 1] + " " + t[0];
+  }
+
+  // JET-Band (Startseite, unter dem Termin-Banner), gesteuert aus data/jet.json.
+  // Phase 1: heute <= bewerbungsschluss; Phase 2: bis einschließlich verleihung;
+  // danach hidden. Tagesvergleich per ISO-String, Schlusstag inklusive.
+  function renderJetBand() {
+    var band = document.getElementById("home-jet-band");
+    var inhalt = document.getElementById("home-jet-inhalt");
+    if (!band || !inhalt) return;
+    fetch("/data/jet.json")
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) {
+        var heute = heuteLokal();
+        var phase1 = heute <= j.bewerbungsschluss;
+        if (!phase1 && heute > j.verleihung) { band.hidden = true; return; }
+
+        function p(klasse, text) {
+          var e = document.createElement("p");
+          e.className = klasse;
+          e.textContent = text;
+          return e;
+        }
+        var titel = document.createElement("h2");
+        titel.className = "jet-band__titel";
+        titel.textContent = "Förderpreis Junges Engagement Thüringen – für Kinder- und Jugendbeteiligung";
+
+        var verl = datumLang(j.verleihung);
+        var wann = phase1
+          ? "Bewerbung bis " + datumLang(j.bewerbungsschluss) + " · Verleihung " + verl
+          : "Bewerbungsphase beendet · Preisverleihung " + verl;
+        var wo = phase1 ? "Verleihung in Ilmenau" : "Ilmenau";
+
+        var aktionen = document.createElement("p");
+        aktionen.className = "jet-band__aktionen";
+        if (phase1) {
+          var b = document.createElement("a");
+          b.className = "btn";
+          b.href = "/jet-foerderpreis/#bewerben";
+          b.textContent = "Jetzt bewerben";
+          aktionen.appendChild(b);
+        }
+        var alle = document.createElement("a");
+        alle.href = "/jet-foerderpreis/";
+        alle.textContent = "Alle Infos";
+        aktionen.appendChild(alle);
+
+        inhalt.innerHTML = "";
+        inhalt.appendChild(titel);
+        inhalt.appendChild(p("jet-band__wannwo", wann));
+        inhalt.appendChild(p("jet-band__wannwo", wo));
+        if (phase1) inhalt.appendChild(p("jet-band__preise", "Preisgelder: 1.500 € · 1.000 € · 500 €"));
+        inhalt.appendChild(aktionen);
+      })
+      .catch(function () {
+        // Fallback: Skelett bleibt sichtbar (siehe HTML) — wie bei renderTerminBanner()
+      });
+  }
+
   // Termin-Banner (Startseite, direkt nach dem Hero): zeigt den zeitlich
-  // nächsten anstehenden Termin (datum > heute, ISO-String-Vergleich reicht
+  // nächsten anstehenden Termin (datum >= heute, ISO-String-Vergleich reicht
   // bei Format JJJJ-MM-TT). Existiert keiner, bleibt der Block ausgeblendet —
   // #home-termin-banner startet sichtbar mit Skelett (siehe HTML) und wird
   // hier bei Bedarf per hidden=true wieder versteckt, analog zu renderHome()
@@ -183,8 +255,9 @@
     fetch("/data/aktuelles.json")
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (beitraege) {
-        var heute = new Date().toISOString().slice(0, 10);
-        var kommende = beitraege.filter(function (b) { return b.datum && b.datum > heute; });
+        // >= : am Veranstaltungstag selbst bleibt der Banner stehen
+        var heute = heuteLokal();
+        var kommende = beitraege.filter(function (b) { return b.datum && b.datum >= heute; });
         // aufsteigend sortiert — der zeitlich nächste zuerst (Gegenrichtung zu
         // sortiertNeuesteZuerst() oben, die für Rückblick-Listen neueste zuerst will)
         kommende.sort(function (a, b) { return (a.datum < b.datum) ? -1 : (a.datum > b.datum) ? 1 : 0; });
@@ -264,6 +337,7 @@
     render();
     renderHome();
     renderTerminBanner();
+    renderJetBand();
   }
 
   if (document.readyState === "loading") {
