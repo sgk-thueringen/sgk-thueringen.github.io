@@ -3,6 +3,12 @@
    Mobile-first, große Tap-Flächen, sichtbare Fokus-Indikatoren.
    ===================================================================== */
 
+/* Rand von Eingabefeldern (nur input im Assistenten): --blau-hell statt --linie, damit der
+   Rand mindestens 3:1 gegen Feldfüllung und Umgebung erreicht (WCAG 1.4.11; gemessen 5,41:1
+   auf Weiß, 4,93:1 auf Off-White). Neue Variable statt Wertänderung von --linie, weil --linie
+   anderswo für Trennlinien und Rahmen mit Beschriftung gilt. */
+:root { --feld-rand: var(--blau-hell); }
+
 .assistent-intro { color: var(--grau); max-width: 55ch; }
 
 .assistent {
@@ -52,7 +58,7 @@
 .feld-optional { margin-top: 1rem; }
 .feld-optional input {
   width: 100%; min-height: 3rem; padding: .7rem .85rem; font: inherit; color: var(--ink);
-  border: 2px solid var(--linie); border-radius: .45rem; background: var(--weiss);
+  border: 2px solid var(--feld-rand); border-radius: .45rem; background: var(--weiss);
 }
 .feld-optional input:focus-visible { outline: 3px solid var(--blau); outline-offset: 1px; border-color: var(--blau); }
 .feld-hinweis { margin: .35rem 0 0; color: var(--grau); font-size: .92rem; }
@@ -94,7 +100,7 @@
 .feld input {
   width: 100%; min-height: 3rem; padding: .7rem .85rem;
   font: inherit; color: var(--ink);
-  border: 2px solid var(--linie); border-radius: .45rem; background: var(--weiss);
+  border: 2px solid var(--feld-rand); border-radius: .45rem; background: var(--weiss);
 }
 .feld input:focus-visible { outline: 3px solid var(--blau); outline-offset: 1px; border-color: var(--blau); }
 .feld input[aria-invalid="true"] { border-color: var(--rot); }
