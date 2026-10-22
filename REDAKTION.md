@@ -61,6 +61,12 @@ ein Beitrag folgt:
   Elemente, nicht nur in einem Fließtext-Satz versteckt. Gilt für alle Termin-Banner und
   ähnliche Ankündigungen.
 
+**JET-Förderpreis (Startseiten-Band):** Bewerbungsschluss und Verleihung stehen in
+**`data/jet.json`** (Format JJJJ-MM-TT) **und** im Text von `/jet-foerderpreis/` — bei einer
+Änderung **beide Stellen** anpassen. Das Band wechselt automatisch: bis einschließlich
+Bewerbungsschluss „Jetzt bewerben", danach bis einschließlich Verleihung nur Hinweis, danach
+verschwindet es.
+
 ## 3. Vorstandsdaten pflegen
 
 Die Vorstandsliste steht in **`data/vorstand.json`**. Ein Eintrag sieht so aus:
