@@ -257,7 +257,11 @@
       .then(function (beitraege) {
         // >= : am Veranstaltungstag selbst bleibt der Banner stehen
         var heute = heuteLokal();
-        var kommende = beitraege.filter(function (b) { return b.datum && b.datum >= heute; });
+        // nur echte Termine (wannAnzeige UND ort); normale Meldungen mit datum = heute
+        // gehören nicht in den Banner
+        var kommende = beitraege.filter(function (b) {
+          return b.datum && b.datum >= heute && wannWoText(b);
+        });
         // aufsteigend sortiert — der zeitlich nächste zuerst (Gegenrichtung zu
         // sortiertNeuesteZuerst() oben, die für Rückblick-Listen neueste zuerst will)
         kommende.sort(function (a, b) { return (a.datum < b.datum) ? -1 : (a.datum > b.datum) ? 1 : 0; });

@@ -688,6 +688,8 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .jet-band__aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin: .9rem 0 0; }
 .jet-band__aktionen a:not(.btn) { color: var(--blau); text-decoration: underline; text-underline-offset: .15em; }
 .jet-band__aktionen a:not(.btn):hover { text-decoration: none; }
+/* Mobil: Preiszeile ausblenden, Band bleibt kompakt */
+@media (max-width: 48rem) { .jet-band__preise { display: none; } }
 .jet-skeleton { background: var(--linie); color: transparent; border-radius: .25rem; }
 .jet-band__titel.jet-skeleton { width: min(30rem, 90%); }
 .jet-band__wannwo.jet-skeleton { width: min(24rem, 85%); }
