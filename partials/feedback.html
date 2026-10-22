@@ -1,6 +1,6 @@
 <style>
-/* Staging-Feedback-Widget — Link zum Google-Formular (beim Klick mit der aktuellen
-   Seite vorausgefüllt, siehe include.js). Vor Livegang entfernen (OFFENE-PUNKTE I4).
+/* Feedback-Knopf — öffnet das E-Mail-Programm mit vorbereiteter Nachricht (Betreff und
+   aktuelle Seite, gesetzt in include.js), kein Formular und kein externer Dienst.
    Design-Tokens aus style.css mit Fallback, selbst-enthalten. */
 #sgk-feedback { position: fixed; right: 1rem; bottom: 1rem; z-index: 1000; text-align: right; font-family: var(--font-text, system-ui, sans-serif); }
 @supports (bottom: env(safe-area-inset-bottom)) {
@@ -22,10 +22,9 @@
 </style>
 <div id="sgk-feedback">
   <a id="sgk-feedback-btn"
-     href="https://docs.google.com/forms/d/e/1FAIpQLScuyswhkHnP9fN_i-UqXKePCS04VChAKPiMhGoNaC9YIk0L4A/viewform?usp=pp_url"
-     target="_blank" rel="noopener"
-     title="Öffnet ein Formular in einem neuen Tab"
-     aria-label="Feedback geben – öffnet ein Formular in einem neuen Tab, die aktuelle Seite ist vorausgefüllt">Feedback geben</a>
+     href="/kontakt/"
+     title="Öffnet dein E-Mail-Programm"
+     aria-label="Feedback geben – öffnet dein E-Mail-Programm, die aktuelle Seite steht in der Nachricht">Feedback geben</a>
   <br>
-  <span id="sgk-feedback-hint">Öffnet ein Formular in einem neuen Tab</span>
+  <span id="sgk-feedback-hint">Öffnet dein E-Mail-Programm</span>
 </div>

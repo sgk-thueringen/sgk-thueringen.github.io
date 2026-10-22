@@ -10,7 +10,7 @@
   // Version der Partials — an die Fetch-URL angehängt, damit geänderte Header/Footer
   // ohne hartes Neuladen ankommen. Bei Änderung an einem Partial hochzählen (und die
   // Versionsnummer von include.js selbst in den Seiten mit anheben).
-  var ASSET_V = "7";
+  var ASSET_V = "8";
 
   function markActive() {
     var header = document.querySelector(".masthead");
@@ -139,11 +139,18 @@
       });
   }
 
-  // ---- Staging-Feedback-Widget: Link zum Google-Formular des Vereins, beim Klick
-  //      dynamisch mit der aktuellen Seiten-URL vorausgefüllt. Kein iframe/Embed/
-  //      Google-Skript. Vor Livegang entfernen: diese eine Zeile in run() streichen
-  //      und partials/feedback.html löschen (siehe OFFENE-PUNKTE I4). ----
-  var FEEDBACK_ENTRY = "entry.1652826813"; // Formularfeld „Welche Seite?"
+  // ---- Feedback-Knopf: öffnet das E-Mail-Programm mit vorbereiteter Nachricht
+  //      (Betreff "Feedback zur Website", Text beginnt mit "Seite: <aktuelle URL>").
+  //      Kein Formular, kein iframe, kein externer Dienst — übertragen wird erst beim
+  //      Absenden der Mail. Die Adresse wird wie in mailto.js erst zur Laufzeit
+  //      zusammengesetzt (steht nicht im HTML). Ohne konfiguriertes Mail-Programm
+  //      passiert beim Klick nichts; die Seite bleibt unverändert. ----
+  function feedbackHref() {
+    var to = "SGK-Thueringen" + "@" + "t-online.de";
+    return "mailto:" + to +
+      "?subject=" + encodeURIComponent("Feedback zur Website") +
+      "&body=" + encodeURIComponent("Seite: " + window.location.href + "\r\n\r\n");
+  }
   function initFeedback() {
     fetch("/partials/feedback.html?v=" + ASSET_V)
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
@@ -152,13 +159,12 @@
         host.innerHTML = html;
         document.body.appendChild(host);
         var btn = document.getElementById("sgk-feedback-btn");
-        if (btn) btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          // Basis-URL aus dem HTML lesen, Prefill erst hier bauen -> je Seite korrekt
-          var base = btn.getAttribute("href");
-          var url = base + "&" + FEEDBACK_ENTRY + "=" + encodeURIComponent(window.location.href);
-          window.open(url, "_blank", "noopener");
-        });
+        if (btn) {
+          btn.setAttribute("href", feedbackHref());
+          // URL beim Klick erneut lesen (z. B. nach einem #Anker-Sprung), dann läuft
+          // die normale Link-Navigation auf das mailto-Ziel weiter.
+          btn.addEventListener("click", function () { btn.setAttribute("href", feedbackHref()); });
+        }
       })
       .catch(function () {});
   }
@@ -166,7 +172,7 @@
   function run() {
     var slots = document.querySelectorAll("[data-include]");
     for (var i = 0; i < slots.length; i++) inject(slots[i]);
-    initFeedback(); // Staging-Feedback-Widget (vor Livegang entfernen)
+    initFeedback(); // Feedback-Knopf (E-Mail)
   }
 
   if (document.readyState === "loading") {

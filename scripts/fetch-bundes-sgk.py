@@ -91,7 +91,7 @@ def hole_eintraege():
     resp = requests.get(
         URL,
         timeout=TIMEOUT,
-        headers={"User-Agent": "Mozilla/5.0 (compatible; SGK-Thueringen-Feed/1.0; +https://sgkthueringen.de)"},
+        headers={"User-Agent": "Mozilla/5.0 (compatible; SGK-Thueringen-Feed/1.0; +https://sgk-thueringen.de)"},
     )
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")
