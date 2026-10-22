@@ -1,7 +1,7 @@
 name: Bundes-SGK-Feed abrufen
 
 # Holt täglich die drei neuesten Meldungen von bundes-sgk.de/aktuell
-# (scripts/fetch-bundes-sgk.py) und aktualisiert data/bundes-sgk.json.
+# (.github/scripts/fetch-bundes-sgk.py) und aktualisiert data/bundes-sgk.json.
 # Committet nur, wenn sich der Inhalt tatsächlich geändert hat — kein
 # leerer Commit bei unverändertem Stand. Bei Scraping-Fehlern schreibt
 # das Skript nichts (Exit-Code 1), dann bleibt die Datei unangetastet
@@ -29,7 +29,7 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Feed abrufen
-        run: python scripts/fetch-bundes-sgk.py
+        run: python .github/scripts/fetch-bundes-sgk.py
 
       - name: Änderung committen und pushen (nur bei tatsächlicher Änderung)
         run: |

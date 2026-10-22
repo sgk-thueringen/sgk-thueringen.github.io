@@ -57,7 +57,7 @@ import requests
 from bs4 import BeautifulSoup
 
 URL = "https://www.bundes-sgk.de/aktuell"
-OUT_PATH = Path(__file__).resolve().parent.parent / "data" / "bundes-sgk.json"
+OUT_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "bundes-sgk.json"
 TIMEOUT = 20
 MAX_EINTRAEGE = 3
 TEASER_MAXLEN = 200

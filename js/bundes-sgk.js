@@ -6,7 +6,7 @@
    mehreren Seiten (aktuell Startseite und /aktuelles/, siehe dortiges
    Markup), ohne dass diese Datei etwas über die jeweilige Seite wissen
    muss. Die Datei data/bundes-sgk.json wird täglich per GitHub-Actions-
-   Workflow aus bundes-sgk.de/aktuell aktualisiert (scripts/
+   Workflow aus bundes-sgk.de/aktuell aktualisiert (.github/scripts/
    fetch-bundes-sgk.py, .github/workflows/fetch-bundes-sgk.yml) — das
    ist der einzige Ort, der extern mit bundes-sgk.de spricht. Jede Seite,
    die diese Datei einbindet, liest nur die bereits vorhandene lokale
