@@ -6,6 +6,13 @@
    Band gilt: eine gefüllte Liste wird erst ab dem Verleihungstag angezeigt
    (Tagesvergleich per ISO-String, Schlusstag inklusive).
 
+   Zusätzlich schaltet das Skript die datumsabhängigen Blöcke der Seite um
+   (data-jet="bewerbung" / "beendet", siehe Kommentar in
+   jet-foerderpreis/index.html): bis einschließlich "bewerbungsschluss" bleibt
+   der Bewerbungsteil stehen, ab dem Tag danach wird er ausgeblendet und der
+   Block "Die Bewerbungsphase ist beendet" eingeblendet. Umgeschaltet wird nur
+   per hidden, Datum per textContent.
+
    Felder je Preisträger: platz (1–3), name, ort, kurztext, text (ausführlich;
    Absätze durch Leerzeile getrennt), bild (lokaler Pfad unter /assets/,
    optional), bildAlt, bildrechte. Texte werden per textContent eingesetzt
@@ -17,6 +24,34 @@
     var d = new Date();
     function z(n) { return (n < 10 ? "0" : "") + n; }
     return d.getFullYear() + "-" + z(d.getMonth() + 1) + "-" + z(d.getDate());
+  }
+
+  var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
+    "August", "September", "Oktober", "November", "Dezember"];
+
+  function istTag(s) { return typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s); }
+
+  function datumLang(iso) {
+    return parseInt(iso.slice(8, 10), 10) + ". " + MONATE[parseInt(iso.slice(5, 7), 10) - 1] + " " + iso.slice(0, 4);
+  }
+
+  // Bewerbungsteil gegen "Bewerbungsphase beendet" tauschen (nur hidden).
+  function schalteBewerbung(j, heute, hatListe) {
+    if (!istTag(j.bewerbungsschluss) || !istTag(j.verleihung)) return;
+    if (heute <= j.bewerbungsschluss) return;
+    var bewerbung = document.querySelector('[data-jet="bewerbung"]');
+    var beendet = document.querySelector('[data-jet="beendet"]');
+    if (!bewerbung || !beendet) return;
+    var text = heute >= j.verleihung && hatListe ? "preistraeger"
+      : heute > j.verleihung ? "verliehen" : "jury";
+    var absaetze = beendet.querySelectorAll("[data-jet-text]");
+    for (var i = 0; i < absaetze.length; i++) {
+      absaetze[i].hidden = absaetze[i].getAttribute("data-jet-text") !== text;
+    }
+    var daten = beendet.querySelectorAll("[data-jet-datum]");
+    for (var k = 0; k < daten.length; k++) daten[k].textContent = datumLang(j.verleihung);
+    bewerbung.hidden = true;
+    beendet.hidden = false;
   }
 
   function lokalesBild(pfad) {
@@ -40,7 +75,9 @@
       var liste = roh.filter(function (e) {
         return e && typeof e.name === "string" && e.name.trim() !== "";
       }).sort(function (a, b) { return (a.platz || 99) - (b.platz || 99); });
-      if (liste.length === 0 || heuteLokal() < j.verleihung) return;
+      var heute = heuteLokal();
+      schalteBewerbung(j, heute, liste.length > 0);
+      if (liste.length === 0 || heute < j.verleihung) return;
 
       var h = document.getElementById("preistraeger-titel");
       if (h) h.textContent = "Preisträger " + j.verleihung.slice(0, 4);

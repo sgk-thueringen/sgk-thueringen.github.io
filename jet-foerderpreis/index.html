@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="/css/style.css?v=36">
 <script src="/js/include.js?v=8" defer></script>
 <script src="/js/mailto.js" defer></script>
-<script src="/js/jet.js?v=1" defer></script>
+<script src="/js/jet.js?v=2" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -127,6 +127,21 @@
 <p>Alle Teilnehmenden erhalten die Möglichkeit zu einem Besuch im Thüringer Landtag und zu einem gemeinsamen Austausch und einer Diskussion mit SPD-Abgeordneten.</p>
 <p>Denn wir möchten nicht nur Projekte auszeichnen, sondern junge Menschen miteinander vernetzen, ihre Ideen sichtbar machen und gemeinsam über die Zukunft Thüringens sprechen.</p>
 
+<!-- Datumsabhängige Blöcke (js/jet.js schaltet per hidden um, Tageslogik wie
+     renderJetBand() in js/aktuelles.js, Daten aus data/jet.json):
+     - data-jet="bewerbung": sichtbar bis einschließlich Bewerbungsschluss
+       (Abschnitt „Jetzt bewerben!“ mit Icon, Bewerbungsweg, Kontaktzeilen,
+       Fristhinweis „Frist verlängert“, Schlusszeile).
+     - data-jet="beendet": ab dem Tag nach Bewerbungsschluss sichtbar. Davon
+       genau ein Text (data-jet-text): "jury" bis zur Verleihung, "verliehen"
+       ab dem Tag nach der Verleihung ohne Preisträgerliste, "preistraeger"
+       ab dem Verleihungstag bei gefüllter Liste (Verweis auf #preistraeger).
+     - Das Datum steht nicht im Text: <span data-jet-datum> füllt js/jet.js aus
+       data/jet.json (Feld "verleihung").
+     Ohne JavaScript bleibt "bewerbung" stehen, "beendet" bleibt versteckt.
+     Nicht umgeschaltet wird der Satz zur Preisverleihung im Abschnitt „Was
+     könnt ihr gewinnen?“ (fester Text, siehe Kommentar oben). -->
+<div data-jet="bewerbung">
 <h2 id="bewerben">Jetzt bewerben! <!-- Bildrechte: KI-generiert mit Google Gemini im Auftrag der SGK Thüringen (September 2026), Originale im Google-Drive-Ordner ‚JET - Jugendpreis‘. --><img class="jet-icon-inline" src="/assets/jet-foerderpreis/jet-emblem-icon.png" width="160" height="160" alt=""></h2>
 <p>Ihr habt ein Projekt, auf das ihr stolz seid? Ihr habt eine neue Idee ausprobiert, junge Menschen beteiligt oder in eurem Ort etwas bewegt?</p>
 <p>Dann zeigt uns, was ihr macht!</p>
@@ -140,6 +155,14 @@
 <p>An diese Mail könnt ihr euch auch bei Fragen oder Problemen wenden. Gerne stehen wir euch auch über unseren Instagram-Kanal sgk.thueringen zur Verfügung.</p>
 <p><strong>Wir haben die Frist verlängert: Bewerbungsschluss ist jetzt der 10. November 2026.</strong></p>
 <p>Egal, ob großes Projekt oder kleine Idee: Wir wollen sehen, was junge Menschen in Thüringen bewegen!</p>
+</div>
+<div data-jet="beendet" hidden>
+<h2>Die Bewerbungsphase ist beendet</h2>
+<p data-jet-text="jury" hidden>Vielen Dank für eure Bewerbungen! Die Jury sichtet jetzt alle Einsendungen. Die Preisverleihung findet am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau statt.</p>
+<p data-jet-text="verliehen" hidden>Vielen Dank für eure Bewerbungen! Die Preise wurden am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau verliehen. Die Preisträger stellen wir hier in Kürze vor.</p>
+<p data-jet-text="preistraeger" hidden>Vielen Dank für eure Bewerbungen! Die Preise wurden am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau verliehen. Die Preisträger findet ihr oben im Abschnitt <a href="#preistraeger">Preisträger</a>.</p>
+<p>Fragen? Schreibt uns an <a class="mail-obf" data-user="SGK-Thueringen" data-domain="t-online.de" hidden>E-Mail-Adresse</a> oder über unseren Instagram-Kanal sgk.thueringen.</p>
+</div>
 </div>
 </section>
 </main>
