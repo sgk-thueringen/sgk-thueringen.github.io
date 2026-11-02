@@ -11,7 +11,9 @@
    jet-foerderpreis/index.html): bis einschließlich "bewerbungsschluss" bleibt
    der Bewerbungsteil stehen, ab dem Tag danach wird er ausgeblendet und der
    Block "Die Bewerbungsphase ist beendet" eingeblendet. Umgeschaltet wird nur
-   per hidden, Datum per textContent.
+   per hidden, Datum per textContent. Ebenso der Satz zur Preisverleihung
+   (data-jet-verleihung="bevor" / "danach"): ab dem Tag nach "verleihung" in der
+   Vergangenheitsform.
 
    Felder je Preisträger: platz (1–3), name, ort, kurztext, text (ausführlich;
    Absätze durch Leerzeile getrennt), bild (lokaler Pfad unter /assets/,
@@ -48,10 +50,23 @@
     for (var i = 0; i < absaetze.length; i++) {
       absaetze[i].hidden = absaetze[i].getAttribute("data-jet-text") !== text;
     }
-    var daten = beendet.querySelectorAll("[data-jet-datum]");
-    for (var k = 0; k < daten.length; k++) daten[k].textContent = datumLang(j.verleihung);
     bewerbung.hidden = true;
     beendet.hidden = false;
+  }
+
+  // Satz zur Preisverleihung (Abschnitt "Was könnt ihr gewinnen?"): Datum aus der
+  // JSON, ab dem Tag nach der Verleihung Vergangenheitsform. Läuft unabhängig
+  // vom Bewerbungsschluss.
+  function schalteVerleihung(j, heute) {
+    if (!istTag(j.verleihung)) return;
+    var daten = document.querySelectorAll("[data-jet-datum]");
+    for (var k = 0; k < daten.length; k++) daten[k].textContent = datumLang(j.verleihung);
+    if (heute <= j.verleihung) return;
+    var bevor = document.querySelector('[data-jet-verleihung="bevor"]');
+    var danach = document.querySelector('[data-jet-verleihung="danach"]');
+    if (!bevor || !danach) return;
+    bevor.hidden = true;
+    danach.hidden = false;
   }
 
   function lokalesBild(pfad) {
@@ -76,6 +91,7 @@
         return e && typeof e.name === "string" && e.name.trim() !== "";
       }).sort(function (a, b) { return (a.platz || 99) - (b.platz || 99); });
       var heute = heuteLokal();
+      schalteVerleihung(j, heute);
       schalteBewerbung(j, heute, liste.length > 0);
       if (liste.length === 0 || heute < j.verleihung) return;
 

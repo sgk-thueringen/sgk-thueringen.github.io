@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="/css/style.css?v=36">
 <script src="/js/include.js?v=8" defer></script>
 <script src="/js/mailto.js" defer></script>
-<script src="/js/jet.js?v=2" defer></script>
+<script src="/js/jet.js?v=3" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -120,7 +120,8 @@
 </ul>
 <p>+ kleine Überraschung</p>
 <p>Mit dem Preisgeld könnt ihr eure Projekte weiterentwickeln, neue Ideen umsetzen oder weitere Angebote für junge Menschen schaffen.</p>
-<p>Die Preisverleihung wird im Rahmen des Kommunalpolitischen Empfangs am 20. November 2026 in Ilmenau stattfinden.</p>
+<p data-jet-verleihung="bevor">Die Preisverleihung wird im Rahmen des Kommunalpolitischen Empfangs am <span data-jet-datum>20. November 2026</span> in Ilmenau stattfinden.</p>
+<p data-jet-verleihung="danach" hidden>Die Preisverleihung fand am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau statt.</p>
 
 <h2>Und auch wenn ihr nicht gewinnt …</h2>
 <p>Dabei sein lohnt sich trotzdem!</p>
@@ -139,8 +140,11 @@
      - Das Datum steht nicht im Text: <span data-jet-datum> füllt js/jet.js aus
        data/jet.json (Feld "verleihung").
      Ohne JavaScript bleibt "bewerbung" stehen, "beendet" bleibt versteckt.
-     Nicht umgeschaltet wird der Satz zur Preisverleihung im Abschnitt „Was
-     könnt ihr gewinnen?“ (fester Text, siehe Kommentar oben). -->
+     - data-jet-verleihung="bevor" / "danach" (Abschnitt „Was könnt ihr
+       gewinnen?“, Satz zur Preisverleihung): "bevor" bis einschließlich
+       Verleihungstag, "danach" (Vergangenheitsform) ab dem Tag danach. Datum
+       ebenfalls per <span data-jet-datum> aus data/jet.json; der Text in
+       "bevor" ist zugleich der Fallback ohne JavaScript. -->
 <div data-jet="bewerbung">
 <h2 id="bewerben">Jetzt bewerben! <!-- Bildrechte: KI-generiert mit Google Gemini im Auftrag der SGK Thüringen (September 2026), Originale im Google-Drive-Ordner ‚JET - Jugendpreis‘. --><img class="jet-icon-inline" src="/assets/jet-foerderpreis/jet-emblem-icon.png" width="160" height="160" alt=""></h2>
 <p>Ihr habt ein Projekt, auf das ihr stolz seid? Ihr habt eine neue Idee ausprobiert, junge Menschen beteiligt oder in eurem Ort etwas bewegt?</p>
