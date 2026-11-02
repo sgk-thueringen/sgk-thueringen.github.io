@@ -209,6 +209,18 @@
         var titel = document.createElement("h2");
         titel.className = "jet-band__titel";
         titel.textContent = "Förderpreis Junges Engagement Thüringen – für Kinder- und Jugendbeteiligung";
+        // Düsenjet-Icon als Akzent beim Titel (dekorativ, alt=""). Größe über
+        // width/height gesetzt, damit es keinen Layout-Sprung gibt; Darstellung
+        // über .jet-icon-inline (css/style.css).
+        // Bildrechte: KI-generiert mit Google Gemini im Auftrag der SGK Thüringen (September 2026), Originale im Google-Drive-Ordner ‚JET - Jugendpreis‘.
+        var icon = document.createElement("img");
+        icon.className = "jet-icon-inline";
+        icon.src = "/assets/jet-foerderpreis/jet-emblem-icon.png";
+        icon.width = 160;
+        icon.height = 160;
+        icon.alt = "";
+        titel.appendChild(document.createTextNode(" "));
+        titel.appendChild(icon);
 
         var verl = datumLang(j.verleihung);
         var wann = phase1

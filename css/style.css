@@ -690,6 +690,16 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .jet-band__aktionen a:not(.btn):hover { text-decoration: none; }
 /* Mobil: Preiszeile ausblenden, Band bleibt kompakt */
 @media (max-width: 48rem) { .jet-band__preise { display: none; } }
+/* Symbolbild im Band: mobil ausgeblendet (Band bleibt kompakt), ab 48 rem
+   rechts neben dem Text. Feste Spaltenbreite + width/height am Bild: kein
+   Layout-Sprung. Ecken wie .content-bild. */
+.jet-band__bild { display: none; margin: 0; }
+@media (min-width: 48.0625rem) {
+  .jet-band__layout { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: 1rem 2rem; align-items: center; }
+  .jet-band__bild { display: block; }
+  .jet-band__bild img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: .5rem; }
+  .jet-band__bild figcaption { margin-top: .35rem; color: var(--grau); font-size: .85rem; }
+}
 .jet-skeleton { background: var(--linie); color: transparent; border-radius: .25rem; }
 .jet-band__titel.jet-skeleton { width: min(30rem, 90%); }
 .jet-band__wannwo.jet-skeleton { width: min(24rem, 85%); }
