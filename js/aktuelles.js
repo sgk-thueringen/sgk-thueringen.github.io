@@ -187,8 +187,33 @@
   }
 
   // JET-Band (Startseite, unter dem Termin-Banner), gesteuert aus data/jet.json.
-  // Phase 1: heute <= bewerbungsschluss; Phase 2: bis einschließlich verleihung;
-  // danach hidden. Tagesvergleich per ISO-String, Schlusstag inklusive.
+  // Das Band wird NIE ausgeblendet. Vier Phasen, Tagesvergleich per ISO-String,
+  // Schlusstage jeweils inklusive:
+  //   Phase 1: heute <= bewerbungsschluss        Bewerbung läuft
+  //   Phase 2: heute <= verleihung               Bewerbungsphase beendet, Verleihung steht an
+  //   Phase 3: nach der Verleihung, "preistraeger" leer
+  //                                              "verliehen, Preisträger folgen" (Symbolbild bleibt)
+  //   Phase 4: ab dem Verleihungstag, "preistraeger" gefüllt
+  //                                              "Das sind die Preisträger" (Foto/Icon-Platzhalter je Eintrag)
+  // Vor dem Verleihungstag wird eine gefüllte Liste ignoriert (kein Vorab-Zeigen).
+  // Das Symbolbild steht im HTML AUSSERHALB von #home-jet-inhalt (wird hier nicht
+  // überschrieben); in Phase 4 blendet .jet-band--preistraeger es aus.
+  // Datenfelder je Preisträger: platz (1–3), name, ort, kurztext, text (nur JET-Seite),
+  // bild (lokaler Pfad unter /assets/, optional), bildAlt, bildrechte. Texte werden
+  // per textContent eingesetzt (kein innerHTML); Bilder nur von der eigenen Domain.
+  var MEDAILLE = { 1: "🥇", 2: "🥈", 3: "🥉" };
+
+  function preistraegerListe(j) {
+    var roh = Array.isArray(j.preistraeger) ? j.preistraeger : [];
+    return roh.filter(function (e) {
+      return e && typeof e.name === "string" && e.name.trim() !== "";
+    }).sort(function (a, b) { return (a.platz || 99) - (b.platz || 99); });
+  }
+
+  function lokalesBild(pfad) {
+    return typeof pfad === "string" && /^\/assets\/[A-Za-z0-9_\-\/\.]+$/.test(pfad) && pfad.indexOf("..") < 0;
+  }
+
   function renderJetBand() {
     var band = document.getElementById("home-jet-band");
     var inhalt = document.getElementById("home-jet-inhalt");
@@ -197,18 +222,23 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) {
         var heute = heuteLokal();
-        var phase1 = heute <= j.bewerbungsschluss;
-        if (!phase1 && heute > j.verleihung) { band.hidden = true; return; }
+        var liste = preistraegerListe(j);
+        var phase4 = heute >= j.verleihung && liste.length > 0;
+        var phase1 = !phase4 && heute <= j.bewerbungsschluss;
+        var phase3 = !phase4 && heute > j.verleihung;
+        band.classList.toggle("jet-band--preistraeger", phase4);
 
-        function p(klasse, text) {
-          var e = document.createElement("p");
-          e.className = klasse;
-          e.textContent = text;
+        function el(tag, klasse, text) {
+          var e = document.createElement(tag);
+          if (klasse) e.className = klasse;
+          if (text !== undefined) e.textContent = text;
           return e;
         }
-        var titel = document.createElement("h2");
-        titel.className = "jet-band__titel";
-        titel.textContent = "Förderpreis Junges Engagement Thüringen – für Kinder- und Jugendbeteiligung";
+        var verl = datumLang(j.verleihung);
+
+        var titel = el("h2", "jet-band__titel",
+          phase4 ? "Das sind die Preisträger " + j.verleihung.slice(0, 4)
+                 : "Förderpreis Junges Engagement Thüringen – für Kinder- und Jugendbeteiligung");
         // Düsenjet-Icon als Akzent beim Titel (dekorativ, alt=""). Größe über
         // width/height gesetzt, damit es keinen Layout-Sprung gibt; Darstellung
         // über .jet-icon-inline (css/style.css).
@@ -222,31 +252,70 @@
         titel.appendChild(document.createTextNode(" "));
         titel.appendChild(icon);
 
-        var verl = datumLang(j.verleihung);
-        var wann = phase1
-          ? "Bewerbung bis " + datumLang(j.bewerbungsschluss) + " · Verleihung " + verl
-          : "Bewerbungsphase beendet · Preisverleihung " + verl;
-        var wo = phase1 ? "Verleihung in Ilmenau" : "Ilmenau";
-
-        var aktionen = document.createElement("p");
-        aktionen.className = "jet-band__aktionen";
+        var aktionen = el("p", "jet-band__aktionen");
         if (phase1) {
-          var b = document.createElement("a");
-          b.className = "btn";
+          var b = el("a", "btn", "Jetzt bewerben");
           b.href = "/jet-foerderpreis/#bewerben";
-          b.textContent = "Jetzt bewerben";
           aktionen.appendChild(b);
         }
-        var alle = document.createElement("a");
-        alle.href = "/jet-foerderpreis/";
-        alle.textContent = "Alle Infos";
-        aktionen.appendChild(alle);
+        if (phase4) {
+          var pb = el("a", "btn", "Projekte ansehen");
+          pb.href = "/jet-foerderpreis/#preistraeger";
+          aktionen.appendChild(pb);
+        } else {
+          var alle = el("a", null, "Alle Infos");
+          alle.href = "/jet-foerderpreis/";
+          aktionen.appendChild(alle);
+        }
 
         inhalt.innerHTML = "";
         inhalt.appendChild(titel);
-        inhalt.appendChild(p("jet-band__wannwo", wann));
-        inhalt.appendChild(p("jet-band__wannwo", wo));
-        if (phase1) inhalt.appendChild(p("jet-band__preise", "Preisgelder: 1.500 € · 1.000 € · 500 €"));
+
+        if (phase4) {
+          var ul = el("ul", "jet-preistraeger");
+          liste.forEach(function (e) {
+            var li = el("li", "jet-preis");
+            var bildBox = el("div", "jet-preis__bild");
+            var img = document.createElement("img");
+            img.loading = "lazy";
+            if (lokalesBild(e.bild)) {
+              img.src = e.bild;
+              img.alt = typeof e.bildAlt === "string" ? e.bildAlt : "";
+            } else {
+              // Platzhalter ohne Foto: Düsenjet-Icon
+              bildBox.className += " jet-preis__bild--platzhalter";
+              img.src = "/assets/jet-foerderpreis/jet-emblem-icon.png";
+              img.alt = "";
+            }
+            bildBox.appendChild(img);
+            li.appendChild(bildBox);
+
+            var text = el("div", "jet-preis__text");
+            var platz = el("p", "jet-preis__platz");
+            var med = el("span", null, MEDAILLE[e.platz] || "");
+            med.setAttribute("aria-hidden", "true");
+            platz.appendChild(med);
+            platz.appendChild(document.createTextNode((MEDAILLE[e.platz] ? " " : "") + (e.platz ? e.platz + ". Platz" : "Preisträger")));
+            text.appendChild(platz);
+            text.appendChild(el("h3", "jet-preis__name", e.name));
+            if (e.ort) text.appendChild(el("p", "jet-preis__ort", e.ort));
+            if (e.kurztext) text.appendChild(el("p", "jet-preis__kurz", e.kurztext));
+            if (e.bildrechte && lokalesBild(e.bild)) text.appendChild(el("p", "jet-preis__credit", e.bildrechte));
+            li.appendChild(text);
+            ul.appendChild(li);
+          });
+          inhalt.appendChild(ul);
+        } else if (phase3) {
+          inhalt.appendChild(el("p", "jet-band__text",
+            "Die Preise wurden am " + verl + " in Ilmenau verliehen – die Preisträger stellen wir hier in Kürze vor."));
+        } else {
+          var wann = "Bewerbung bis " + datumLang(j.bewerbungsschluss) + " · Verleihung " + verl;
+          var wo = "Verleihung in Ilmenau";
+          if (!phase1) { wann = "Bewerbungsphase beendet · Preisverleihung " + verl; wo = "Ilmenau"; }
+          inhalt.appendChild(el("p", "jet-band__wannwo", wann));
+          inhalt.appendChild(el("p", "jet-band__wannwo", wo));
+          if (phase1) inhalt.appendChild(el("p", "jet-band__preise", "Preisgelder: 1.500 € · 1.000 € · 500 €"));
+        }
         inhalt.appendChild(aktionen);
       })
       .catch(function () {

@@ -704,6 +704,38 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .jet-band__titel.jet-skeleton { width: min(30rem, 90%); }
 .jet-band__wannwo.jet-skeleton { width: min(24rem, 85%); }
 .jet-band .btn.jet-skeleton { width: 9rem; }
+.jet-band__text { margin: 0 0 .25rem; max-width: none; }
+
+/* JET-Band Phase 4 (Preisträger): Symbolbild entfällt, Karten statt Text.
+   Mobil einspaltig und kompakt (Kurztext und Bildnachweis ausgeblendet),
+   ab 48 rem Raster. Bildfläche mit festem Seitenverhältnis: kein Layout-Sprung,
+   auch wenn das Foto später lädt. Farben nur aus den Variablen. */
+.jet-band--preistraeger .jet-band__layout { display: block; }
+.jet-band--preistraeger .jet-band__bild { display: none; }
+.jet-preistraeger { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.jet-preis { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .75rem; align-items: center; background: var(--weiss); border: 1px solid var(--linie); border-radius: .5rem; overflow: hidden; }
+.jet-preis__bild { aspect-ratio: 1 / 1; background: var(--off-white); display: flex; align-items: center; justify-content: center; }
+.jet-preis__bild img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.jet-preis__bild--platzhalter img { width: 3.5rem; height: auto; object-fit: contain; }
+.jet-preis__text { padding: .5rem .75rem .5rem 0; }
+.jet-preis__platz { margin: 0; font-family: var(--font-titel); font-weight: 700; font-size: .95rem; color: var(--blau); }
+.jet-preis h3.jet-preis__name { margin: .1rem 0 0; font-size: 1.1rem; color: var(--ink); }
+.jet-preis__ort { margin: 0; color: var(--grau); font-size: .95rem; }
+.jet-preis__kurz { display: none; margin: .35rem 0 0; font-size: .95rem; }
+.jet-preis__credit { display: none; margin: .35rem 0 0; color: var(--grau); font-size: .8rem; }
+@media (min-width: 48.0625rem) {
+  .jet-preistraeger { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .jet-preis { display: block; }
+  .jet-preis__bild { aspect-ratio: 3 / 2; }
+  .jet-preis__text { padding: .75rem 1rem 1rem; }
+  .jet-preis__kurz, .jet-preis__credit { display: block; }
+}
+
+/* JET-Seite: Abschnitt „Preisträger“ (js/jet.js, aus data/jet.json) */
+#preistraeger { margin: 2rem 0; }
+#preistraeger .preistraeger__eintrag { margin: 0 0 2rem; }
+#preistraeger h3 { margin-bottom: .25rem; }
+#preistraeger .preistraeger__ort { margin: 0 0 .5rem; color: var(--grau); }
 
 /* Karten-Raster für Übersicht */
 .raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.25rem; }
