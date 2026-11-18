@@ -31,6 +31,8 @@
   --weiss: #FFFFFF;
   --off-white: #F4F4F6;
   --linie: #D9D9DE;
+  --rot-tint: #FDEAEA;    /* Hintergrund Icon-Badges (JET-Bewerbungen) */
+  --blau-tint: #E8ECF6;   /* dito, abwechselnd mit Rot-Tint */
 
   --font-text: "Source Sans 3", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --font-titel: "Libre Franklin", var(--font-text);
@@ -364,6 +366,17 @@ a:hover { text-decoration: none; }
    eigener Hintergrund/Rahmen nötig (anders als .content-bild-Fotos). */
 .jet-banner { display: block; width: 100%; max-width: 26rem; height: auto; margin: 0 0 1.5rem; }
 .jet-icon-inline { display: inline-block; height: 1.3em; width: auto; vertical-align: -.2em; margin-left: .4rem; }
+
+/* Runde Icon-Badges über den Bewerbungskarten auf /jet-jugendpreis/: inline-SVG,
+   rein dekorativ (aria-hidden). Schrumpft proportional (min. 80px, max. 112px). */
+.jet-badge {
+  display: flex; align-items: center; justify-content: center;
+  width: clamp(80px, 28vw, 112px); aspect-ratio: 1; border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+.jet-badge--rot { background: var(--rot-tint); }
+.jet-badge--blau { background: var(--blau-tint); }
+.jet-badge svg { width: 68%; height: auto; display: block; }
 
 /* Entwurf-/Warnhinweis — nicht übersehbar (roter Rahmen, Off-White) */
 .entwurf-box {
