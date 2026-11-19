@@ -17,12 +17,10 @@
 
   var GLAEUBIGER_ID = "DE62ZZZ0000966525";
 
-  // Kennung der angezeigten Mandatstext-Fassung (geht als sepa_text_version ans Backend,
-  // erlaubt: A–Z a–z 0–9 . _ -, max. 40 Zeichen).
-  // TODO André: Der Wortlaut aus dem Papierantrag Seite 2 liegt dem Projekt nicht vor (siehe
-  // MANDATSTEXT unten). Bis dahin trägt die Kennung den Zusatz TODO. Nach dem Einfügen des
-  // Wortlauts hier eine echte Kennung setzen, z. B. das Datum der Freigabe.
-  var SEPA_TEXT_VERSION = "TODO-Papierantrag-Seite2";
+  // Kennung der angezeigten Mandatstext-Fassung (geht als sepa_text_version ans Backend; das Backend
+  // kennt nur Kennungen aus Validator::SEPA_TEXT_VERSIONEN). Bei Änderung des Wortlauts hier UND im Backend
+  // eine neue Kennung eintragen.
+  var SEPA_TEXT_VERSION = "2026-11-19";
 
   // Grenzen laut Backend (lib/Beitrag.php). MAX_CENT: Obergrenze für frei gewählte Beiträge.
   var MAX_CENT = 100000;
@@ -42,29 +40,29 @@
     ortsteil:            { cent: 300,  label: "Ortsteilrat/Ortsbeirat", bund: true },
     sachkundig:          { cent: 300,  label: "Sachkundige Bürgerin / sachkundiger Bürger", bund: true },
     unternehmensgremium: { cent: 300,  label: "Gremium eines kommunalen Unternehmens", bund: true },
+    uebrige:             { cent: 300,  label: "Übrige ordentliche Mitglieder (z. B. Ortsteilrat, sachkundige Bürger:innen)", bund: true },
     foerdernd:           { cent: 750,  label: "Fördernde Mitgliedschaft", bund: false },
     junior:              { cent: 150,  label: "Juniormitgliedschaft (NachwuchsAkademie)", bund: false }
   };
 
-  // TODO André (Backend): Für „übrige ordentliche Mitglieder“ gibt es im Backend keinen eigenen
-  // Kategorie-Schlüssel. Vorläufig wird "sachkundig" (3,00 €, ordentlich) gesendet; die genaue
-  // Angabe steht in funktion_detail.
-  var UEBRIGE_KEY = "sachkundig";
+  // Kategorie-Schlüssel für „übrige ordentliche Mitglieder“ (eigener Schlüssel im Backend seit 19.11.2026).
+  var UEBRIGE_KEY = "uebrige";
 
   // Adresse zerlegt, damit sie nicht als vollständiger String im Quelltext steht.
   var KONTAKT = "info" + "@" + "sgk-thueringen.de";
 
-  // TODO André: Wortlaut des SEPA-Lastschriftmandats aus dem Papierantrag Seite 2 (liegt nicht im
-  // Projekt). Absätze als Liste eintragen; solange das Feld leer ist, erscheint ein Platzhalter.
-  var MANDATSTEXT = [];
+  // Wortlaut des SEPA-Lastschriftmandats, übernommen aus dem Papierantrag Seite 2 (nicht ändern).
+  var MANDATSTEXT = [
+    "Ich ermächtige die Sozialdemokratische Gemeinschaft für Kommunalpolitik im Freistaat Thüringen e. V., den Mitgliedsbeitrag quartalsweise im Voraus von meinem Konto mittels SEPA-Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von der SGK Thüringen auf mein Konto gezogenen Lastschriften einzulösen.",
+    "Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen. Die Höhe des Beitrags ergibt sich aus der Beitragsordnung der SGK Thüringen in der jeweils geltenden Fassung und der gewählten Kategorie. Ändert die Mitgliederversammlung die Beiträge, gilt dieses Mandat auch für den geänderten Betrag."
+  ];
 
-  // TODO André: Wortlaut der Erklärung zu Grundsätzen/Aufnahmeantrag aus dem Papierantrag. Der Text
-  // erscheint neben dem Pflicht-Häkchen auf Schritt 5; solange leer, steht dort ein Platzhalter.
-  var GRUNDSAETZE_TEXT = "";
+  // Wortlaut der Erklärung neben dem Pflicht-Häkchen auf Schritt 5, aus dem Papierantrag (nicht ändern).
+  var GRUNDSAETZE_TEXT = "Ich fühle mich den sozialdemokratischen Grundsätzen in der Kommunalpolitik verbunden und beantrage die Aufnahme in die SGK Thüringen.";
 
   // Backend-Feldname → Schritt, auf dem das Feld steht (für Fehlermeldungen vom Server).
   var SCHRITT_VON_FELD = {
-    kategorie: 1, funktion_detail: 3, beitrag_gewaehlt: 2,
+    kategorie: 1, funktion_detail: 3, beitrag_gewaehlt: 2, anrede: 3, titel: 3, volljaehrig: 3,
     vorname: 3, nachname: 3, strasse: 3, plz: 3, ort: 3, email: 3, telefon: 3, geburtsdatum: 3, kommune_gremium: 3,
     kontoinhaber: 4, iban: 4, sepa_zustimmung: 4, sepa_text_version: 4, pflichterklaerung: 5
   };
@@ -79,7 +77,7 @@
       schritt: 1, unter: null,
       kategorie: null, funktionDetail: "",
       d: {
-        beitrag_gewaehlt: "", vorname: "", nachname: "", strasse: "", plz: "", ort: "", email: "", telefon: "",
+        anrede: "", titel: "", beitrag_gewaehlt: "", vorname: "", nachname: "", strasse: "", plz: "", ort: "", email: "", telefon: "",
         kommune_gremium: "", geburtsdatum: "", volljaehrig: false,
         kontoinhaber: "", iban: "", sepa_zustimmung: false,
         pflichterklaerung: false, einladungen_email: false, hp: ""
@@ -225,6 +223,25 @@
       h("label", { for: id }, inhalt),
       feldFehler(name)
     ]);
+  }
+
+  // Auswahlgruppe (Optionsfelder). Das erste Feld trägt die ID "mw-<name>" (Ziel für Fehlerlinks).
+  function radioFeld(name, legende, werte) {
+    var fs = h("fieldset", { class: "feld feld-radio", "aria-describedby": beschreibung(name) }, [h("legend", null, [legende])]);
+    werte.forEach(function (w, i) {
+      var id = i === 0 ? "mw-" + name : "mw-" + name + "-" + (i + 1);
+      fs.appendChild(h("div", { class: "radio-zeile" }, [
+        h("input", {
+          id: id, type: "radio", name: name, value: w, checked: state.d[name] === w ? true : false,
+          "aria-invalid": state.fehler[name] ? "true" : false,
+          onchange: function (ev) { if (ev.target.checked) { state.d[name] = w; loescheFehler(name); } }
+        }),
+        h("label", { for: id }, [w])
+      ]));
+    });
+    var f = feldFehler(name);
+    if (f) fs.appendChild(f);
+    return fs;
   }
 
   function platzhalter(text) { return h("p", { class: "platzhalter-inline" }, [text]); }
@@ -405,6 +422,8 @@
     var form = h("form", { novalidate: true, onsubmit: function (ev) {
       ev.preventDefault();
       var d = state.d, e = {};
+      if (!d.anrede) e.anrede = "Bitte wähle eine Anrede aus: Frau, Herr oder ohne Angabe.";
+      if (d.titel.trim().length > 40) e.titel = "Der Titel darf höchstens 40 Zeichen lang sein.";
       if (!d.vorname.trim()) e.vorname = "Bitte gib deinen Vornamen an.";
       if (!d.nachname.trim()) e.nachname = "Bitte gib deinen Nachnamen an.";
       if (!d.strasse.trim()) e.strasse = "Bitte gib deine Straße und Hausnummer an.";
@@ -426,6 +445,8 @@
     form.appendChild(h("p", { class: "frage-unter" }, ["Felder ohne den Zusatz „freiwillig“ sind Pflichtfelder."]));
     var fu = fehlerUebersicht(); if (fu) form.appendChild(fu);
 
+    form.appendChild(radioFeld("anrede", "Anrede", ["Frau", "Herr", "ohne Angabe"]));
+    form.appendChild(textFeld("titel", "Titel", { frei: true, maxlength: 40, autocomplete: "honorific-prefix", hilfeId: "mw-titel-hilfe", hilfe: "Zum Beispiel Dr." }));
     form.appendChild(textFeld("vorname", "Vorname", { autocomplete: "given-name", maxlength: 80 }));
     form.appendChild(textFeld("nachname", "Nachname", { autocomplete: "family-name", maxlength: 80 }));
     form.appendChild(textFeld("strasse", "Straße und Hausnummer", { autocomplete: "street-address", maxlength: 120 }));
@@ -513,7 +534,7 @@
       ["Mitgliedschaft", k.label],
       ["Beitrag", euro(gew) + " pro Monat" + (gew > k.cent ? " (höher gewählt)" : " (Mindestbeitrag)")],
       ["Einzug", euro(gew * 3) + " je Quartal, quartalsweise im Voraus"],
-      ["Name", d.vorname.trim() + " " + d.nachname.trim()],
+      ["Name", [d.anrede && d.anrede !== "ohne Angabe" ? d.anrede : "", d.titel.trim(), d.vorname.trim(), d.nachname.trim()].filter(Boolean).join(" ")],
       ["Anschrift", d.strasse.trim() + ", " + d.plz.trim() + " " + d.ort.trim()],
       ["E-Mail", d.email.trim()]
     ];
@@ -535,7 +556,8 @@
     form.appendChild(h("p", { class: "feld-hinweis" }, [
       "Hinweise zur Verarbeitung deiner Daten stehen in der ", h("a", { href: "/datenschutz/#beitrittsformular" }, ["Datenschutzerklärung"]), "."
     ]));
-    form.appendChild(haken("einladungen_email", ["Ich möchte Einladungen zu Veranstaltungen per E-Mail erhalten (freiwillig)."]));
+    form.appendChild(haken("einladungen_email", ["Ich bin einverstanden, Einladungen zu Veranstaltungen per E-Mail zu erhalten."]));
+    form.appendChild(h("p", { class: "feld-hinweis" }, ["Dieses Häkchen ist freiwillig."]));
 
     form.appendChild(h("div", { class: "hinweis" }, [
       h("p", null, ["Über die Aufnahme entscheidet der Vorstand (§ 3 Abs. 2 Satzung). Die Mitgliedschaft entsteht erst mit diesem Beschluss."])
@@ -567,6 +589,9 @@
     var p = {
       kategorie: state.kategorie,
       funktion_detail: state.funktionDetail,
+      anrede: d.anrede,
+      titel: d.titel.trim(),
+      volljaehrig: d.volljaehrig === true,
       vorname: d.vorname.trim(), nachname: d.nachname.trim(),
       email: d.email.trim(), strasse: d.strasse.trim(), plz: d.plz.trim(), ort: d.ort.trim(),
       telefon: d.telefon.trim(),
