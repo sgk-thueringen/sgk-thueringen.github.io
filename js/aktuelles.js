@@ -182,9 +182,10 @@
   // Termin-Banner (Startseite, direkt nach dem Hero): zeigt den zeitlich
   // nächsten anstehenden Termin (datum >= heute, ISO-String-Vergleich reicht
   // bei Format JJJJ-MM-TT). Existiert keiner, bleibt der Block ausgeblendet —
-  // #home-termin-banner startet sichtbar mit Skelett (siehe HTML) und wird
-  // hier bei Bedarf per hidden=true wieder versteckt, analog zu renderHome()
-  // oben und render() in bundes-sgk.js.
+  // #home-termin-banner startet ausgeblendet (hidden, siehe HTML; kein reservierter
+  // Platz, kein CLS im Normalfall ohne Termin) und wird hier nur bei einem
+  // kommenden Termin eingeblendet (hidden = false). Bekannter Kompromiss: Mit
+  // Termin erscheint er nach dem Laden und schiebt die Fokus-Kachel nach unten.
   function renderTerminBanner() {
     var banner = document.getElementById("home-termin-banner");
     var inhalt = document.getElementById("home-termin-inhalt");
@@ -202,7 +203,7 @@
         // aufsteigend sortiert — der zeitlich nächste zuerst (Gegenrichtung zu
         // sortiertNeuesteZuerst() oben, die für Rückblick-Listen neueste zuerst will)
         kommende.sort(function (a, b) { return (a.datum < b.datum) ? -1 : (a.datum > b.datum) ? 1 : 0; });
-        if (kommende.length === 0) { banner.hidden = true; return; }
+        if (kommende.length === 0) { return; }   // Banner bleibt ausgeblendet
         var termin = kommende[0];
 
         var titel = document.createElement("h2");
@@ -262,6 +263,7 @@
           aktionen.appendChild(mehr);
         }
 
+        banner.hidden = false;   // erst jetzt einblenden, dann befüllen
         inhalt.innerHTML = "";
         if (datum) inhalt.appendChild(datum);
         inhalt.appendChild(titel);
@@ -270,7 +272,7 @@
         inhalt.appendChild(aktionen);
       })
       .catch(function () {
-        // Fallback: Skelett bleibt sichtbar (siehe HTML) — wie bei renderHome() oben
+        // Fallback: Banner bleibt ausgeblendet (siehe HTML)
       });
   }
 

@@ -702,16 +702,6 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-banner a:focus-visible,
 .termin-banner .btn--invers:focus-visible { outline-color: var(--weiss); }
 
-/* Skelett-Platzhalter im Banner: dieselbe Technik wie .beitrag-skeleton weiter
-   unten (Text unsichtbar, Balken in Formfarbe), nur an den dunklen Hintergrund
-   angepasst (halbtransparentes Weiß statt --linie). */
-.termin-skeleton { background: rgba(255, 255, 255, .25); color: transparent; border-radius: .25rem; }
-.termin-banner__datum.termin-skeleton { width: 8rem; }
-.termin-banner__titel.termin-skeleton { width: min(28rem, 80%); }
-.termin-banner__wannwo.termin-skeleton { width: min(18rem, 70%); }
-.termin-banner__text.termin-skeleton { width: min(32rem, 95%); }
-.btn--invers.termin-skeleton { width: 10rem; }
-
 /* ---- Im Fokus (Startseite, direkt unter der kompakten Hero-Zeile) ----
    Zwei gleich hohe, statische Kacheln (keine Animation, kein Karussell).
    Kachel 1 (#fokus-kachel) füllt js/fokus.js aus data/fokus.json, Kachel 2
