@@ -136,3 +136,45 @@
   .assistent, .ergebniskarte { padding: 1rem; }
   .option { padding: .9rem 1rem; }
 }
+
+/* ---- Digitaler Antrag (Schritte 1–6) --------------------------------- */
+.assistent h2:focus-visible, .fehler-uebersicht:focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
+
+.schritt-navi { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: center; }
+.schritt-navi .assistent-back { margin-top: 0; }
+
+.fehler-uebersicht { border: 2px solid var(--rot); border-radius: .5rem; background: var(--weiss); padding: .8rem 1rem; margin: 0 0 1.25rem; }
+.fehler-uebersicht__titel { margin: 0 0 .4rem; font-weight: 700; color: #b30000; }
+.fehler-uebersicht ul { margin: 0; padding-left: 1.2rem; }
+.fehler-uebersicht a { color: #b30000; }
+
+/* Beitragskarte (Schritt 2) */
+.beitrag-karte { border: 1px solid var(--linie); border-left: 6px solid var(--blau); border-radius: .5rem; padding: 1rem 1.15rem; margin: 1rem 0; }
+.beitrag-karte p { margin: 0 0 .3rem; }
+.beitrag-zahl { font-size: 1.5rem; font-weight: 700; color: var(--blau); }
+.beitrag-einzug { font-weight: 600; }
+.beitrag-quelle { color: var(--grau); font-size: .95rem; }
+
+/* Häkchen: Kästchen und Beschriftung nebeneinander, große Tap-Fläche */
+.feld-check { display: grid; grid-template-columns: 1.6rem 1fr; gap: .15rem .75rem; align-items: start; }
+.feld-check input[type="checkbox"] { width: 1.6rem; min-height: 0; height: 1.6rem; margin: .1rem 0 0; accent-color: var(--blau); }
+.feld-check label { margin: 0; font-weight: 400; }
+.feld-check .feld-fehler { grid-column: 2; }
+
+/* IBAN-Live-Prüfung und Mandat (Schritt 4) */
+.iban-status { min-height: 1.4em; margin: -.6rem 0 1rem; font-size: .95rem; color: #b30000; font-weight: 600; }
+.iban-status--ok { color: #0b6b2e; }
+.mandat { border: 1px solid var(--linie); border-radius: .5rem; padding: 1rem 1.15rem; margin: 1.25rem 0 1rem; background: var(--off-white); }
+.mandat h3 { font-size: 1.05rem; margin: 0 0 .5rem; }
+.mandat p { margin: 0 0 .6rem; }
+.mandat-daten { margin: 0 0 1.25rem; }
+.mandat-daten dt { font-weight: 700; margin-top: .6rem; }
+.mandat-daten dd { margin: .1rem 0 0; }
+
+/* Zusammenfassung (Schritt 5) */
+.zusammenfassung { margin: 0 0 1.25rem; border: 1px solid var(--linie); border-radius: .5rem; padding: .25rem 1rem .9rem; }
+.zusammenfassung dt { font-weight: 700; margin-top: .75rem; color: var(--grau); font-size: .92rem; }
+.zusammenfassung dd { margin: .1rem 0 0; overflow-wrap: anywhere; }
+
+/* Honeypot: aus dem sichtbaren Bereich geschoben, nicht per display:none (damit Bots ihn weiter füllen) */
+.mw-hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }

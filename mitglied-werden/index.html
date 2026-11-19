@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mitglied werden – SGK Thüringen</title>
-<meta name="description" content="Mitglied der SGK Thüringen werden — in wenigen Schritten über den geführten Beitritt.">
+<meta name="description" content="Mitglied der SGK Thüringen werden – der Mitgliedsantrag online in fünf Schritten.">
 <link rel="canonical" href="https://sgk-thueringen.de/mitglied-werden/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="SGK Thüringen">
 <meta property="og:title" content="Mitglied werden – SGK Thüringen">
-<meta property="og:description" content="Mitglied der SGK Thüringen werden — in wenigen Schritten über den geführten Beitritt.">
+<meta property="og:description" content="Mitglied der SGK Thüringen werden – der Mitgliedsantrag online in fünf Schritten.">
 <meta property="og:url" content="https://sgk-thueringen.de/mitglied-werden/">
 <meta property="og:image" content="https://sgk-thueringen.de/assets/og-sgk-thueringen.png?v=2">
 <meta property="og:image:width" content="1200">
@@ -21,9 +21,9 @@
 <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
 <link rel="stylesheet" href="/css/style.css?v=49">
-<link rel="stylesheet" href="/css/mitglied-werden.css?v=4">
+<link rel="stylesheet" href="/css/mitglied-werden.css?v=5">
 <script src="/js/include.js?v=9" defer></script>
-<script src="/js/mitglied-werden.js?v=5" defer></script>
+<script src="/js/mitglied-werden.js?v=6" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -45,27 +45,27 @@
   <section>
     <div class="container">
       <h1>Mitglied werden</h1>
-      <p class="assistent-intro">In wenigen Schritten zu deiner Mitgliedschaft. Du kannst
-        jederzeit einen Schritt zurückgehen.</p>
+      <p class="assistent-intro">In fünf Schritten zu deinem Mitgliedsantrag, komplett online.
+        Du kannst jederzeit einen Schritt zurückgehen. Die Mitgliedschaft ist ab 18 Jahren möglich.</p>
 
-      <!-- Der geführte Beitritt wird hier per JavaScript aufgebaut -->
-      <div id="assistent" class="assistent" aria-live="polite"></div>
+      <!-- Der digitale Antrag wird hier per JavaScript aufgebaut (js/mitglied-werden.js).
+           Der Endpunkt des Backends steht als Konstante am Anfang des Skripts. -->
+      <div id="assistent" class="assistent"></div>
 
       <noscript>
         <div class="assistent-fallback">
-          <p><strong>Ohne JavaScript funktioniert der geführte Beitritt nicht.</strong>
-             Du kannst uns deinen Antrag direkt per E-Mail senden an:</p>
-          <p>SGK-Thueringen [at] t-online.de <span class="mail-hint">([at] durch @ ersetzen)</span>,
-             Betreff „Mitgliedsantrag".</p>
-          <p>Bitte gib im Text an: Vorname, Nachname, E-Mail, deinen Ort sowie die
-             gewünschte Art der Mitgliedschaft (siehe Übersicht unten). Über die Aufnahme
-             entscheidet der Vorstand (§ 3 Abs. 2 der Satzung).</p>
+          <p><strong>Ohne JavaScript funktioniert der digitale Antrag nicht.</strong>
+             Du kannst stattdessen den Papierantrag nutzen.</p>
+          <!-- TODO André: Link zum Papierantrag (Datei/URL liefern; im Projekt liegt keine Datei). -->
+          <p>Papierantrag: <strong>TODO André – Datei oder Link fehlt noch.</strong></p>
+          <p>Fragen und Papierantrag auf Anfrage: info [at] sgk-thueringen.de
+             <span class="mail-hint">([at] durch @ ersetzen)</span>.</p>
         </div>
       </noscript>
 
-      <!-- Alle Kategorien im Überblick (statisch, auch ohne JS) -->
+      <!-- Überblick (statisch, auch ohne JS) -->
       <details class="kat-overview">
-        <summary>Alle Kategorien im Überblick</summary>
+        <summary>Alle Mitgliedschaften im Überblick</summary>
         <div class="kat-overview__body">
           <h2>Mitgliedschaften nach § 3 der Satzung</h2>
           <dl>
@@ -77,12 +77,12 @@
               SPD-Mitglieder der Landes- oder Bundesregierung sowie in der Kommunalpolitik
               besonders Engagierte.</dd>
             <dt>Juniormitgliedschaft <span class="para">§ 3 Abs. 1 Nr. 8</span></dt>
-            <dd>Außerordentliche Mitgliedschaft für junge Interessierte. Sie wandelt sich mit
-              Vollendung des 35. Lebensjahres automatisch in eine ordentliche Mitgliedschaft.</dd>
+            <dd>Außerordentliche Mitgliedschaft für junge Interessierte unter 35 Jahren. Sie wandelt
+              sich mit Vollendung des 35. Lebensjahres automatisch in eine ordentliche Mitgliedschaft.</dd>
             <dt>Fördernde Mitgliedschaft <span class="para">§ 3 Abs. 4</span></dt>
-            <dd>Für alle an der Kommunalpolitik interessierten natürlichen und juristischen
-              Personen (auch Organisationen und Unternehmen).</dd>
+            <dd>Für alle, die Kommunalpolitik unterstützen möchten. Online ist sie für Einzelpersonen möglich.</dd>
           </dl>
+          <p>Die Beiträge stehen in der <a href="/verein/beitragsordnung/">Beitragsordnung</a>.</p>
         </div>
       </details>
 
