@@ -15,6 +15,9 @@
    (data-jet-verleihung="bevor" / "danach"): ab dem Tag nach "verleihung" in der
    Vergangenheitsform.
 
+   Auch auf /jet-jugendpreis/ eingebunden: dort tauscht der Satz zur Jury-
+   Bewertung (data-jet-bewertung="laufend" / "vorbei") nach demselben Prinzip.
+
    Felder je Preisträger: platz (1–3), name, ort, kurztext, text (ausführlich;
    Absätze durch Leerzeile getrennt), bild (lokaler Pfad unter /assets/,
    optional), bildAlt, bildrechte. Texte werden per textContent eingesetzt
@@ -69,6 +72,20 @@
     danach.hidden = false;
   }
 
+  // Bewertungssatz auf /jet-jugendpreis/ (data-jet-bewertung="laufend" / "vorbei").
+  // Gleiche Bedingung wie in schalteBewerbung() für den Preisträger- bzw.
+  // Verliehen-Text: ab dem Verleihungstag, sobald Preisträger eingetragen sind,
+  // spätestens ab dem Tag danach.
+  function schalteBewertung(j, heute, hatListe) {
+    if (!istTag(j.verleihung)) return;
+    if (!(hatListe && heute >= j.verleihung) && !(heute > j.verleihung)) return;
+    var laufend = document.querySelector('[data-jet-bewertung="laufend"]');
+    var vorbei = document.querySelector('[data-jet-bewertung="vorbei"]');
+    if (!laufend || !vorbei) return;
+    laufend.hidden = true;
+    vorbei.hidden = false;
+  }
+
   function lokalesBild(pfad) {
     return typeof pfad === "string" && /^\/assets\/[A-Za-z0-9_\-\/\.]+$/.test(pfad) && pfad.indexOf("..") < 0;
   }
@@ -80,8 +97,9 @@
     return e;
   }
 
+  // Der Preisträger-Abschnitt existiert nur auf /jet-foerderpreis/; die
+  // datumsabhängigen Umschalter laufen auf jeder Seite, die dieses Skript lädt.
   var sec = document.getElementById("preistraeger");
-  if (!sec) return;
 
   fetch("/data/jet.json")
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -93,7 +111,8 @@
       var heute = heuteLokal();
       schalteVerleihung(j, heute);
       schalteBewerbung(j, heute, liste.length > 0);
-      if (liste.length === 0 || heute < j.verleihung) return;
+      schalteBewertung(j, heute, liste.length > 0);
+      if (!sec || liste.length === 0 || heute < j.verleihung) return;
 
       var h = document.getElementById("preistraeger-titel");
       if (h) h.textContent = "Preisträger " + j.verleihung.slice(0, 4);

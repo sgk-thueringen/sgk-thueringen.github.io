@@ -22,6 +22,7 @@
 <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
 <link rel="stylesheet" href="/css/style.css?v=47">
 <script src="/js/include.js?v=8" defer></script>
+<script src="/js/jet.js?v=4" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -43,7 +44,11 @@
 <h1>JET – Junges Engagement Thüringen</h1>
 
 <p>„Junges Engagement Thüringen“ (JET) ist der <a href="/jet-foerderpreis/">Förderpreis</a> der SGK Thüringen für Jugendgremien in Thüringen. Fünf Bewerbungen sind eingegangen, die wir dir hier vorstellen.</p>
-<p>Die Jury bewertet sie aktuell nach den Kriterien <strong>Innovationsgrad</strong>, <strong>Beteiligung</strong>, <strong>Wirkung</strong> und <strong>Nachhaltigkeit</strong>.</p>
+<!-- Datumsabhängig (js/jet.js, data/jet.json → verleihung): ab dem Verleihungstag,
+     sobald Preisträger eingetragen sind, spätestens ab dem Tag danach, wird der
+     zweite Satz statt des ersten gezeigt. Ohne JavaScript bleibt der erste stehen. -->
+<p data-jet-bewertung="laufend">Die Jury bewertet sie aktuell nach den Kriterien <strong>Innovationsgrad</strong>, <strong>Beteiligung</strong>, <strong>Wirkung</strong> und <strong>Nachhaltigkeit</strong>.</p>
+<p data-jet-bewertung="vorbei" hidden>Die Preisverleihung hat stattgefunden – wer gewonnen hat, steht beim <a href="/jet-foerderpreis/">Förderpreis</a>.</p>
 
 <article class="beitrag" id="bewerbung-suhl">
 <div class="jet-badge jet-badge--rot">
