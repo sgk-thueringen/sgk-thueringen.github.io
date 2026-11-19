@@ -1,0 +1,73 @@
+name: JET-Preisträger veröffentlichen
+
+# Trägt die Preisträger des JET-Förderpreises 2026 in data/jet.json,
+# data/fokus.json und data/aktuelles.json ein (Skript:
+# .github/scripts/jet-preistraeger-publish.py, Daten:
+# .github/scripts/jet-preistraeger.json).
+#
+# Läuft täglich um 20:00 UTC (= 21:00 Uhr MEZ) und ist idempotent: Sind in
+# data/jet.json schon Preisträger eingetragen, ändert der Lauf nichts. Vor dem
+# Verleihungstag (Feld "verleihung") tut der Cron-Lauf ebenfalls nichts.
+#
+# Voraussetzung: In jet-preistraeger.json steht bei allen fünf Einträgen ein
+# "platz". Sonst bricht der Lauf mit Fehler ab (Benachrichtigung) und
+# veröffentlicht nichts. Trägt man die Platzierung erst nach 21 Uhr ein: im
+# Reiter "Actions" diesen Workflow über "Run workflow" manuell starten.
+#
+# Trockenlauf: "Run workflow" mit dry_run = true. Rechnet mit angenommenen
+# Platzierungen, zeigt den Diff im Log, committet nichts.
+
+on:
+  schedule:
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Trockenlauf (kein Commit, Platzierungen nur angenommen)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Preisträger eintragen
+        run: python .github/scripts/jet-preistraeger-publish.py
+
+      - name: JSON-Dateien auf gültige Syntax prüfen
+        run: |
+          set -e
+          for f in data/jet.json data/fokus.json data/aktuelles.json; do
+            echo "Prüfe $f"
+            python3 -m json.tool "$f" > /dev/null
+          done
+
+      - name: Änderung committen und pushen (nur bei tatsächlicher Änderung)
+        run: |
+          set -e
+          git add data/jet.json data/fokus.json data/aktuelles.json
+          if git diff --cached --quiet; then
+            echo "Keine Änderung – nichts zu committen."
+            exit 0
+          fi
+          git --no-pager diff --cached
+          if [ "$DRY_RUN" = "1" ]; then
+            echo "Trockenlauf: kein Commit."
+            exit 0
+          fi
+          git config user.name "SGK Thüringen"
+          git config user.email "sgk-thueringen@users.noreply.github.com"
+          git commit -m "JET-Förderpreis 2026: Preisträger automatisch veröffentlicht"
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -1,0 +1,55 @@
+{
+  "hinweis": "Daten für .github/workflows/jet-preistraeger-publish.yml. Pro Eintrag ist nur das Feld \"platz\" auszufüllen (1, 2, 3 oder 4; genau einmal 1, 2, 3 und zweimal 4). Solange irgendein \"platz\" null ist, veröffentlicht der Workflow nichts. Texte: Fakten ausschließlich aus /jet-jugendpreis/ (siehe JET-PREISTRAEGER-ENTWUERFE.md im Planungsrepo).",
+  "eintraege": [
+    {
+      "platz": null,
+      "name": "Jugendwerk Suhl",
+      "ort": "Suhl",
+      "organisation": "ans Jugendwerk Suhl",
+      "absaetze": [
+        "Der 2024 gegründete, vollständig von Jugendlichen zwischen 11 und 29 Jahren selbst organisierte Jugendverband der AWO Suhl hat seitdem über 30 aktive Mitglieder gewonnen und mehr als 16 eigene Veranstaltungen auf die Beine gestellt – von Freizeitangeboten bis zu internationalen Jugendbegegnungen.",
+        "Mit einem eigenen Büro in der Suhler Innenstadt und der Auszeichnung der Thüringer Ehrenamtsstiftung 2026 zeigt das Jugendwerk, wie viel junge Menschen in kurzer Zeit auf die Beine stellen können, wenn man ihnen Raum dafür gibt."
+      ]
+    },
+    {
+      "platz": null,
+      "name": "Jugendrat Gera",
+      "ort": "Gera",
+      "organisation": "an den Jugendrat Gera",
+      "absaetze": [
+        "Der Jugendrat Gera ist ein offenes, seit 2014 bestehendes Gremium mit rund 20 Mitgliedern im Alter von 12 bis 27 Jahren.",
+        "2026 war er mit niedrigschwelligen Beteiligungsformaten besonders aktiv: einem Barcamp mit Jugendlichen aus Bieblach-Ost, dem Einsatz für Hitzeschutz an Geraer Schulen, einem Beteiligungs-Angelspiel und einem Beteiligungs-Bällebad zu Stadtteilthemen sowie zwei Philosophischen Abenden zu Identität und Angst."
+      ]
+    },
+    {
+      "platz": null,
+      "name": "Jugendparlament Schmalkalden",
+      "ort": "Schmalkalden",
+      "organisation": "ans Jugendparlament Schmalkalden",
+      "absaetze": [
+        "Gemeinsam mit Schulklassen hat das Jugendparlament ein Projekt zur Reinigung von Flussläufen umgesetzt und dabei mehrere Videobeiträge produziert – von der Aktion selbst bis zu einem Aftermovie und einem gemeinsamen Abschlusstreffen, der „Finissage“.",
+        "Ein schönes Beispiel dafür, wie praktischer Umweltschutz und Jugendbeteiligung vor Ort zusammenkommen."
+      ]
+    },
+    {
+      "platz": null,
+      "name": "Jugendforum Saalfeld-Rudolstadt",
+      "ort": "Saalfeld-Rudolstadt",
+      "organisation": "ans Jugendforum Saalfeld-Rudolstadt",
+      "absaetze": [
+        "Das Jugendforum besteht seit 2016, feiert 2026 sein 10-jähriges Jubiläum und zählt mit 50 aktiven Mitgliedern zu den größten Jugendforen Deutschlands.",
+        "Es vergibt jährlich bis zu 10.000 Euro an Projektideen anderer junger Menschen im Landkreis und setzt sich seit vier Jahren für einen Sitz im Jugendhilfeausschuss ein."
+      ]
+    },
+    {
+      "platz": null,
+      "name": "Kinder- und Jugendbeirat Steinbach-Hallenberg (HASELPIPE)",
+      "ort": "Steinbach-Hallenberg",
+      "organisation": "an den Kinder- und Jugendbeirat Steinbach-Hallenberg",
+      "absaetze": [
+        "Mit der „HASELPIPE“ hat der Beirat einen Skate-Relax-Point realisiert – von der ersten Ideenwerkstatt 2022 mit rund 60 Jugendlichen über die Spendenakquise bis zur Eröffnung 2024 und laufenden Erweiterungen.",
+        "Das rund 400.000 Euro umfassende Projekt wurde über LEADER-Fördermittel, einen kommunalen Zuschuss, Lottomittel sowie Spenden und Sponsoring finanziert und 2026 mit dem 1. Platz des Thüringer Demografiepreises ausgezeichnet."
+      ]
+    }
+  ]
+}
