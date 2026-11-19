@@ -191,3 +191,6 @@
 .digital__zurueck { margin: 0 0 .75rem; }
 .digital__zurueck .assistent-back { margin-top: 0; padding-left: 0; }
 .weg-karte__aktion button.btn { font-family: inherit; font-weight: 700; cursor: pointer; border: 2px solid var(--blau); }
+.weg-karte__aktion .btn[hidden] { display: none; }
+/* Platz für die per mailto.js eingesetzte Adresse reservieren (kein Layout-Shift beim Einblenden) */
+.weg-karte a.mail-obf[hidden] { display: inline-block; visibility: hidden; width: 22ch; height: 1em; vertical-align: baseline; }

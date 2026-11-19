@@ -544,6 +544,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   font: inherit; color: var(--ink); background: none;
   border: 0; border-bottom: 3px solid transparent;
   padding: .35rem .35rem; cursor: pointer;
+  min-width: 1.75rem; min-height: 1.75rem;   /* Touch-Ziel mindestens 24 x 24 px (WCAG 2.5.8) */
 }
 .hauptnav__toggle:hover { color: var(--blau); }
 .hauptnav__toggle .caret {
