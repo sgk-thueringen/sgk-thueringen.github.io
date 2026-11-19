@@ -1,5 +1,5 @@
 {
-  "hinweis": "Daten für .github/workflows/jet-preistraeger-publish.yml. Pro Eintrag ist nur das Feld \"platz\" auszufüllen (1, 2, 3 oder 4; genau einmal 1, 2, 3 und zweimal 4). Solange irgendein \"platz\" null ist, veröffentlicht der Workflow nichts. Texte: Fakten ausschließlich aus /jet-jugendpreis/ (siehe JET-PREISTRAEGER-ENTWUERFE.md im Planungsrepo).",
+  "hinweis": "Daten für .github/workflows/jet-preistraeger-publish.yml. Die Platzierung (je einmal 1, 2, 3, zweimal 4) kommt aus dem Repo-Secret JET_PLATZIERUNG; die \"platz\"-Felder hier bleiben null und gelten nur, wenn das Secret leer ist. Fehlt beides, veröffentlicht der Workflow nichts. Texte: Fakten ausschließlich aus /jet-jugendpreis/ (siehe JET-PREISTRAEGER-ENTWUERFE.md im Planungsrepo).",
   "eintraege": [
     {
       "platz": null,

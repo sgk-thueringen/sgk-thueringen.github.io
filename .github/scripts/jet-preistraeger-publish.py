@@ -10,10 +10,12 @@ Ablauf / Schutzmechanismen:
      nichts (Exit 0).
   2. Datumssperre: Beim Cron-Lauf (schedule) wird erst ab dem Tag "verleihung"
      (data/jet.json, Zeitzone Europe/Berlin) veröffentlicht.
-  3. Platzierung: .github/scripts/jet-preistraeger.json muss für alle fünf
-     Einträge ein "platz" enthalten (je einmal 1, 2, 3, zweimal 4). Fehlt das,
-     endet der Lauf mit Fehler (Exit 1, sichtbar/Benachrichtigung) und schreibt
-     nichts. Platzierungen werden nie erfunden.
+  3. Platzierung: kommt aus dem Repo-Secret JET_PLATZIERUNG (JSON
+     {"Name": Platz}, Namen wie in jet-preistraeger.json) oder, wenn das Secret
+     leer ist, aus den "platz"-Feldern in .github/scripts/jet-preistraeger.json.
+     Verlangt: je einmal 1, 2, 3 und zweimal 4. Fehlt das, endet der Lauf mit
+     Fehler (Exit 1, sichtbar/Benachrichtigung) und schreibt nichts.
+     Platzierungen werden nie erfunden.
   4. Es wird erst geschrieben, wenn alle drei Dateien im Speicher fertig und
      konsistent sind.
 
@@ -88,10 +90,34 @@ def main():
     if len(eintraege) != 5:
         fehler("jet-preistraeger.json: erwartet 5 Einträge, gefunden %d." % len(eintraege))
 
+    # Platzierung aus dem Secret JET_PLATZIERUNG (JSON: {"Name": Platz, ...}).
+    # Der Wert ist verschlüsselt hinterlegt, damit die Platzierung vor der
+    # Verleihung nicht im öffentlichen Repo steht. Werte werden nie ausgegeben.
+    # Ist das Secret leer, gelten die "platz"-Felder der Daten-Datei.
+    geheim = os.environ.get("JET_PLATZIERUNG", "").strip()
+    zuordnung = None
+    if geheim:
+        try:
+            zuordnung = json.loads(geheim)
+        except ValueError:
+            fehler("Secret JET_PLATZIERUNG ist kein gültiges JSON (Wert wird nicht ausgegeben).")
+        namen = [e["name"] for e in eintraege]
+        if not isinstance(zuordnung, dict) or sorted(zuordnung) != sorted(namen):
+            fehler("Secret JET_PLATZIERUNG: Namen passen nicht zu den fünf Einträgen in "
+                   "jet-preistraeger.json (erwartet: %s)." % "; ".join(namen))
+        if sorted(zuordnung.values()) != [1, 2, 3, 4, 4]:
+            fehler("Secret JET_PLATZIERUNG: erwartet je einmal 1, 2, 3 und zweimal 4.")
+        print("Secret JET_PLATZIERUNG gelesen und gültig.")
+
     if dry:
+        # Die echte Platzierung wird im Trockenlauf bewusst nicht verwendet, denn
+        # das Log ist öffentlich sichtbar.
         for e, p in zip(eintraege, [1, 2, 3, 4, 4]):
             e["platz"] = p
         print("TROCKENLAUF: Platzierungen nur zur Darstellung angenommen (1,2,3,4,4).")
+    elif zuordnung is not None:
+        for e in eintraege:
+            e["platz"] = zuordnung[e["name"]]
 
     plaetze = [e.get("platz") for e in eintraege]
     if any(p is None for p in plaetze):

@@ -9,10 +9,12 @@ name: JET-Preisträger veröffentlichen
 # data/jet.json schon Preisträger eingetragen, ändert der Lauf nichts. Vor dem
 # Verleihungstag (Feld "verleihung") tut der Cron-Lauf ebenfalls nichts.
 #
-# Voraussetzung: In jet-preistraeger.json steht bei allen fünf Einträgen ein
-# "platz". Sonst bricht der Lauf mit Fehler ab (Benachrichtigung) und
-# veröffentlicht nichts. Trägt man die Platzierung erst nach 21 Uhr ein: im
-# Reiter "Actions" diesen Workflow über "Run workflow" manuell starten.
+# Voraussetzung: Die Platzierung liegt im Repo-Secret JET_PLATZIERUNG (JSON
+# {"Name": Platz}, Namen wie in jet-preistraeger.json; verschlüsselt, vor der
+# Verleihung nirgends lesbar) oder als "platz" in jet-preistraeger.json. Sonst
+# bricht der Lauf mit Fehler ab (Benachrichtigung) und veröffentlicht nichts.
+# Nach Änderung des Secrets nach 21 Uhr: im Reiter "Actions" diesen Workflow
+# über "Run workflow" manuell starten.
 #
 # Trockenlauf: "Run workflow" mit dry_run = true. Rechnet mit angenommenen
 # Platzierungen, zeigt den Diff im Log, committet nichts.
@@ -43,6 +45,8 @@ jobs:
           python-version: "3.12"
 
       - name: Preisträger eintragen
+        env:
+          JET_PLATZIERUNG: ${{ secrets.JET_PLATZIERUNG }}
         run: python .github/scripts/jet-preistraeger-publish.py
 
       - name: JSON-Dateien auf gültige Syntax prüfen
