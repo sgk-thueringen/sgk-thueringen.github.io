@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""JET-Förderpreis 2026: Preisträger veröffentlichen.
+"""JET-Jugendpreis 2026: Preisträger veröffentlichen.
 
 Wird von .github/workflows/jet-preistraeger-publish.yml aufgerufen. Das Skript
 ändert nur Dateien im Checkout (data/jet.json, data/fokus.json,
@@ -57,10 +57,10 @@ def fehler(msg):
 
 def eroeffnung(platz, organisation):
     if platz in PREISGELD:
-        return ("Herzlichen Glückwunsch %s – %d. Platz beim JET-Förderpreis 2026 "
+        return ("Herzlichen Glückwunsch %s – %d. Platz beim JET-Jugendpreis 2026 "
                 "und %s Euro Preisgeld!" % (organisation, platz, PREISGELD[platz]))
     return ("Herzlichen Glückwunsch %s – auch ohne Platz auf dem Treppchen hat die "
-            "Bewerbung beim JET-Förderpreis 2026 die Jury überzeugt!" % organisation)
+            "Bewerbung beim JET-Jugendpreis 2026 die Jury überzeugt!" % organisation)
 
 
 def datum_lang(iso):
@@ -140,7 +140,7 @@ def main():
     for feld in ("titel", "text", "link", "buttonText"):
         if feld not in fokus:
             fehler("data/fokus.json: Feld \"%s\" fehlt." % feld)
-    fokus["titel"] = "JET-Förderpreis 2026: Die Preisträger stehen fest"
+    fokus["titel"] = "JET-Jugendpreis 2026: Die Preisträger stehen fest"
     fokus["text"] = "Die Jury hat entschieden. Die ersten drei Plätze:"
     fokus["link"] = "/jet/#preistraeger"
     fokus["buttonText"] = "Zu den Preisträgern"
@@ -156,8 +156,8 @@ def main():
     t = treffer[0]
     t["datum"] = verleihung
     t["datumAnzeige"] = datum_lang(verleihung)
-    t["titel"] = "JET-Förderpreis 2026: Die Preisträger stehen fest"
-    t["text"] = "Die Preisträger des JET-Förderpreises 2026 stehen fest – alle Platzierungen im Überblick."
+    t["titel"] = "JET-Jugendpreis 2026: Die Preisträger stehen fest"
+    t["text"] = "Die Preisträger des JET-Jugendpreises 2026 stehen fest – alle Platzierungen im Überblick."
     t["quelleLabel"] = "Zu den Preisträgern"
     t["quelleUrl"] = "/jet/#preistraeger"
 

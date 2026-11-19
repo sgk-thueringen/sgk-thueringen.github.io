@@ -1,6 +1,6 @@
 name: JET-Preisträger veröffentlichen
 
-# Trägt die Preisträger des JET-Förderpreises 2026 in data/jet.json,
+# Trägt die Preisträger des JET-Jugendpreises 2026 in data/jet.json,
 # data/fokus.json und data/aktuelles.json ein (Skript:
 # .github/scripts/jet-preistraeger-publish.py, Daten:
 # .github/scripts/jet-preistraeger.json).
@@ -72,6 +72,6 @@ jobs:
           fi
           git config user.name "SGK Thüringen"
           git config user.email "sgk-thueringen@users.noreply.github.com"
-          git commit -m "JET-Förderpreis 2026: Preisträger automatisch veröffentlicht"
+          git commit -m "JET-Jugendpreis 2026: Preisträger automatisch veröffentlicht"
           git pull --rebase origin main
           git push origin HEAD:main
