@@ -553,8 +553,14 @@
     else erklaerung.push("[TODO André: Wortlaut der Erklärung aus dem Papierantrag fehlt noch] Ich erkenne die Grundsätze an und stelle den Antrag auf Aufnahme.");
     form.appendChild(haken("pflichterklaerung", erklaerung));
 
+    // Datenschutz-Kurztext (Wortlaut: datenschutz-text-2026-11-19.md, "Kurztext für Formular und Papierantrag";
+    // nur der letzte Satz verweist hier auf /datenschutz/#mitgliedsantrag). Zwei Absätze, je höchstens drei Sätze.
     form.appendChild(h("p", { class: "feld-hinweis" }, [
-      "Hinweise zur Verarbeitung deiner Daten stehen in der ", h("a", { href: "/datenschutz/#mitgliedsantrag" }, ["Datenschutzerklärung"]), "."
+      "Die SGK Thüringen verarbeitet die Angaben im Antrag zur Bearbeitung des Aufnahmeantrags, zur Mitgliederverwaltung und zum Einzug der Beiträge per SEPA-Lastschrift (Art. 6 Abs. 1 lit. b DSGVO). Bei ordentlicher Mitgliedschaft wird der Antrag auf Beitritt zur Bundes-SGK an diese weitergeleitet (§ 3 Abs. 3 der Satzung)."
+    ]));
+    form.appendChild(h("p", { class: "feld-hinweis" }, [
+      "Einladungen zu Veranstaltungen per E-Mail erfolgen nur mit Einwilligung, die jederzeit widerrufen werden kann. Weitere Informationen stehen in der ",
+      h("a", { href: "/datenschutz/#mitgliedsantrag" }, ["Datenschutzerklärung"]), "."
     ]));
     form.appendChild(haken("einladungen_email", ["Ich bin einverstanden, Einladungen zu Veranstaltungen per E-Mail zu erhalten."]));
     form.appendChild(h("p", { class: "feld-hinweis" }, ["Dieses Häkchen ist freiwillig."]));
