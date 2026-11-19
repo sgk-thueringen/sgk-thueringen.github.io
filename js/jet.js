@@ -79,11 +79,11 @@
   function schalteBewertung(j, heute, hatListe) {
     if (!istTag(j.verleihung)) return;
     if (!(hatListe && heute >= j.verleihung) && !(heute > j.verleihung)) return;
-    var laufend = document.querySelector('[data-jet-bewertung="laufend"]');
-    var vorbei = document.querySelector('[data-jet-bewertung="vorbei"]');
-    if (!laufend || !vorbei) return;
-    laufend.hidden = true;
-    vorbei.hidden = false;
+    var laufend = document.querySelectorAll('[data-jet-bewertung="laufend"]');
+    var vorbei = document.querySelectorAll('[data-jet-bewertung="vorbei"]');   // mehrere Elemente möglich
+    if (!laufend.length || !vorbei.length) return;
+    for (var a = 0; a < laufend.length; a++) laufend[a].hidden = true;
+    for (var b = 0; b < vorbei.length; b++) vorbei[b].hidden = false;
   }
 
   function lokalesBild(pfad) {

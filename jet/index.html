@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="/css/style.css?v=51">
 <script src="/js/include.js?v=12" defer></script>
 <script src="/js/mailto.js" defer></script>
-<script src="/js/jet.js?v=5" defer></script>
+<script src="/js/jet.js?v=6" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -110,7 +110,7 @@
      sobald Preisträger eingetragen sind, spätestens ab dem Tag danach, wird der
      zweite Satz statt des ersten gezeigt. Ohne JavaScript bleibt der erste stehen. -->
 <p data-jet-bewertung="laufend">Die Jury bewertet sie aktuell nach den Kriterien <strong>Innovationsgrad</strong>, <strong>Beteiligung</strong>, <strong>Wirkung</strong> und <strong>Nachhaltigkeit</strong>.</p>
-<p data-jet-bewertung="vorbei" hidden>Die Preisverleihung hat stattgefunden – wer gewonnen hat, steht beim <a href="#preistraeger">Förderpreis</a>.</p>
+<p data-jet-bewertung="vorbei" hidden>Die Preisverleihung hat stattgefunden – wer gewonnen hat, steht im Abschnitt <a href="#preistraeger">Preisträger</a>.</p>
 
 <article class="beitrag" id="suhl">
 <div class="jet-badge jet-badge--rot">
@@ -217,8 +217,10 @@
 <li><strong>Auszeichnung:</strong> 2026 mit dem 1. Platz des Thüringer Demografiepreises ausgezeichnet</li>
 </ul>
 </article>
-<p>Wer gewonnen hat, erfährst du beim Förderpreis.</p>
-<p><a class="btn" href="#preistraeger">Zur Preisverleihung</a></p>
+<div data-jet-bewertung="vorbei" hidden>
+<p>Wer gewonnen hat, steht oben im Abschnitt Preisträger.</p>
+<p><a class="btn" href="#preistraeger">Preisträger ansehen</a></p>
+</div>
 </section>
 
 <h2>Wer kann teilnehmen?</h2>
