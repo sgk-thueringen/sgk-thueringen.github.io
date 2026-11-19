@@ -20,7 +20,7 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-  <link rel="stylesheet" href="/css/style.css?v=43">
+  <link rel="stylesheet" href="/css/style.css?v=45">
   <script src="/js/include.js?v=8" defer></script>
   <script src="/js/aktuelles.js?v=12" defer></script>
   <script src="/js/fokus.js?v=3" defer></script>
@@ -80,7 +80,7 @@
              (Felder titel, text, bild, bildHinweis, link, buttonText), gerendert von
              js/fokus.js — Pflege ohne HTML-Kenntnis, Anleitung in REDAKTION.md.
              Aufbau: Bildfeld oben, Textblock darunter, kein Overlay. Skelett gegen Layout-Sprung; ohne JavaScript wird Kachel 1 ausgeblendet
-             (Kachel 2 bleibt). Kachel 2 "Mitglied werden" steht dauerhaft hier im
+             (Kachel 2 bleibt). Kachel 2 "Mitglied werden" (Bildfeld: Wortwolke statt Foto) steht dauerhaft hier im
              HTML, unabhängig vom Knopf im Kopfbereich. -->
         <noscript><style>#fokus-kachel{display:none!important}.fokus__raster{grid-template-columns:1fr!important}</style></noscript>
         <div class="fokus__raster">
@@ -98,15 +98,30 @@
               </div>
             </div>
           </article>
-          <!-- TODO André: Foto oder Symbolbild für diese Kachel. Im vorhandenen
-               Bestand gibt es kein passendes, rechtlich geklärtes Bild zur
-               Mitgliedschaft; bis dahin nur Textblock auf --blau (ohne Bildfeld).
-               Bei Lieferung als erstes Kind von <article> ergänzen:
-               <div class="fokus-kachel__medien"><img class="fokus-kachel__bild"
-               src="…" alt="" loading="eager"></div> (ggf. plus <span
-               class="fokus-kachel__hinweis"> bei KI-Bild) und die Bildrechte in
-               unterlagen/bildrechte.md dokumentieren. -->
+          <!-- Bewusste Entscheidung (André, 19.11.2026): In der Kachel „Mitgliedschaft“
+               steht statt eines Fotos eine Wortwolke mit den Bezeichnungen
+               kommunalpolitischer Mandate und Ämter — passend zum Text „von der
+               Ortschaftsrätin bis zum Landrat“, ohne Bildrechte-Thema. Kein offener
+               Punkt. Echter Text (<ul>), keine Rotation, im selben Bildfeld-Slot wie
+               das Foto von Kachel 1. Rot nur bei großer/fetter Schrift (Kontrast
+               auf --blau-tint ≈ 4,1:1, Mindestwert für große Schrift 3:1).
+               Soll später doch ein Foto hier stehen: Wolke durch
+               <img class="fokus-kachel__bild" …> ersetzen (siehe Kachel 1). -->
           <article class="fokus-kachel">
+            <div class="fokus-kachel__medien fokus-kachel__medien--wolke">
+              <ul class="wortwolke" role="list" aria-label="Kommunalpolitische Mandate und Ämter">
+                <li class="wortwolke__wort wortwolke__wort--mittel">Sachkundiger Bürger</li>
+                <li class="wortwolke__wort wortwolke__wort--gross wortwolke__wort--rot">Stadtrat</li>
+                <li class="wortwolke__wort wortwolke__wort--mittel">Kreisrat</li>
+                <li class="wortwolke__wort">Beigeordneter</li>
+                <li class="wortwolke__wort wortwolke__wort--gross">Bürgermeister</li>
+                <li class="wortwolke__wort wortwolke__wort--mittel wortwolke__wort--rot">Oberbürgermeister</li>
+                <li class="wortwolke__wort">MdB</li>
+                <li class="wortwolke__wort">MdL</li>
+                <li class="wortwolke__wort wortwolke__wort--mittel">Ortsteilrat</li>
+                <li class="wortwolke__wort wortwolke__wort--mittel">Ortsteilbürgermeister</li>
+              </ul>
+            </div>
             <div class="fokus-kachel__inhalt">
               <p class="fokus-kachel__label">Mitgliedschaft</p>
               <h2 class="fokus-kachel__titel">Gemeinsam Kommunalpolitik gestalten</h2>
