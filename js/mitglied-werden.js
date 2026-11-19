@@ -554,7 +554,7 @@
     form.appendChild(haken("pflichterklaerung", erklaerung));
 
     form.appendChild(h("p", { class: "feld-hinweis" }, [
-      "Hinweise zur Verarbeitung deiner Daten stehen in der ", h("a", { href: "/datenschutz/#beitrittsformular" }, ["Datenschutzerklärung"]), "."
+      "Hinweise zur Verarbeitung deiner Daten stehen in der ", h("a", { href: "/datenschutz/#mitgliedsantrag" }, ["Datenschutzerklärung"]), "."
     ]));
     form.appendChild(haken("einladungen_email", ["Ich bin einverstanden, Einladungen zu Veranstaltungen per E-Mail zu erhalten."]));
     form.appendChild(h("p", { class: "feld-hinweis" }, ["Dieses Häkchen ist freiwillig."]));
