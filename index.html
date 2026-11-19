@@ -20,10 +20,10 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-  <link rel="stylesheet" href="/css/style.css?v=39">
+  <link rel="stylesheet" href="/css/style.css?v=43">
   <script src="/js/include.js?v=8" defer></script>
   <script src="/js/aktuelles.js?v=12" defer></script>
-  <script src="/js/fokus.js?v=2" defer></script>
+  <script src="/js/fokus.js?v=3" defer></script>
   <script src="/js/vorstand.js?v=10" defer></script>
   <script src="/js/bundes-sgk.js?v=3" defer></script>
 </head>
@@ -44,7 +44,7 @@
   </div>
 
   <main id="inhalt">
-    <section class="hero">
+    <section class="hero hero--kompakt">
       <div class="container">
         <h1 class="hero__title">Sozialdemokratische Gemeinschaft für Kommunalpolitik im Freistaat Thüringen e.V.</h1>
       </div>
@@ -79,12 +79,15 @@
              Kachel 1 "Im Fokus" ist austauschbar: Inhalt aus data/fokus.json
              (Felder titel, text, bild, bildHinweis, link, buttonText), gerendert von
              js/fokus.js — Pflege ohne HTML-Kenntnis, Anleitung in REDAKTION.md.
-             Skelett gegen Layout-Sprung; ohne JavaScript wird Kachel 1 ausgeblendet
+             Aufbau: Bildfeld oben, Textblock darunter, kein Overlay. Skelett gegen Layout-Sprung; ohne JavaScript wird Kachel 1 ausgeblendet
              (Kachel 2 bleibt). Kachel 2 "Mitglied werden" steht dauerhaft hier im
              HTML, unabhängig vom Knopf im Kopfbereich. -->
         <noscript><style>#fokus-kachel{display:none!important}.fokus__raster{grid-template-columns:1fr!important}</style></noscript>
         <div class="fokus__raster">
           <article class="fokus-kachel" id="fokus-kachel">
+            <!-- Bildfeld mit festem Seitenverhältnis (reserviert den Platz, kein Layout-Sprung);
+                 js/fokus.js setzt das Foto ein, ohne "bild" in der JSON entfällt das Feld. -->
+            <div class="fokus-kachel__medien"></div>
             <div class="fokus-kachel__inhalt">
               <p class="fokus-kachel__label">Im Fokus</p>
               <div id="fokus-inhalt">
@@ -97,10 +100,12 @@
           </article>
           <!-- TODO André: Foto oder Symbolbild für diese Kachel. Im vorhandenen
                Bestand gibt es kein passendes, rechtlich geklärtes Bild zur
-               Mitgliedschaft; bis dahin einfarbige Markenfläche (--blau). Bei
-               Lieferung <img class="fokus-kachel__bild" src="…" alt="" width=… height=…
-               loading="lazy"> als erstes Kind von <article> ergänzen und die
-               Bildrechte in unterlagen/bildrechte.md dokumentieren. -->
+               Mitgliedschaft; bis dahin nur Textblock auf --blau (ohne Bildfeld).
+               Bei Lieferung als erstes Kind von <article> ergänzen:
+               <div class="fokus-kachel__medien"><img class="fokus-kachel__bild"
+               src="…" alt="" loading="eager"></div> (ggf. plus <span
+               class="fokus-kachel__hinweis"> bei KI-Bild) und die Bildrechte in
+               unterlagen/bildrechte.md dokumentieren. -->
           <article class="fokus-kachel">
             <div class="fokus-kachel__inhalt">
               <p class="fokus-kachel__label">Mitgliedschaft</p>

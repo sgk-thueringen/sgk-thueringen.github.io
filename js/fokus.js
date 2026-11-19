@@ -67,15 +67,21 @@
         inhalt.appendChild(aktion);
       }
 
-      if (lokalesBild(f.bild)) {
-        var img = document.createElement("img");
-        img.className = "fokus-kachel__bild";
-        img.src = f.bild;
-        img.alt = "";
-        img.loading = "lazy";
-        kachel.insertBefore(img, kachel.firstChild);
-        if (typeof f.bildHinweis === "string" && f.bildHinweis.trim() !== "") {
-          kachel.appendChild(el("span", "fokus-kachel__hinweis", f.bildHinweis));
+      // Bildfeld: Foto einsetzen; ohne (gültiges) Bild entfällt das Feld.
+      // Oberhalb der Falz, daher kein loading="lazy".
+      var medien = kachel.querySelector(".fokus-kachel__medien");
+      if (medien) {
+        if (lokalesBild(f.bild)) {
+          var img = document.createElement("img");
+          img.className = "fokus-kachel__bild";
+          img.src = f.bild;
+          img.alt = "";
+          medien.appendChild(img);
+          if (typeof f.bildHinweis === "string" && f.bildHinweis.trim() !== "") {
+            medien.appendChild(el("span", "fokus-kachel__hinweis", f.bildHinweis));
+          }
+        } else {
+          medien.parentNode.removeChild(medien);
         }
       }
     })

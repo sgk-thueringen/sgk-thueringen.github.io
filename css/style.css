@@ -636,6 +636,14 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .hero__logo { display: block; width: 100%; max-width: 30rem; height: auto; margin-bottom: 1.25rem; }
 .hero p.lead { font-size: 1.2rem; color: var(--grau); }
 
+/* Startseite: kompakte Hero-Zeile. Die H1 steht weiter als erstes Element im <main>
+   (Lese- und Bildreihenfolge identisch), ist aber nur noch eine schlanke Zeile in
+   Namensgröße, damit die "Im Fokus"-Kacheln ohne Scrollen sichtbar sind. Die
+   größere Kalibrierung oben (H1 ≥ H2) gilt hier bewusst nicht mehr: die Kacheltitel
+   (H2) sind der Blickfang, die H1 nennt den Vereinsnamen. */
+.hero--kompakt { padding-block: clamp(.75rem, 2vw, 1.1rem); }
+.hero--kompakt .hero__title { font-size: clamp(1rem, 2.4vw, 1.4rem); line-height: 1.25; max-width: none; }
+
 /* CTA-Button */
 .btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
 .btn:hover { background: #162F6E; }
@@ -689,33 +697,38 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-banner__text.termin-skeleton { width: min(32rem, 95%); }
 .btn--invers.termin-skeleton { width: 10rem; }
 
-/* ---- Im Fokus (Startseite, unter dem Termin-Banner) ----
-   Zwei gleich große, statische Kacheln (keine Animation, kein Karussell).
+/* ---- Im Fokus (Startseite, direkt unter der kompakten Hero-Zeile) ----
+   Zwei gleich hohe, statische Kacheln (keine Animation, kein Karussell).
    Kachel 1 (#fokus-kachel) füllt js/fokus.js aus data/fokus.json, Kachel 2
-   "Mitglied werden" steht fest im HTML. Weißer Text liegt immer auf einer
-   einfarbigen --blau-Fläche (kein Verlauf, ≥ 4,5:1); ein Foto liegt dahinter und
-   scheint oben durch. Ab 43,75 rem nebeneinander, darunter untereinander. */
-.fokus { padding-block: clamp(1.25rem, 3vw, 2rem); }
+   "Mitglied werden" steht fest im HTML. Aufbau je Kachel: oben optional ein
+   Bildfeld (.fokus-kachel__medien, festes Seitenverhältnis, Foto unverdeckt, kein
+   Overlay), darunter ein eigener Textblock auf einfarbigem --blau. Der weiße
+   Text liegt damit immer auf derselben Fläche (≈ 9,7:1) — unabhängig vom Foto,
+   auch bei künftigen Bildern. Ohne Bildfeld (Kachel 2 bis zum Foto) besteht die
+   Kachel nur aus dem Textblock; ein späteres Foto kommt als
+   <div class="fokus-kachel__medien"><img class="fokus-kachel__bild" …></div>
+   als erstes Kind der Kachel. grid-auto-rows: 1fr hält beide Kacheln nebeneinander gleich hoch (ab 43,75 rem),
+   untereinander behält jede ihre natürliche Höhe. */
+.fokus { padding-block: clamp(1rem, 2.5vw, 1.75rem); }
 .fokus__raster { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-@media (min-width: 43.75rem) { .fokus__raster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 43.75rem) { .fokus__raster { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; } }
 .fokus__raster.fokus__raster--eins { grid-template-columns: 1fr; }
-.fokus-kachel {
-  position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 18rem; background: var(--blau); color: var(--weiss); border-radius: .5rem; overflow: hidden;
-}
-@media (min-width: 43.75rem) { .fokus-kachel { min-height: 24rem; } }
-.fokus-kachel__bild { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.fokus-kachel { display: flex; flex-direction: column; background: var(--blau); color: var(--weiss); border-radius: .5rem; overflow: hidden; }
+.fokus-kachel[hidden] { display: none; }
+.fokus-kachel__medien { position: relative; flex: none; aspect-ratio: 16 / 9; background: var(--blau-tint); }
+@media (min-width: 43.75rem) { .fokus-kachel__medien { aspect-ratio: 2 / 1; } }
+.fokus-kachel__bild { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 .fokus-kachel__hinweis {
   position: absolute; top: .5rem; right: .5rem; padding: .15rem .5rem; border-radius: .25rem;
   background: var(--weiss); color: var(--ink); font-size: .75rem; line-height: 1.3;
 }
-.fokus-kachel__inhalt { position: relative; isolation: isolate; padding: 1.25rem; }
-.fokus-kachel__inhalt::before { content: ""; position: absolute; inset: 0; background: var(--blau); opacity: .92; z-index: -1; }
+.fokus-kachel__inhalt { flex: 1; display: flex; flex-direction: column; padding: 1.25rem; }
+#fokus-inhalt { display: contents; }
 .fokus-kachel__label { margin: 0 0 .35rem; color: var(--weiss); font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .fokus-kachel h2.fokus-kachel__titel { margin: 0 0 .5rem; color: var(--weiss); font-size: clamp(1.25rem, 3vw, 1.6rem); line-height: 1.2; }
 .fokus-kachel__wannwo { margin: 0 0 .5rem; color: var(--weiss); font-family: var(--font-titel); font-weight: 700; font-size: 1.05rem; max-width: none; }
 .fokus-kachel__text { margin: 0 0 1rem; color: var(--weiss); max-width: none; }
-.fokus-kachel__aktion { margin: 0; }
+.fokus-kachel__aktion { margin: auto 0 0; }
 .fokus-kachel .btn--invers:focus-visible { outline-color: var(--weiss); }
 .fokus-skeleton { background: var(--blau-hell); color: transparent; border-radius: .25rem; }
 .fokus-kachel__titel.fokus-skeleton { width: min(18rem, 90%); }
