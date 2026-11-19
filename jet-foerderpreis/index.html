@@ -20,7 +20,7 @@
 <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-<link rel="stylesheet" href="/css/style.css?v=37">
+<link rel="stylesheet" href="/css/style.css?v=39">
 <script src="/js/include.js?v=8" defer></script>
 <script src="/js/mailto.js" defer></script>
 <script src="/js/jet.js?v=3" defer></script>
@@ -144,7 +144,10 @@
        gewinnen?“, Satz zur Preisverleihung): "bevor" bis einschließlich
        Verleihungstag, "danach" (Vergangenheitsform) ab dem Tag danach. Datum
        ebenfalls per <span data-jet-datum> aus data/jet.json; der Text in
-       "bevor" ist zugleich der Fallback ohne JavaScript. -->
+       "bevor" ist zugleich der Fallback ohne JavaScript.
+     - Im Block "beendet" führt der Button „Zu den Bewerbungen“ (in allen drei
+       Textvarianten sichtbar) zur Vorstellung der Bewerbungen unter
+       /jet-jugendpreis/. -->
 <div data-jet="bewerbung">
 <h2 id="bewerben">Jetzt bewerben! <!-- Bildrechte: KI-generiert mit Google Gemini im Auftrag der SGK Thüringen (September 2026), Originale im Google-Drive-Ordner ‚JET - Jugendpreis‘. --><img class="jet-icon-inline" src="/assets/jet-foerderpreis/jet-emblem-icon.png" width="160" height="160" alt=""></h2>
 <p>Ihr habt ein Projekt, auf das ihr stolz seid? Ihr habt eine neue Idee ausprobiert, junge Menschen beteiligt oder in eurem Ort etwas bewegt?</p>
@@ -165,6 +168,7 @@
 <p data-jet-text="jury" hidden>Vielen Dank für eure Bewerbungen! Die Jury sichtet jetzt alle Einsendungen. Die Preisverleihung findet am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau statt.</p>
 <p data-jet-text="verliehen" hidden>Vielen Dank für eure Bewerbungen! Die Preise wurden am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau verliehen. Die Preisträger stellen wir hier in Kürze vor.</p>
 <p data-jet-text="preistraeger" hidden>Vielen Dank für eure Bewerbungen! Die Preise wurden am <span data-jet-datum></span> im Rahmen des Kommunalpolitischen Empfangs in Ilmenau verliehen. Die Preisträger findet ihr oben im Abschnitt <a href="#preistraeger">Preisträger</a>.</p>
+<p><a class="btn" href="/jet-jugendpreis/">Zu den Bewerbungen</a></p>
 <p>Fragen? Schreibt uns an <a class="mail-obf" data-user="SGK-Thueringen" data-domain="t-online.de" hidden>E-Mail-Adresse</a> oder über unseren Instagram-Kanal sgk.thueringen.</p>
 </div>
 </div>

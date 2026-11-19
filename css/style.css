@@ -689,60 +689,39 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .termin-banner__text.termin-skeleton { width: min(32rem, 95%); }
 .btn--invers.termin-skeleton { width: 10rem; }
 
-/* ---- JET-Band (Startseite, unter dem Termin-Banner) ----
-   data/jet.json, gerendert von js/aktuelles.js (renderJetBand()). Bewusst
-   anders als der blaue Termin-Banner: helle Fläche (--off-white), roter
-   Balken links (--rot nur als Akzent), dunkler Text (--ink/--blau). */
-.jet-band { background: var(--off-white); border-left: 8px solid var(--rot); }
-.jet-band .container { padding-block: 1.25rem; }
-.jet-band h2.jet-band__titel { color: var(--blau); font-size: clamp(1.25rem, 3vw, 1.7rem); margin: 0 0 .5rem; }
-.jet-band__wannwo { margin: 0 0 .25rem; font-family: var(--font-titel); font-weight: 700; font-size: 1.15rem; color: var(--ink); max-width: none; }
-.jet-band__preise { margin: .5rem 0 0; font-size: .95rem; color: var(--grau); }
-.jet-band__aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin: .9rem 0 0; }
-.jet-band__aktionen a:not(.btn) { color: var(--blau); text-decoration: underline; text-underline-offset: .15em; }
-.jet-band__aktionen a:not(.btn):hover { text-decoration: none; }
-/* Mobil: Preiszeile ausblenden, Band bleibt kompakt */
-@media (max-width: 48rem) { .jet-band__preise { display: none; } }
-/* Symbolbild im Band: mobil ausgeblendet (Band bleibt kompakt), ab 48 rem
-   rechts neben dem Text. Feste Spaltenbreite + width/height am Bild: kein
-   Layout-Sprung. Ecken wie .content-bild. */
-.jet-band__bild { display: none; margin: 0; }
-@media (min-width: 48.0625rem) {
-  .jet-band__layout { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: 1rem 2rem; align-items: center; }
-  .jet-band__bild { display: block; }
-  .jet-band__bild img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: .5rem; }
-  .jet-band__bild figcaption { margin-top: .35rem; color: var(--grau); font-size: .85rem; }
+/* ---- Im Fokus (Startseite, unter dem Termin-Banner) ----
+   Zwei gleich große, statische Kacheln (keine Animation, kein Karussell).
+   Kachel 1 (#fokus-kachel) füllt js/fokus.js aus data/fokus.json, Kachel 2
+   "Mitglied werden" steht fest im HTML. Weißer Text liegt immer auf einer
+   einfarbigen --blau-Fläche (kein Verlauf, ≥ 4,5:1); ein Foto liegt dahinter und
+   scheint oben durch. Ab 43,75 rem nebeneinander, darunter untereinander. */
+.fokus { padding-block: clamp(1.25rem, 3vw, 2rem); }
+.fokus__raster { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 43.75rem) { .fokus__raster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fokus__raster.fokus__raster--eins { grid-template-columns: 1fr; }
+.fokus-kachel {
+  position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 18rem; background: var(--blau); color: var(--weiss); border-radius: .5rem; overflow: hidden;
 }
-.jet-skeleton { background: var(--linie); color: transparent; border-radius: .25rem; }
-.jet-band__titel.jet-skeleton { width: min(30rem, 90%); }
-.jet-band__wannwo.jet-skeleton { width: min(24rem, 85%); }
-.jet-band .btn.jet-skeleton { width: 9rem; }
-.jet-band__text { margin: 0 0 .25rem; max-width: none; }
-
-/* JET-Band Phase 4 (Preisträger): Symbolbild entfällt, Karten statt Text.
-   Mobil einspaltig und kompakt (Kurztext und Bildnachweis ausgeblendet),
-   ab 48 rem Raster. Bildfläche mit festem Seitenverhältnis: kein Layout-Sprung,
-   auch wenn das Foto später lädt. Farben nur aus den Variablen. */
-.jet-band--preistraeger .jet-band__layout { display: block; }
-.jet-band--preistraeger .jet-band__bild { display: none; }
-.jet-preistraeger { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
-.jet-preis { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .75rem; align-items: center; background: var(--weiss); border: 1px solid var(--linie); border-radius: .5rem; overflow: hidden; }
-.jet-preis__bild { aspect-ratio: 1 / 1; background: var(--off-white); display: flex; align-items: center; justify-content: center; }
-.jet-preis__bild img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.jet-preis__bild--platzhalter img { width: 3.5rem; height: auto; object-fit: contain; }
-.jet-preis__text { padding: .5rem .75rem .5rem 0; }
-.jet-preis__platz { margin: 0; font-family: var(--font-titel); font-weight: 700; font-size: .95rem; color: var(--blau); }
-.jet-preis h3.jet-preis__name { margin: .1rem 0 0; font-size: 1.1rem; color: var(--ink); }
-.jet-preis__ort { margin: 0; color: var(--grau); font-size: .95rem; }
-.jet-preis__kurz { display: none; margin: .35rem 0 0; font-size: .95rem; }
-.jet-preis__credit { display: none; margin: .35rem 0 0; color: var(--grau); font-size: .8rem; }
-@media (min-width: 48.0625rem) {
-  .jet-preistraeger { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
-  .jet-preis { display: block; }
-  .jet-preis__bild { aspect-ratio: 3 / 2; }
-  .jet-preis__text { padding: .75rem 1rem 1rem; }
-  .jet-preis__kurz, .jet-preis__credit { display: block; }
+@media (min-width: 43.75rem) { .fokus-kachel { min-height: 24rem; } }
+.fokus-kachel__bild { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.fokus-kachel__hinweis {
+  position: absolute; top: .5rem; right: .5rem; padding: .15rem .5rem; border-radius: .25rem;
+  background: var(--weiss); color: var(--ink); font-size: .75rem; line-height: 1.3;
 }
+.fokus-kachel__inhalt { position: relative; isolation: isolate; padding: 1.25rem; }
+.fokus-kachel__inhalt::before { content: ""; position: absolute; inset: 0; background: var(--blau); opacity: .92; z-index: -1; }
+.fokus-kachel__label { margin: 0 0 .35rem; color: var(--weiss); font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.fokus-kachel h2.fokus-kachel__titel { margin: 0 0 .5rem; color: var(--weiss); font-size: clamp(1.25rem, 3vw, 1.6rem); line-height: 1.2; }
+.fokus-kachel__wannwo { margin: 0 0 .5rem; color: var(--weiss); font-family: var(--font-titel); font-weight: 700; font-size: 1.05rem; max-width: none; }
+.fokus-kachel__text { margin: 0 0 1rem; color: var(--weiss); max-width: none; }
+.fokus-kachel__aktion { margin: 0; }
+.fokus-kachel .btn--invers:focus-visible { outline-color: var(--weiss); }
+.fokus-skeleton { background: var(--blau-hell); color: transparent; border-radius: .25rem; }
+.fokus-kachel__titel.fokus-skeleton { width: min(18rem, 90%); }
+.fokus-kachel__wannwo.fokus-skeleton { width: min(16rem, 80%); }
+.fokus-kachel__text.fokus-skeleton { width: 100%; }
+.fokus-kachel .btn.fokus-skeleton { width: 9rem; }
 
 /* JET-Seite: Abschnitt „Preisträger“ (js/jet.js, aus data/jet.json) */
 #preistraeger { margin: 2rem 0; }
