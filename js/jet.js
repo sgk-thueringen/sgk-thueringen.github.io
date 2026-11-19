@@ -8,14 +8,14 @@
 
    Zusätzlich schaltet das Skript die datumsabhängigen Blöcke der Seite um
    (data-jet="bewerbung" / "beendet", siehe Kommentar in
-   jet-foerderpreis/index.html): bis einschließlich "bewerbungsschluss" bleibt
+   jet/index.html): bis einschließlich "bewerbungsschluss" bleibt
    der Bewerbungsteil stehen, ab dem Tag danach wird er ausgeblendet und der
    Block "Die Bewerbungsphase ist beendet" eingeblendet. Umgeschaltet wird nur
    per hidden, Datum per textContent. Ebenso der Satz zur Preisverleihung
    (data-jet-verleihung="bevor" / "danach"): ab dem Tag nach "verleihung" in der
    Vergangenheitsform.
 
-   Auch auf /jet-jugendpreis/ eingebunden: dort tauscht der Satz zur Jury-
+   Auch im Abschnitt Bewerbungen von /jet/: dort tauscht der Satz zur Jury-
    Bewertung (data-jet-bewertung="laufend" / "vorbei") nach demselben Prinzip.
 
    Felder je Preisträger: platz (1–3), name, ort, kurztext, text (ausführlich;
@@ -72,7 +72,7 @@
     danach.hidden = false;
   }
 
-  // Bewertungssatz auf /jet-jugendpreis/ (data-jet-bewertung="laufend" / "vorbei").
+  // Bewertungssatz im Abschnitt Bewerbungen auf /jet/ (data-jet-bewertung="laufend" / "vorbei").
   // Gleiche Bedingung wie in schalteBewerbung() für den Preisträger- bzw.
   // Verliehen-Text: ab dem Verleihungstag, sobald Preisträger eingetragen sind,
   // spätestens ab dem Tag danach.
@@ -97,7 +97,7 @@
     return e;
   }
 
-  // Der Preisträger-Abschnitt existiert nur auf /jet-foerderpreis/; die
+  // Der Preisträger-Abschnitt existiert nur auf /jet/; die
   // datumsabhängigen Umschalter laufen auf jeder Seite, die dieses Skript lädt.
   var sec = document.getElementById("preistraeger");
 

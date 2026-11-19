@@ -142,7 +142,7 @@ def main():
             fehler("data/fokus.json: Feld \"%s\" fehlt." % feld)
     fokus["titel"] = "JET-Förderpreis 2026: Die Preisträger stehen fest"
     fokus["text"] = "Die Jury hat entschieden. Die ersten drei Plätze:"
-    fokus["link"] = "/jet-foerderpreis/"
+    fokus["link"] = "/jet/#preistraeger"
     fokus["buttonText"] = "Zu den Preisträgern"
     # Top 3 für die Kachel (js/fokus.js): nur Platz 1–3, gleiche Platzierung wie oben.
     fokus["preistraeger"] = [{"platz": x["platz"], "name": x["name"], "ort": x["ort"]}
@@ -159,7 +159,7 @@ def main():
     t["titel"] = "JET-Förderpreis 2026: Die Preisträger stehen fest"
     t["text"] = "Die Preisträger des JET-Förderpreises 2026 stehen fest – alle Platzierungen im Überblick."
     t["quelleLabel"] = "Zu den Preisträgern"
-    t["quelleUrl"] = "/jet-foerderpreis/"
+    t["quelleUrl"] = "/jet/#preistraeger"
 
     schreiben(JET, jet)
     schreiben(FOKUS, fokus)
