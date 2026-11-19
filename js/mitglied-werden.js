@@ -70,6 +70,30 @@
   var root = document.getElementById("assistent");
   if (!root) return;
 
+  // Einstieg: Auswahl zwischen zwei Wegen. Der Assistent (#digital) erscheint erst nach dem Klick auf
+  // "Antrag online starten"; "Zurück zur Auswahl" blendet ihn wieder aus. Ohne diese Elemente bleibt
+  // der Assistent wie bisher sichtbar.
+  var wege = document.getElementById("wege");
+  var digital = document.getElementById("digital");
+  var startBtn = document.getElementById("weg-digital");
+  var zurueckBtn = document.getElementById("weg-zurueck");
+  if (wege && digital && startBtn && zurueckBtn) {
+    startBtn.hidden = false;
+    startBtn.addEventListener("click", function () {
+      wege.hidden = true;
+      digital.hidden = false;
+      var ziel = document.getElementById("mw-schritt-titel") || root;
+      try { ziel.focus(); } catch (e) { /* kein Fokus möglich */ }
+    });
+    zurueckBtn.addEventListener("click", function () {
+      digital.hidden = true;
+      wege.hidden = false;
+      startBtn.focus();
+    });
+  } else if (digital) {
+    digital.hidden = false;
+  }
+
   // ---- Zustand (nur im Arbeitsspeicher) --------------------------------
   var state;
   function neuerZustand() {
