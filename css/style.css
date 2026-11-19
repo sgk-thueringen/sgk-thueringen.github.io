@@ -733,9 +733,15 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   .wortwolke__wort--mittel { font-size: 1.4rem; }
   .wortwolke__wort--gross { font-size: 1.8rem; }
 }
+/* Transparenz-Hinweis im Bild (z. B. "Symbolbild (KI-generiert)"): klein und dezent unten
+   rechts. Halbtransparentes Schwarz (60 %) mit weißer Schrift und leichtem Textschatten:
+   auch über einem rein weißen Foto bleibt der Kontrast ≥ 5,7:1 (Weiß auf ≈ #666),
+   über dunklen Bildern darüber. max-width hält das Badge in schmalen Feldern im Bild. */
 .fokus-kachel__hinweis {
-  position: absolute; top: .5rem; right: .5rem; padding: .15rem .5rem; border-radius: .25rem;
-  background: var(--weiss); color: var(--ink); font-size: .75rem; line-height: 1.3;
+  position: absolute; right: .4rem; bottom: .4rem; max-width: calc(100% - .8rem);
+  padding: .1rem .4rem; border-radius: .2rem;
+  background: rgba(0, 0, 0, .6); color: var(--weiss); font-size: .6875rem; line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
 }
 .fokus-kachel__inhalt { flex: 1; display: flex; flex-direction: column; padding: 1.25rem; }
 #fokus-inhalt { display: contents; }
