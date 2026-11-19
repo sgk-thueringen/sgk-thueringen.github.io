@@ -9,7 +9,12 @@
      ort         Wo, z. B. "Ilmenau". Wann und Wo erscheinen nur zusammen, als eigene
                  fette Zeile "Wann · Wo" (wie wannWoText() in aktuelles.js)
      text        ein Satz Text
-     bild        lokaler Pfad unter /assets/ (optional, nur eigene Dateien)
+     preistraeger optional: Top 3 als kurze Liste unter dem Text, Array aus
+                 { platz: 1–3, name: "…", ort: "…" (optional) }, höchstens 3
+                 Einträge, nur Platz 1–3, Reihenfolge nach platz. Fehlt das
+                 Feld (oder ist es leer/ungültig), bleibt die Kachel wie bisher.
+                 Befüllt automatisch die Action jet-preistraeger-publish.
+     bild       lokaler Pfad unter /assets/ (optional, nur eigene Dateien)
      bildHinweis kurzer Hinweis im Bild, z. B. "Symbolbild (KI-generiert)"
      link        Ziel des Buttons: interner Pfad (/…) oder https://…
      buttonText  Beschriftung des Buttons (ohne Artikel/Possessivpronomen)
@@ -27,6 +32,16 @@
 
   function sicherLink(url) {
     return typeof url === "string" && (/^\/(?!\/)/.test(url) || /^https:\/\//.test(url));
+  }
+
+  var MEDAILLE = { 1: "🥇", 2: "🥈", 3: "🥉" };
+
+  // Nur Platz 1–3 mit Namen, höchstens 3 Einträge, nach Platz sortiert.
+  function podium(liste) {
+    if (!Array.isArray(liste)) return [];
+    return liste.filter(function (e) {
+      return e && MEDAILLE[e.platz] && typeof e.name === "string" && e.name.trim() !== "";
+    }).sort(function (a, b) { return a.platz - b.platz; }).slice(0, 3);
   }
 
   function el(tag, klasse, text) {
@@ -58,6 +73,22 @@
       }
       if (typeof f.text === "string" && f.text.trim() !== "") {
         inhalt.appendChild(el("p", "fokus-kachel__text", f.text));
+      }
+      var top = podium(f.preistraeger);
+      if (top.length > 0) {
+        var ul = el("ul", "fokus-kachel__liste");
+        top.forEach(function (e) {
+          var li = el("li");
+          var med = el("span", "fokus-kachel__medaille", MEDAILLE[e.platz]);
+          med.setAttribute("aria-hidden", "true");
+          li.appendChild(med);
+          li.appendChild(document.createTextNode(e.platz + ". Platz: " + e.name));
+          if (typeof e.ort === "string" && e.ort.trim() !== "") {
+            li.appendChild(el("span", "fokus-kachel__ort", " · " + e.ort));
+          }
+          ul.appendChild(li);
+        });
+        inhalt.appendChild(ul);
       }
       if (sicherLink(f.link) && typeof f.buttonText === "string" && f.buttonText.trim() !== "") {
         var aktion = el("p", "fokus-kachel__aktion");

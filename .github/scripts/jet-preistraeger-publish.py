@@ -141,9 +141,12 @@ def main():
         if feld not in fokus:
             fehler("data/fokus.json: Feld \"%s\" fehlt." % feld)
     fokus["titel"] = "JET-Förderpreis 2026: Die Preisträger stehen fest"
-    fokus["text"] = "Die Jury hat entschieden – hier sind die Platzierungen."
+    fokus["text"] = "Die Jury hat entschieden. Die ersten drei Plätze:"
     fokus["link"] = "/jet-foerderpreis/"
     fokus["buttonText"] = "Zu den Preisträgern"
+    # Top 3 für die Kachel (js/fokus.js): nur Platz 1–3, gleiche Platzierung wie oben.
+    fokus["preistraeger"] = [{"platz": x["platz"], "name": x["name"], "ort": x["ort"]}
+                             for x in liste if x["platz"] <= 3]
     # wannAnzeige, ort, bild und bildHinweis bleiben unverändert.
 
     aktuell = laden(AKTUELL)

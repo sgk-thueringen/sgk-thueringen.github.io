@@ -749,6 +749,10 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .fokus-kachel h2.fokus-kachel__titel { margin: 0 0 .5rem; color: var(--weiss); font-size: clamp(1.25rem, 3vw, 1.6rem); line-height: 1.2; }
 .fokus-kachel__wannwo { margin: 0 0 .5rem; color: var(--weiss); font-family: var(--font-titel); font-weight: 700; font-size: 1.05rem; max-width: none; }
 .fokus-kachel__text { margin: 0 0 1rem; color: var(--weiss); max-width: none; }
+.fokus-kachel__liste { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .3rem; }
+.fokus-kachel__liste li { margin: 0; color: var(--weiss); font-size: .95rem; line-height: 1.3; font-weight: 700; }
+.fokus-kachel__medaille { display: inline-block; width: 1.6em; }
+.fokus-kachel__ort { font-weight: 400; }
 .fokus-kachel__aktion { margin: auto 0 0; }
 .fokus-kachel .btn--invers:focus-visible { outline-color: var(--weiss); }
 .fokus-skeleton { background: var(--blau-hell); color: transparent; border-radius: .25rem; }
