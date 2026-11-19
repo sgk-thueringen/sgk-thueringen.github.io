@@ -253,7 +253,7 @@
   function schrittKopf(n, titel) {
     return [
       h("p", { class: "assistent-progress" }, ["Schritt " + n + " von 6"]),
-      h("h2", { class: "frage", id: "mw-titel", tabindex: "-1" }, [titel])
+      h("h2", { class: "frage", id: "mw-schritt-titel", tabindex: "-1" }, [titel])
     ];
   }
 
@@ -296,7 +296,7 @@
     if (fokusZiel === "fehler" || (Object.keys(state.fehler).length && s !== 6)) {
       ziel = document.getElementById("mw-fehler-uebersicht");
     }
-    if (!ziel) ziel = document.getElementById("mw-titel") || root;
+    if (!ziel) ziel = document.getElementById("mw-schritt-titel") || root;
     if (ziel) { try { ziel.focus({ preventScroll: false }); } catch (e) { ziel.focus(); } }
     fokusZiel = null;
   }
@@ -681,18 +681,18 @@
     var r = state.ergebnis || { art: "senden" };
     if (r.art === "senden") {
       root.appendChild(h("p", { class: "assistent-progress" }, ["Schritt 6 von 6"]));
-      root.appendChild(h("h2", { class: "frage", id: "mw-titel", tabindex: "-1", role: "status" }, ["Dein Antrag wird gesendet …"]));
+      root.appendChild(h("h2", { class: "frage", id: "mw-schritt-titel", tabindex: "-1", role: "status" }, ["Dein Antrag wird gesendet …"]));
       root.appendChild(h("p", null, ["Bitte warte einen Moment und lade die Seite nicht neu."]));
     } else if (r.art === "ok") {
       root.appendChild(h("p", { class: "assistent-progress" }, ["Schritt 6 von 6"]));
-      root.appendChild(h("h2", { class: "frage", id: "mw-titel", tabindex: "-1" }, ["Dein Antrag ist eingegangen"]));
+      root.appendChild(h("h2", { class: "frage", id: "mw-schritt-titel", tabindex: "-1" }, ["Dein Antrag ist eingegangen"]));
       root.appendChild(h("p", null, ["Vielen Dank! Die Bestätigung kommt in Kürze per E-Mail."]));
       root.appendChild(h("p", null, ["Über die Aufnahme entscheidet der Vorstand. Mandatsreferenz und Einzugstermine teilen wir dir mit der Aufnahmebestätigung mit."]));
       if (r.id) root.appendChild(h("p", { class: "feld-hinweis" }, ["Deine Antragsnummer: " + r.id]));
       root.appendChild(h("p", null, [h("a", { class: "btn", href: "/" }, ["Zur Startseite"])]));
     } else {
       root.appendChild(h("p", { class: "assistent-progress" }, ["Schritt 6 von 6"]));
-      root.appendChild(h("h2", { class: "frage", id: "mw-titel", tabindex: "-1" }, [r.titel]));
+      root.appendChild(h("h2", { class: "frage", id: "mw-schritt-titel", tabindex: "-1" }, [r.titel]));
       root.appendChild(h("p", { role: "alert" }, [r.text]));
       root.appendChild(h("p", null, ["Kontakt: ", kontaktLink()]));
       root.appendChild(h("div", { class: "schritt-navi" }, [
