@@ -28,7 +28,7 @@ name: JET-Preisträger veröffentlichen
 
 on:
   schedule:
-    - cron: "*/15 21-23 * * *"   # UTC = 21:00 bis 00:45 Uhr MEZ; die Zeitsperre im Skript entscheidet
+    - cron: "*/15 20-23 * * *"   # UTC = 21:00 bis 00:45 Uhr MEZ; die Zeitsperre im Skript entscheidet
   workflow_dispatch:
     inputs:
       dry_run:
@@ -46,7 +46,7 @@ jobs:
       DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
       # Frühester Veröffentlichungszeitpunkt beim Cron-Lauf, Berliner Ortszeit, Format JJJJ-MM-TT HH:MM.
       # Manuelle Läufe ignorieren ihn. Fehlt er oder ist er ungültig, veröffentlicht der Cron-Lauf nichts.
-      VEROEFFENTLICHEN_AB: "2026-11-20 21:00"
+      VEROEFFENTLICHEN_AB: "2026-11-20 22:00"
     steps:
       - uses: actions/checkout@v4
 
