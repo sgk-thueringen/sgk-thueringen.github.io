@@ -1,0 +1,71 @@
+name: Deploy auf ALL-INKL (FTPS)
+
+# Zweck: Lädt die Website per FTPS auf den ALL-INKL-Webspace hoch (Umzug von GitHub Pages zu
+# ALL-INKL). GitHub Pages bleibt während der Umstellung aktiv; dieser Workflow lädt zusätzlich hoch.
+#
+# Start: GitHub -> Actions -> "Deploy auf ALL-INKL (FTPS)" -> Run workflow.
+#   dry_run = true  (Standard): Trockenlauf, listet nur, was hochgeladen würde. Es wird nichts verändert.
+#   dry_run = false: echter Upload.
+#
+# Phase 1 (jetzt): nur manueller Start, Test auf der Übergangsdomain sgk-thueringen.de.w021e1ff.kasserver.com.
+# Phase 2 (später, NICHT jetzt): automatische Trigger (push auf main sowie workflow_run der Workflows
+#   "Bundes-SGK-Feed abrufen" und "JET-Preisträger veröffentlichen", weil Commits mit GITHUB_TOKEN keine
+#   Push-Workflows auslösen). Phase 3: DNS-Umstellung. Siehe OFFENE-PUNKTE.md (Hosterwechsel).
+#
+# Zugang (Werte stehen nie im Repo und werden nie ausgegeben):
+#   Repository-Variablen: ALLINKL_FTP_SERVER, ALLINKL_FTP_USER
+#   Secret:               ALLINKL_FTP_PASSWORD
+# Verbindung: FTPS explizit, Port 21 (SFTP gibt es im Tarif nicht). Der FTP-Benutzer hat den Heimatordner
+# /sgk-thueringen.de/, daher server-dir "./".
+#
+# Verwendete Action: SamKirkland/FTP-Deploy-Action v4.4.0 (Commit 110f9186c050f71550953127052e77650219c287),
+# Eingaben geprüft an README, action.yml und src/parse.ts dieser Version.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Trockenlauf (nur anzeigen, nichts hochladen)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-allinkl
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Per FTPS nach ALL-INKL hochladen
+        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287   # v4.4.0
+        with:
+          server: ${{ vars.ALLINKL_FTP_SERVER }}
+          username: ${{ vars.ALLINKL_FTP_USER }}
+          password: ${{ secrets.ALLINKL_FTP_PASSWORD }}
+          protocol: ftps            # explizites FTPS (verschlüsselt), nie Klartext-FTP
+          port: 21
+          security: strict          # Zertifikat muss gültig sein (Standard der Action ist "loose")
+          local-dir: ./
+          server-dir: ./
+          dry-run: ${{ inputs.dry_run }}
+          # Ausschlussliste. Die drei ersten Zeilen sind der Standard der Action und stehen hier nochmals,
+          # weil ein eigener Wert den Standard ersetzt. Der Rest gehört nicht zur Website.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            .claude/**
+            .nojekyll
+            CNAME
+            **/*.md
+            **/*.ps1
+            **/*.py
+            export/**
+            unterlagen/**

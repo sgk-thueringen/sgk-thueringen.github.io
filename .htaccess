@@ -1,0 +1,60 @@
+# .htaccess der Website sgk-thueringen.de (ALL-INKL, Apache).
+# Auf GitHub Pages hat diese Datei keine Wirkung (statischer Server ohne Apache-Auswertung).
+
+# ---- Weiterleitungen nur für die echte Domain ---------------------------------------------------
+# Die Regeln greifen NUR, wenn der Host genau sgk-thueringen.de oder www.sgk-thueringen.de lautet
+# (Ende der Zeichenkette mit $). Die Übergangsdomain sgk-thueringen.de.w021e1ff.kasserver.com passt
+# nicht, wird also nicht umgeleitet (sonst landet der Test wieder auf GitHub Pages).
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# HTTP -> HTTPS und zugleich www -> ohne www in einem Schritt (eine Weiterleitung statt zwei).
+RewriteCond %{HTTP_HOST} ^(www\.)?sgk-thueringen\.de(:[0-9]+)?$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://sgk-thueringen.de%{REQUEST_URI} [R=301,L,QSA]
+
+# www -> ohne www (bei HTTPS).
+RewriteCond %{HTTP_HOST} ^www\.sgk-thueringen\.de(:[0-9]+)?$ [NC]
+RewriteRule ^ https://sgk-thueringen.de%{REQUEST_URI} [R=301,L,QSA]
+</IfModule>
+
+# ---- Fehlerseite --------------------------------------------------------------------------------
+# Unbekannte Adressen zeigen die eigene 404-Seite (wie bei GitHub Pages).
+ErrorDocument 404 /404.html
+
+# ---- Dotfiles sperren ---------------------------------------------------------------------------
+# Dateien, deren Name mit einem Punkt beginnt (z. B. .ftp-deploy-sync-state.json der Deploy-Action,
+# .htaccess selbst), sind von außen nicht abrufbar.
+<IfModule mod_authz_core.c>
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+</IfModule>
+
+# ---- Zwischenspeicher (Cache) ---------------------------------------------------------------------
+# Alles 600 Sekunden (10 Minuten), wie bei GitHub Pages; Schriften (woff2) ein Jahr.
+# mod_expires setzt dafür "Cache-Control: max-age=..." und "Expires".
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 600 seconds"
+<FilesMatch "\.woff2$">
+    ExpiresDefault "access plus 1 year"
+</FilesMatch>
+</IfModule>
+
+# ---- Sicherheits-Header -------------------------------------------------------------------------
+# Kein Content-Security-Policy-Header (bewusst).
+<IfModule mod_headers.c>
+# Der Browser darf den Dateityp nicht erraten.
+Header always set X-Content-Type-Options "nosniff"
+# Beim Klick auf externe Links wird nur die Domain (nicht der ganze Pfad) als Herkunft mitgeschickt.
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---- Komprimierung ------------------------------------------------------------------------------
+# HTML, CSS, JavaScript, JSON und SVG werden gzip-komprimiert übertragen (kleinere Dateien, schneller).
+<IfModule mod_deflate.c>
+<IfModule mod_filter.c>
+AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml text/plain application/xml
+</IfModule>
+</IfModule>
