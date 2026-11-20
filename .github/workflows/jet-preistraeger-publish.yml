@@ -28,7 +28,7 @@ name: JET-Preisträger veröffentlichen
 
 on:
   schedule:
-    - cron: "*/15 20-23 * * *"   # UTC = 21:00 bis 00:45 Uhr MEZ; die Zeitsperre im Skript entscheidet
+    - cron: "*/15 21-23 * * *"   # UTC = 21:00 bis 00:45 Uhr MEZ; die Zeitsperre im Skript entscheidet
   workflow_dispatch:
     inputs:
       dry_run:
