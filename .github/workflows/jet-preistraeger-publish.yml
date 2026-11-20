@@ -5,29 +5,28 @@ name: JET-Preisträger veröffentlichen
 # .github/scripts/jet-preistraeger-publish.py, Daten:
 # .github/scripts/jet-preistraeger.json).
 #
-# Läuft täglich um 20:00 UTC (= 21:00 Uhr MEZ) und ist idempotent: Sind in
-# data/jet.json schon Preisträger eingetragen, ändert der Lauf nichts. Vor dem
-# Verleihungstag (Feld "verleihung") tut der Cron-Lauf ebenfalls nichts.
+# NUR MANUELL (kein Cron): Die Veröffentlichung wird nach der Verleihung von Hand gestartet.
+#   Actions -> "JET-Preisträger veröffentlichen" -> Run workflow, dry_run ausschalten (false).
+#   Ein Cron wurde entfernt, weil GitHub geplante Läufe unzuverlässig und teils um Stunden verzögert startet
+#   (am 20.11.2026 veröffentlichte der verzögerte Lauf vom 19.11. die Preisträger um 02:38 MEZ, rund 18 Stunden
+#   vor der Verleihung). Der manuelle Lauf überspringt die Datumssperre im Skript (sie gilt nur beim Ereignis
+#   "schedule"). Idempotent: Sind in data/jet.json schon Preisträger eingetragen, ändert der Lauf nichts.
 #
 # Voraussetzung: Die Platzierung liegt im Repo-Secret JET_PLATZIERUNG (JSON
 # {"Name": Platz}, Namen wie in jet-preistraeger.json; verschlüsselt, vor der
 # Verleihung nirgends lesbar) oder als "platz" in jet-preistraeger.json. Sonst
-# bricht der Lauf mit Fehler ab (Benachrichtigung) und veröffentlicht nichts.
-# Nach Änderung des Secrets nach 21 Uhr: im Reiter "Actions" diesen Workflow
-# über "Run workflow" manuell starten.
+# bricht der Lauf mit Fehler ab und veröffentlicht nichts.
 #
-# Trockenlauf: "Run workflow" mit dry_run = true. Rechnet mit angenommenen
+# Trockenlauf (Standard): "Run workflow" mit dry_run = true. Rechnet mit angenommenen
 # Platzierungen, zeigt den Diff im Log, committet nichts.
 
 on:
-  schedule:
-    - cron: "0 20 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
         description: "Trockenlauf (kein Commit, Platzierungen nur angenommen)"
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: write
