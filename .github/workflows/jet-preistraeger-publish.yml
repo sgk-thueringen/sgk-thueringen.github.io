@@ -5,22 +5,30 @@ name: JET-Preisträger veröffentlichen
 # .github/scripts/jet-preistraeger-publish.py, Daten:
 # .github/scripts/jet-preistraeger.json).
 #
-# NUR MANUELL (kein Cron): Die Veröffentlichung wird nach der Verleihung von Hand gestartet.
-#   Actions -> "JET-Preisträger veröffentlichen" -> Run workflow, dry_run ausschalten (false).
-#   Ein Cron wurde entfernt, weil GitHub geplante Läufe unzuverlässig und teils um Stunden verzögert startet
-#   (am 20.11.2026 veröffentlichte der verzögerte Lauf vom 19.11. die Preisträger um 02:38 MEZ, rund 18 Stunden
-#   vor der Verleihung). Der manuelle Lauf überspringt die Datumssperre im Skript (sie gilt nur beim Ereignis
-#   "schedule"). Idempotent: Sind in data/jet.json schon Preisträger eingetragen, ändert der Lauf nichts.
+# AUTOMATISCH AB 21:00 UHR BERLINER ZEIT, SONST MANUELL:
+#   Der Cron (alle 15 Minuten, 20:00 bis 23:45 UTC = 21:00 bis 00:45 Uhr MEZ) startet den Lauf. Veröffentlicht
+#   wird erst, wenn die Berliner Ortszeit die Zeit aus VEROEFFENTLICHEN_AB (unten im Job, Format
+#   "JJJJ-MM-TT HH:MM", Berliner Ortszeit) erreicht hat, geprüft mit Datum UND Uhrzeit im Skript. Früher
+#   startende oder verzögerte Läufe tun nichts. Fehlt die Zeit oder ist sie nicht lesbar, wird nichts
+#   veröffentlicht (Fehler). Idempotent: Sind in data/jet.json schon Preisträger eingetragen, ändert ein
+#   Lauf nichts.
+#   Manueller Start (Actions -> "JET-Preisträger veröffentlichen" -> Run workflow, dry_run ausschalten)
+#   UMGEHT die Zeitsperre und veröffentlicht sofort.
+#   NACH DER VERÖFFENTLICHUNG den schedule-Trigger wieder entfernen (Hinweis in OFFENE-PUNKTE.md).
+#   Hintergrund: Am 20.11.2026 hatte ein verzögerter Lauf mit reiner Datumsprüfung die Preisträger um
+#   02:38 MEZ veröffentlicht, rund 18 Stunden vor der Verleihung.
 #
 # Voraussetzung: Die Platzierung liegt im Repo-Secret JET_PLATZIERUNG (JSON
 # {"Name": Platz}, Namen wie in jet-preistraeger.json; verschlüsselt, vor der
 # Verleihung nirgends lesbar) oder als "platz" in jet-preistraeger.json. Sonst
 # bricht der Lauf mit Fehler ab und veröffentlicht nichts.
 #
-# Trockenlauf (Standard): "Run workflow" mit dry_run = true. Rechnet mit angenommenen
+# Trockenlauf (Standard bei manuellem Start): "Run workflow" mit dry_run = true. Rechnet mit angenommenen
 # Platzierungen, zeigt den Diff im Log, committet nichts.
 
 on:
+  schedule:
+    - cron: "*/15 20-23 * * *"   # UTC = 21:00 bis 00:45 Uhr MEZ; die Zeitsperre im Skript entscheidet
   workflow_dispatch:
     inputs:
       dry_run:
@@ -36,6 +44,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+      # Frühester Veröffentlichungszeitpunkt beim Cron-Lauf, Berliner Ortszeit, Format JJJJ-MM-TT HH:MM.
+      # Manuelle Läufe ignorieren ihn. Fehlt er oder ist er ungültig, veröffentlicht der Cron-Lauf nichts.
+      VEROEFFENTLICHEN_AB: "2026-11-20 21:00"
     steps:
       - uses: actions/checkout@v4
 

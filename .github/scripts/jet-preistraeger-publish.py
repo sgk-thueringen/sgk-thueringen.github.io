@@ -8,8 +8,11 @@ data/aktuelles.json); Commit und Push macht der Workflow.
 Ablauf / Schutzmechanismen:
   1. Idempotenz: Ist data/jet.json -> "preistraeger" bereits gefüllt, passiert
      nichts (Exit 0).
-  2. Datumssperre: Beim Cron-Lauf (schedule) wird erst ab dem Tag "verleihung"
-     (data/jet.json, Zeitzone Europe/Berlin) veröffentlicht.
+  2. Zeitsperre (Datum UND Uhrzeit): Beim Cron-Lauf (schedule) wird erst veröffentlicht, wenn die
+     Berliner Ortszeit (Europe/Berlin) die Grenze aus der Umgebungsvariable VEROEFFENTLICHEN_AB
+     (Format "JJJJ-MM-TT HH:MM", Berliner Ortszeit) erreicht hat. Fehlt die Variable oder ist sie
+     nicht lesbar, endet der Lauf mit Fehler und veröffentlicht nichts (fail closed). Manuelle
+     Läufe (workflow_dispatch) ignorieren die Sperre.
   3. Platzierung: kommt aus dem Repo-Secret JET_PLATZIERUNG (JSON
      {"Name": Platz}, Namen wie in jet-preistraeger.json) oder, wenn das Secret
      leer ist, aus den "platz"-Feldern in .github/scripts/jet-preistraeger.json.
@@ -19,7 +22,7 @@ Ablauf / Schutzmechanismen:
   4. Es wird erst geschrieben, wenn alle drei Dateien im Speicher fertig und
      konsistent sind.
 
-DRY_RUN=1: Trockenlauf für den Test. Datumssperre aus, Platzierung nur zur
+DRY_RUN=1: Trockenlauf für den Test. Zeitsperre aus, Platzierung nur zur
 Darstellung als 1, 2, 3, 4, 4 in Dateireihenfolge angenommen (nie committen).
 """
 import datetime
@@ -40,6 +43,10 @@ MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
           "August", "September", "Oktober", "November", "Dezember"]
 PREISGELD = {1: "1.500", 2: "1.000", 3: "500"}
 
+# Format der Zeitgrenze VEROEFFENTLICHEN_AB (Berliner Ortszeit)
+GRENZE_FORMAT = "%Y-%m-%d %H:%M"
+BERLIN = ZoneInfo("Europe/Berlin")
+
 
 def laden(pfad):
     return json.loads(pfad.read_text(encoding="utf-8"))
@@ -53,6 +60,18 @@ def schreiben(pfad, obj):
 def fehler(msg):
     print("::error::" + msg)
     sys.exit(1)
+
+
+def lese_grenze(text):
+    """Liest "JJJJ-MM-TT HH:MM" als Berliner Ortszeit. ValueError bei fehlendem oder ungültigem Wert."""
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("leer")
+    return datetime.datetime.strptime(text.strip(), GRENZE_FORMAT).replace(tzinfo=BERLIN)
+
+
+def grenze_erreicht(jetzt, grenze):
+    """True, wenn jetzt die Grenzzeit erreicht oder überschritten hat (beide Zeiten mit Zeitzone)."""
+    return jetzt >= grenze
 
 
 def eroeffnung(platz, organisation):
@@ -81,9 +100,15 @@ def main():
         fehler("data/jet.json: Feld \"verleihung\" fehlt oder ist kein ISO-Datum.")
 
     if ereignis == "schedule" and not dry:
-        heute = datetime.datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
-        if heute < verleihung:
-            print("Heute (%s) liegt vor der Verleihung (%s) – nichts zu tun." % (heute, verleihung))
+        # Zeitsperre (Datum UND Uhrzeit); fail closed: ohne gültige Grenze wird nichts veröffentlicht.
+        try:
+            grenze = lese_grenze(os.environ.get("VEROEFFENTLICHEN_AB"))
+        except ValueError:
+            fehler("VEROEFFENTLICHEN_AB fehlt oder ist kein Wert im Format JJJJ-MM-TT HH:MM – nichts veröffentlicht.")
+        jetzt = datetime.datetime.now(BERLIN)
+        if not grenze_erreicht(jetzt, grenze):
+            print("Veröffentlichungszeit noch nicht erreicht – nichts zu tun (jetzt %s, ab %s Berliner Zeit)."
+                  % (jetzt.strftime(GRENZE_FORMAT), grenze.strftime(GRENZE_FORMAT)))
             return 0
 
     eintraege = laden(DATEN)["eintraege"]
