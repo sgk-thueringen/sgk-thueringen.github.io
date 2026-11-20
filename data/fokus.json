@@ -1,27 +1,10 @@
 {
-  "titel": "JET-Jugendpreis 2026: Die Preisträger stehen fest",
+  "titel": "JET-Jugendpreis: 5 Bewerbungen eingegangen",
   "wannAnzeige": "Preisverleihung am 20. November 2026",
   "ort": "Ilmenau",
-  "text": "Die Jury hat entschieden. Die ersten drei Plätze:",
+  "text": "Jugendgremien aus Thüringen haben sich beworben, die Jury wertet jetzt aus.",
   "bild": "/assets/jet-foerderpreis/jet-foerderpreis-jugendgremium-sitzung.jpg",
   "bildHinweis": "Symbolbild (KI-generiert)",
-  "link": "/jet/#preistraeger",
-  "buttonText": "Zu den Preisträgern",
-  "preistraeger": [
-    {
-      "platz": 1,
-      "name": "Jugendparlament Schmalkalden",
-      "ort": "Schmalkalden"
-    },
-    {
-      "platz": 2,
-      "name": "Kinder- und Jugendbeirat Steinbach-Hallenberg (HASELPIPE)",
-      "ort": "Steinbach-Hallenberg"
-    },
-    {
-      "platz": 3,
-      "name": "Jugendrat Gera",
-      "ort": "Gera"
-    }
-  ]
+  "link": "/jet/#bewerbungen",
+  "buttonText": "Zu den Bewerbungen"
 }

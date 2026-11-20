@@ -1,36 +1,5 @@
 {
   "bewerbungsschluss": "2026-11-10",
   "verleihung": "2026-11-20",
-  "preistraeger": [
-    {
-      "platz": 1,
-      "name": "Jugendparlament Schmalkalden",
-      "ort": "Schmalkalden",
-      "text": "Herzlichen Glückwunsch ans Jugendparlament Schmalkalden – 1. Platz beim JET-Jugendpreis 2026 und 1.500 Euro Preisgeld! Gemeinsam mit Schulklassen hat das Jugendparlament ein Projekt zur Reinigung von Flussläufen umgesetzt und dabei mehrere Videobeiträge produziert – von der Aktion selbst bis zu einem Aftermovie und einem gemeinsamen Abschlusstreffen, der „Finissage“.\n\nEin schönes Beispiel dafür, wie praktischer Umweltschutz und Jugendbeteiligung vor Ort zusammenkommen."
-    },
-    {
-      "platz": 2,
-      "name": "Kinder- und Jugendbeirat Steinbach-Hallenberg (HASELPIPE)",
-      "ort": "Steinbach-Hallenberg",
-      "text": "Herzlichen Glückwunsch an den Kinder- und Jugendbeirat Steinbach-Hallenberg – 2. Platz beim JET-Jugendpreis 2026 und 1.000 Euro Preisgeld! Mit der „HASELPIPE“ hat der Beirat einen Skate-Relax-Point realisiert – von der ersten Ideenwerkstatt 2022 mit rund 60 Jugendlichen über die Spendenakquise bis zur Eröffnung 2024 und laufenden Erweiterungen.\n\nDas rund 400.000 Euro umfassende Projekt wurde über LEADER-Fördermittel, einen kommunalen Zuschuss, Lottomittel sowie Spenden und Sponsoring finanziert und 2026 mit dem 1. Platz des Thüringer Demografiepreises ausgezeichnet."
-    },
-    {
-      "platz": 3,
-      "name": "Jugendrat Gera",
-      "ort": "Gera",
-      "text": "Herzlichen Glückwunsch an den Jugendrat Gera – 3. Platz beim JET-Jugendpreis 2026 und 500 Euro Preisgeld! Der Jugendrat Gera ist ein offenes, seit 2014 bestehendes Gremium mit rund 20 Mitgliedern im Alter von 12 bis 27 Jahren.\n\n2026 war er mit niedrigschwelligen Beteiligungsformaten besonders aktiv: einem Barcamp mit Jugendlichen aus Bieblach-Ost, dem Einsatz für Hitzeschutz an Geraer Schulen, einem Beteiligungs-Angelspiel und einem Beteiligungs-Bällebad zu Stadtteilthemen sowie zwei Philosophischen Abenden zu Identität und Angst."
-    },
-    {
-      "platz": 4,
-      "name": "Jugendwerk Suhl",
-      "ort": "Suhl",
-      "text": "Herzlichen Glückwunsch ans Jugendwerk Suhl – auch ohne Platz auf dem Treppchen hat die Bewerbung beim JET-Jugendpreis 2026 die Jury überzeugt! Der 2024 gegründete, vollständig von Jugendlichen zwischen 11 und 29 Jahren selbst organisierte Jugendverband der AWO Suhl hat seitdem über 30 aktive Mitglieder gewonnen und mehr als 16 eigene Veranstaltungen auf die Beine gestellt – von Freizeitangeboten bis zu internationalen Jugendbegegnungen.\n\nMit einem eigenen Büro in der Suhler Innenstadt und der Auszeichnung der Thüringer Ehrenamtsstiftung 2026 zeigt das Jugendwerk, wie viel junge Menschen in kurzer Zeit auf die Beine stellen können, wenn man ihnen Raum dafür gibt."
-    },
-    {
-      "platz": 4,
-      "name": "Jugendforum Saalfeld-Rudolstadt",
-      "ort": "Saalfeld-Rudolstadt",
-      "text": "Herzlichen Glückwunsch ans Jugendforum Saalfeld-Rudolstadt – auch ohne Platz auf dem Treppchen hat die Bewerbung beim JET-Jugendpreis 2026 die Jury überzeugt! Das Jugendforum besteht seit 2016, feiert 2026 sein 10-jähriges Jubiläum und zählt mit 50 aktiven Mitgliedern zu den größten Jugendforen Deutschlands.\n\nEs vergibt jährlich bis zu 10.000 Euro an Projektideen anderer junger Menschen im Landkreis und setzt sich seit vier Jahren für einen Sitz im Jugendhilfeausschuss ein."
-    }
-  ]
+  "preistraeger": []
 }
