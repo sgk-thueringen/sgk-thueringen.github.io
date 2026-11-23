@@ -3,14 +3,17 @@ name: Deploy auf ALL-INKL (FTPS)
 # Zweck: Lädt die Website per FTPS auf den ALL-INKL-Webspace hoch (Umzug von GitHub Pages zu
 # ALL-INKL). GitHub Pages bleibt während der Umstellung aktiv; dieser Workflow lädt zusätzlich hoch.
 #
-# Start: GitHub -> Actions -> "Deploy auf ALL-INKL (FTPS)" -> Run workflow.
-#   dry_run = true  (Standard): Trockenlauf, listet nur, was hochgeladen würde. Es wird nichts verändert.
-#   dry_run = false: echter Upload.
-#
-# Phase 1 (jetzt): nur manueller Start, Test auf der Übergangsdomain sgk-thueringen.de.w021e1ff.kasserver.com.
-# Phase 2 (später, NICHT jetzt): automatische Trigger (push auf main sowie workflow_run der Workflows
-#   "Bundes-SGK-Feed abrufen" und "JET-Preisträger veröffentlichen", weil Commits mit GITHUB_TOKEN keine
-#   Push-Workflows auslösen). Phase 3: DNS-Umstellung. Siehe OFFENE-PUNKTE.md (Hosterwechsel).
+# Auslöser (Phase 2):
+#   1. push auf main (ohne reine Änderungen an **.md, .github/**, export/**, unterlagen/**): echter Upload.
+#   2. workflow_run: nach erfolgreichem Abschluss von "Bundes-SGK-Feed abrufen" (täglich, committet data/bundes-sgk.json)
+#      und "JET-Preisträger veröffentlichen" (committet data/*.json) auf main: echter Upload. Grund: Commits mit
+#      GITHUB_TOKEN lösen keinen push-Trigger aus, ohne workflow_run käme deren Stand nie auf den Server.
+#      Das sind die beiden einzigen Workflows, die nach main committen ("JSON-Daten validieren" committet nicht).
+#   3. Manueller Start: GitHub -> Actions -> "Deploy auf ALL-INKL (FTPS)" -> Run workflow.
+#      dry_run = true  (Standard): Trockenlauf, listet nur, was hochgeladen würde. Es wird nichts verändert.
+#      dry_run = false: echter Upload.
+#   Bei push und workflow_run ist dry-run immer aus (false). Hochgeladen wird immer der aktuelle Stand von main.
+#   GitHub Pages bleibt bis zur DNS-Umstellung (Phase 3) aktiv; siehe OFFENE-PUNKTE.md (Hosterwechsel).
 #
 # Zugang (Werte stehen nie im Repo und werden nie ausgegeben):
 #   Repository-Variablen: ALLINKL_FTP_SERVER, ALLINKL_FTP_USER
@@ -28,6 +31,17 @@ on:
         description: "Trockenlauf (nur anzeigen, nichts hochladen)"
         type: boolean
         default: true
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - ".github/**"
+      - "export/**"
+      - "unterlagen/**"
+  workflow_run:
+    workflows: ["Bundes-SGK-Feed abrufen", "JET-Preisträger veröffentlichen"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
@@ -38,9 +52,14 @@ concurrency:
 
 jobs:
   deploy:
+    # Nach workflow_run nur bei Erfolg des auslösenden Workflows.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
+      # Immer der aktuelle Stand von main (bei push und workflow_run), beim manuellen Start der gewählte Branch.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || 'main' }}
 
       - name: Per FTPS nach ALL-INKL hochladen
         uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287   # v4.4.0
@@ -53,7 +72,9 @@ jobs:
           security: strict          # Zertifikat muss gültig sein (Standard der Action ist "loose")
           local-dir: ./
           server-dir: ./
-          dry-run: ${{ inputs.dry_run }}
+          # Immer ein String "true"/"false": Bei push und workflow_run ist inputs.dry_run leer (null), nicht false.
+          # Der Ausdruck liefert dort ausdrücklich 'false' (echter Upload) und nur beim manuellen Start mit dry_run = true 'true'.
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
           # Ausschlussliste. Die drei ersten Zeilen sind der Standard der Action und stehen hier nochmals,
           # weil ein eigener Wert den Standard ersetzt. Der Rest gehört nicht zur Website.
           exclude: |

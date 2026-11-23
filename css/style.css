@@ -799,3 +799,13 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 @media (min-width: 40rem) {
   .footer__inner { grid-template-columns: 1fr auto; align-items: start; }
 }
+
+/* 404-Seite: große Zahl als Blickfang, schmaler roter Akzentbalken (nur Akzent, nie Text oder Button). */
+.fehlerseite { padding-block: clamp(2rem, 8vw, 4.5rem); }
+.fehler-zahl { font-family: var(--font-titel); font-weight: 700; font-size: clamp(5rem, 28vw, 9rem); line-height: 1; color: var(--blau); margin: 0 0 .25rem; }
+.fehler-balken { width: 5rem; height: .3rem; background: var(--rot); margin: 0 0 1.25rem; }
+.fehler-links { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+@media (max-width: 30rem) {
+  .fehler-links { flex-direction: column; }
+  .fehler-links .btn { text-align: center; }
+}

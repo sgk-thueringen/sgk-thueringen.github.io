@@ -5,18 +5,15 @@ name: JET-Preisträger veröffentlichen
 # .github/scripts/jet-preistraeger-publish.py, Daten:
 # .github/scripts/jet-preistraeger.json).
 #
-# AUTOMATISCH AB 21:00 UHR BERLINER ZEIT, SONST MANUELL:
-#   Der Cron (alle 15 Minuten, 20:00 bis 23:45 UTC = 21:00 bis 00:45 Uhr MEZ) startet den Lauf. Veröffentlicht
-#   wird erst, wenn die Berliner Ortszeit die Zeit aus VEROEFFENTLICHEN_AB (unten im Job, Format
-#   "JJJJ-MM-TT HH:MM", Berliner Ortszeit) erreicht hat, geprüft mit Datum UND Uhrzeit im Skript. Früher
-#   startende oder verzögerte Läufe tun nichts. Fehlt die Zeit oder ist sie nicht lesbar, wird nichts
-#   veröffentlicht (Fehler). Idempotent: Sind in data/jet.json schon Preisträger eingetragen, ändert ein
-#   Lauf nichts.
-#   Manueller Start (Actions -> "JET-Preisträger veröffentlichen" -> Run workflow, dry_run ausschalten)
-#   UMGEHT die Zeitsperre und veröffentlicht sofort.
-#   NACH DER VERÖFFENTLICHUNG den schedule-Trigger wieder entfernen (Hinweis in OFFENE-PUNKTE.md).
-#   Hintergrund: Am 20.11.2026 hatte ein verzögerter Lauf mit reiner Datumsprüfung die Preisträger um
-#   02:38 MEZ veröffentlicht, rund 18 Stunden vor der Verleihung.
+# NUR NOCH MANUELL (Stand 23.11.2026):
+#   Die Preisträger sind veröffentlicht (data/jet.json ist gefüllt); der schedule-Trigger (Cron) wurde entfernt.
+#   Der Workflow läuft nur noch per Start von Hand (Actions -> "JET-Preisträger veröffentlichen" -> Run workflow,
+#   dry_run ausschalten). Er ist idempotent: Sind in data/jet.json schon Preisträger eingetragen, ändert ein Lauf nichts.
+#   Ein manueller Start umgeht die Zeitsperre VEROEFFENTLICHEN_AB (unten im Job) und veröffentlicht sofort.
+#   Hintergrund: Am 20.11.2026 hatte ein verzögerter Lauf mit reiner Datumsprüfung die Preisträger um 02:38 MEZ
+#   veröffentlicht, rund 18 Stunden vor der Verleihung (Zeitsperre danach eingebaut, jetzt entfällt der Cron).
+#   Nach einem erfolgreichen Lauf mit Commit startet der Workflow "Deploy auf ALL-INKL (FTPS)" automatisch (workflow_run).
+#   Das Secret JET_PLATZIERUNG wird nicht mehr gebraucht und kann gelöscht werden (siehe OFFENE-PUNKTE.md).
 #
 # Voraussetzung: Die Platzierung liegt im Repo-Secret JET_PLATZIERUNG (JSON
 # {"Name": Platz}, Namen wie in jet-preistraeger.json; verschlüsselt, vor der
@@ -27,8 +24,6 @@ name: JET-Preisträger veröffentlichen
 # Platzierungen, zeigt den Diff im Log, committet nichts.
 
 on:
-  schedule:
-    - cron: "*/15 20-23 * * *"   # UTC = 21:00 bis 00:45 Uhr MEZ; die Zeitsperre im Skript entscheidet
   workflow_dispatch:
     inputs:
       dry_run:
@@ -44,8 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
-      # Frühester Veröffentlichungszeitpunkt beim Cron-Lauf, Berliner Ortszeit, Format JJJJ-MM-TT HH:MM.
-      # Manuelle Läufe ignorieren ihn. Fehlt er oder ist er ungültig, veröffentlicht der Cron-Lauf nichts.
+      # Frühester Veröffentlichungszeitpunkt für Cron-Läufe (Berliner Ortszeit, JJJJ-MM-TT HH:MM). Ohne schedule-Trigger
+      # wirkungslos; manuelle Läufe ignorieren ihn ohnehin. Bleibt als Sicherung stehen, falls ein Cron wieder eingefügt wird.
       VEROEFFENTLICHEN_AB: "2026-11-20 22:00"
     steps:
       - uses: actions/checkout@v4
