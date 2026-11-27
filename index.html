@@ -20,10 +20,10 @@
   <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/favicon-180.png?v=2">
-  <link rel="stylesheet" href="/css/style.css?v=52">
+  <link rel="stylesheet" href="/css/style.css?v=53">
   <script src="/js/include.js?v=13" defer></script>
   <script src="/js/aktuelles.js?v=13" defer></script>
-  <script src="/js/fokus.js?v=4" defer></script>
+  <script src="/js/fokus.js?v=5" defer></script>
   <script src="/js/vorstand.js?v=10" defer></script>
   <script src="/js/bundes-sgk.js?v=3" defer></script>
   <!-- Organization (schema.org). Nur Angaben, die im Repo belegt sind. sameAs: Instagram-Kanal (Adresse laut André 19.11.2026). foundingDate laut Registerauszug (CLAUDE.md), steht nicht auf der Seite. -->
@@ -84,7 +84,7 @@
       <div class="container">
         <!-- Zwei gleich große, statische Kacheln (kein Karussell, keine Animation).
              Kachel 1 "Im Fokus" ist austauschbar: Inhalt aus data/fokus.json
-             (Felder titel, text, bild, bildHinweis, link, buttonText), gerendert von
+             (Felder titel, text, bild, bildAusschnitt, bildHinweis, link, buttonText), gerendert von
              js/fokus.js — Pflege ohne HTML-Kenntnis, Anleitung in REDAKTION.md.
              Aufbau: Bildfeld oben, Textblock darunter, kein Overlay. Skelett gegen Layout-Sprung; ohne JavaScript wird Kachel 1 ausgeblendet
              (Kachel 2 bleibt). Kachel 2 "Mitglied werden" (Bildfeld: Wortwolke statt Foto) steht dauerhaft hier im
@@ -93,7 +93,9 @@
         <div class="fokus__raster">
           <article class="fokus-kachel" id="fokus-kachel">
             <!-- Bildfeld mit festem Seitenverhältnis (reserviert den Platz, kein Layout-Sprung);
-                 js/fokus.js setzt das Foto ein, ohne "bild" in der JSON entfällt das Feld. -->
+                 js/fokus.js setzt das Foto ein, ohne "bild" in der JSON entfällt das Feld.
+                 Bildrechte (aktuelles Bild, Gruppenbild JET-Preisträger): Foto SPD Thüringen, 20.11.2026, Ilmenau; Einverständnis laut
+                 Angabe André Grenzdörffer (27.11.2026), Nachweis in unterlagen/bildrechte.md. Bei Bildwechsel diesen Hinweis anpassen. -->
             <div class="fokus-kachel__medien"></div>
             <div class="fokus-kachel__inhalt">
               <p class="fokus-kachel__label">Im Fokus</p>

@@ -373,6 +373,8 @@ a:hover { text-decoration: none; }
 .content-bild--seite { margin: 2rem 0; max-width: 32rem; }
 .content-bild--seite img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: .5rem; }
 .content-bild--seite figcaption { margin-top: .5rem; color: var(--grau); font-size: .95rem; }
+/* Gruppenbild (JET-Preisträger auf /jet/): breiter als die übrigen Content-Fotos, damit die Gesichter erkennbar sind. */
+.content-bild--seite.content-bild--gruppe { max-width: 48rem; }
 
 /* ---- JET-Düsenjet-Emblem (nur /jet-foerderpreis/) ----
    Bewusste, markierte CI-Ausnahme nur für diese eine Seite — siehe

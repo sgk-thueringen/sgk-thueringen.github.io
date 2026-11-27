@@ -1,9 +1,10 @@
 {
   "titel": "JET-Förderpreis 2026: Die Preisträger stehen fest",
   "text": "Die Jury hat entschieden. Die ersten drei Plätze:",
-  "bild": "/assets/jet-foerderpreis/jet-foerderpreis-jugendgremium-sitzung.jpg",
-  "bildHinweis": "Symbolbild (KI-generiert)",
-  "link": "/jet-foerderpreis/",
+  "bild": "/assets/jet-foerderpreis/preistraeger/jet-preistraeger-gruppenbild-2026.webp",
+  "bildAusschnitt": "50% 75%",
+  "bildHinweis": "Foto: SPD Thüringen",
+  "link": "/jet/#preistraeger",
   "buttonText": "Zu den Preisträgern",
   "preistraeger": [
     { "platz": 1, "name": "Jugendparlament Schmalkalden", "ort": "Schmalkalden" },

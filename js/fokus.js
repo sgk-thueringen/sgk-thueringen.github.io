@@ -15,6 +15,8 @@
                  Feld (oder ist es leer/ungültig), bleibt die Kachel wie bisher.
                  Befüllt automatisch die Action jet-preistraeger-publish.
      bild       lokaler Pfad unter /assets/ (optional, nur eigene Dateien)
+     bildAusschnitt optional: welcher Teil beim Zuschnitt sichtbar bleibt, zwei
+                 Prozentwerte waagerecht/senkrecht, z. B. "50% 75%" (ohne: 50% 30%)
      bildHinweis kurzer Hinweis im Bild, z. B. "Symbolbild (KI-generiert)"
      link        Ziel des Buttons: interner Pfad (/…) oder https://…
      buttonText  Beschriftung des Buttons (ohne Artikel/Possessivpronomen)
@@ -107,6 +109,9 @@
           img.className = "fokus-kachel__bild";
           img.src = f.bild;
           img.alt = "";
+          if (typeof f.bildAusschnitt === "string" && /^\d{1,3}% \d{1,3}%$/.test(f.bildAusschnitt)) {
+            img.style.objectPosition = f.bildAusschnitt;
+          }
           medien.appendChild(img);
           if (typeof f.bildHinweis === "string" && f.bildHinweis.trim() !== "") {
             medien.appendChild(el("span", "fokus-kachel__hinweis", f.bildHinweis));

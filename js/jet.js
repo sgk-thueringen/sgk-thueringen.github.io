@@ -20,7 +20,9 @@
 
    Felder je Preisträger: platz (1–3), name, ort, kurztext, text (ausführlich;
    Absätze durch Leerzeile getrennt), bild (lokaler Pfad unter /assets/,
-   optional), bildAlt, bildrechte. Texte werden per textContent eingesetzt
+   optional), bildAlt, bildrechte. Zusätzlich optional "gruppenbild" (neben
+   "preistraeger"): bild, breite, hoehe, bildAlt, bildunterschrift, bildrechte;
+   steht vor den Karten. Texte werden per textContent eingesetzt
    (kein innerHTML), Bilder nur von der eigenen Domain. */
 (function () {
   var MEDAILLE = { 1: "🥇", 2: "🥈", 3: "🥉" };
@@ -117,6 +119,26 @@
       var h = document.getElementById("preistraeger-titel");
       if (h) h.textContent = "Preisträger " + j.verleihung.slice(0, 4);
 
+      // Gruppenbild (Feld "gruppenbild") vor den Karten. width/height halten den
+      // Platz frei, bevor das Bild geladen ist (kein Layout-Sprung).
+      var g = j.gruppenbild;
+      if (g && lokalesBild(g.bild)) {
+        var gruppe = el("figure", "content-bild content-bild--seite content-bild--gruppe");
+        var foto = document.createElement("img");
+        if (g.breite > 0 && g.hoehe > 0) { foto.width = g.breite; foto.height = g.hoehe; }
+        foto.loading = "lazy";
+        foto.alt = typeof g.bildAlt === "string" ? g.bildAlt : "";
+        foto.src = g.bild;
+        gruppe.appendChild(foto);
+        var unterschrift = el("figcaption", null, g.bildunterschrift || "");
+        if (g.bildrechte) {
+          if (g.bildunterschrift) unterschrift.appendChild(document.createElement("br"));
+          unterschrift.appendChild(document.createTextNode(g.bildrechte));
+        }
+        if (unterschrift.textContent) gruppe.appendChild(unterschrift);
+        sec.appendChild(gruppe);
+      }
+
       liste.forEach(function (e) {
         var art = el("article", "preistraeger__eintrag");
         var h3 = el("h3");
@@ -147,10 +169,23 @@
         });
         sec.appendChild(art);
       });
-      sec.hidden = false;
-      // Der Abschnitt ist beim Laden noch versteckt: Sprung zum Anker (z. B. vom
-      // Startseiten-Band) nach dem Einblenden nachholen.
-      if (location.hash === "#preistraeger") sec.scrollIntoView();
+      if (location.hash !== "#preistraeger") { sec.hidden = false; return; }
+      // Aufruf mit Anker (z. B. Fokus-Kachel): Der Abschnitt ist beim Laden noch
+      // versteckt, der Sprung wird nachgeholt. Damit der Browser das nicht als
+      // großen Layout-Sprung (CLS) zählt: erst nach dem Laden einblenden (sonst
+      // springt er selbst im selben Schritt) und erst nach dem nächsten
+      // gezeichneten Bild dorthin scrollen.
+      function nachNaechstemBild(fn) {
+        requestAnimationFrame(function () { requestAnimationFrame(fn); });
+      }
+      function einblendenUndSpringen() {
+        setTimeout(function () {
+          sec.hidden = false;
+          nachNaechstemBild(function () { sec.scrollIntoView(); });
+        }, 100);
+      }
+      if (document.readyState === "complete") einblendenUndSpringen();
+      else window.addEventListener("load", einblendenUndSpringen);
     })
     .catch(function () {
       // Fallback: Abschnitt bleibt versteckt.

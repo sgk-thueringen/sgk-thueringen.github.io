@@ -1,6 +1,14 @@
 {
   "bewerbungsschluss": "2026-11-10",
   "verleihung": "2026-11-20",
+  "gruppenbild": {
+    "bild": "/assets/jet-foerderpreis/preistraeger/jet-preistraeger-gruppenbild-2026.webp",
+    "breite": 1200,
+    "hoehe": 800,
+    "bildAlt": "Gruppenfoto der Preisträger des JET-Jugendpreises 2026 mit den drei Preisschecks beim Kommunalpolitischen Empfang in Ilmenau",
+    "bildunterschrift": "Die Preisträger des JET-Jugendpreises 2026 bei der Verleihung in Ilmenau am 20. November 2026.",
+    "bildrechte": "Foto: SPD Thüringen"
+  },
   "preistraeger": [
     {
       "platz": 1,
