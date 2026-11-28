@@ -23,16 +23,18 @@
 
 /* ---- Design-Tokens ---- */
 :root {
-  --rot: #E20A16;        /* Bundes-SGK-Rot; Akzent, siehe CLAUDE.md */
-  --blau: #1E3F92;       /* Bundes-SGK-Blau; Überschriften, Links */
-  --blau-hell: #65659A;  /* sekundär */
-  --ink: #1C1C1C;        /* Fließtext */
+  --rot: #E3000F;        /* SPD-Rot: Links, Knöpfe, Akzente (auf Weiß 4,9:1, auf --off-white 4,5:1) */
+  --rot-dunkel: #B3000C; /* Hover roter Flächen */
+  --blau: #1E3F92;       /* nur Hauptüberschriften (H1/H2) und „THÜRINGEN“ im Logo */
+  --rand-stark: #8b95a3; /* Hover- und Feldränder, gestrichelte Rahmen */
+  --ink: #1f2933;        /* Fließtext und Menü */
   --grau: #595959;       /* Sekundärtext */
+  --grau-rueckblick: #5b6570; /* Termin/Ort abgelaufener Meldungen (auf Weiß 5,9:1) */
   --weiss: #FFFFFF;
-  --off-white: #F4F4F6;
+  --off-white: #F4F6F9;  /* sehr helles Grau für Flächen */
   --linie: #D9D9DE;
   --rot-tint: #FDEAEA;    /* Hintergrund Icon-Badges (JET-Bewerbungen) */
-  --blau-tint: #E8ECF6;   /* dito, abwechselnd mit Rot-Tint */
+  --grau-tint: #F4F6F9;   /* dito, abwechselnd mit Rot-Tint */
 
   --font-text: "Source Sans 3", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --font-titel: "Libre Franklin", var(--font-text);
@@ -54,7 +56,8 @@ body {
 }
 img, svg { max-width: 100%; height: auto; }
 
-h1, h2, h3, h4 { font-family: var(--font-titel); font-weight: 700; color: var(--blau); line-height: 1.2; margin: 0 0 .5em; }
+h1, h2, h3, h4 { font-family: var(--font-titel); font-weight: 700; color: var(--ink); line-height: 1.2; margin: 0 0 .5em; }
+h1, h2 { color: var(--blau); }
 h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); }
 h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); }
 /* H3: deutlich kleiner als H2, klar als Unterabschnitt; etwas Luft nach oben */
@@ -76,17 +79,20 @@ p { margin: 0 0 1em; max-width: 64ch; }
 .aktuelles-liste { margin-top: 1.5rem; }
 .beitrag { padding-top: 1.75rem; margin-top: 1.75rem; border-top: 1px solid var(--linie); }
 .beitrag:first-child { padding-top: 0; margin-top: 0; border-top: 0; }
-.beitrag h2, .beitrag h3 { margin-top: 0; margin-bottom: .15rem; }
+.beitrag h2, .beitrag h3 { margin-top: 0; margin-bottom: .15rem; color: var(--ink); }
+/* Meldungstitel: dunkelgrau, beim Darüberfahren rot */
+.beitrag h2 a, .beitrag h3 a { color: var(--ink); text-decoration: none; }
+.beitrag h2 a:hover, .beitrag h3 a:hover { color: var(--rot); text-decoration: underline; }
+/* Abgelaufene Meldung (data/aktuelles.json, Feld "ende"; js/ablauf.js) */
+.rueckblick-marke { display: inline-block; margin: 0 0 .35rem; padding: .05rem .5rem; border: 1px solid var(--linie); border-radius: .25rem; background: var(--off-white); color: var(--grau); font-size: .8rem; font-weight: 600; }
+.beitrag-aktion { margin: .75rem 0 0; }
 .beitrag-datum { color: var(--grau); font-size: .95rem; margin: 0 0 .6rem; }
-/* Wann/Wo — dieselben Felder (wannAnzeige/ort) wie im Termin-Banner
-   (.termin-banner__wannwo), aber bewusst dezent statt der fetten
-   Weiß-auf-Blau-Bannerkontrast: hier normaler Seitenhintergrund, daher
-   var(--blau) (wie Überschriften/Links) statt var(--grau), etwas
-   Gewicht per font-weight, aber kein Fließtext-Volumen wie der Titel.
-   In der Startseiten-Teaser-Kürze (#startseite-aktuelles) kompakter,
-   passend zur dortigen h3-Verkleinerung (siehe Kommentar weiter unten). */
-.beitrag-wannwo { color: var(--blau); font-weight: 600; font-size: .95rem; margin: 0 0 .6rem; }
+/* Wann/Wo — dieselben Felder (wannAnzeige/ort) wie im Termin-Banner: rot und fett.
+   Auf der Startseite (#startseite-aktuelles) etwas kleiner. */
+.beitrag-wannwo { color: var(--rot); font-weight: 700; font-size: .95rem; margin: 0 0 .6rem; }
 .beitrag-quelle { margin-top: .6rem; }
+/* Textknöpfe mit Pfeil (der Pfeil ist reine Zierde, Vorleseprogramme überspringen ihn) */
+.beitrag-quelle a::after, .termin-banner__mehr::after { content: " →"; content: " →" / ""; }
 
 /* Dokument-Download / PDF-Vorschau */
 .dok-meta { color: var(--grau); font-size: .95rem; margin-top: -.5rem; }
@@ -104,11 +110,11 @@ p { margin: 0 0 1em; max-width: 64ch; }
   .dok-tabelle { font-size: .85rem; }
   .dok-tabelle th, .dok-tabelle td { padding: .4rem .35rem; }
 }
-.dok-tabelle thead th { background: var(--blau-tint); }
+.dok-tabelle thead th { background: var(--grau-tint); }
 .dok-tabelle tbody th { font-weight: 400; }
 .dok-tabelle td { text-align: right; white-space: nowrap; }
 @media (max-width: 48rem) { .pdf-embed { display: none; } } /* mobil nur Download-Button */
-a { color: var(--blau); text-underline-offset: .15em; }
+a { color: var(--rot); text-underline-offset: .15em; }
 a:hover { text-decoration: none; }
 
 /* ---- Vorstands-Raster: Karten aus data/vorstand.json ---- */
@@ -133,14 +139,14 @@ a:hover { text-decoration: none; }
   border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
   border-bottom-left-radius: 0;
   border-left: 2px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
-  background: var(--blau);
+  background: var(--linie);
 }
 .vorstand-card figcaption { margin-top: .6rem; }
 .vorstand-name {
   display: block;
   font-family: var(--font-titel);
   font-weight: 700;
-  color: var(--blau);
+  color: var(--ink);
   line-height: 1.25;
 }
 .vorstand-funktion { display: block; color: var(--ink); }
@@ -183,10 +189,10 @@ a:hover { text-decoration: none; }
   gap: 1rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  min-height: 21.5rem;
+  min-height: 19.0625rem;   /* höchste Kachel 301px + Bodenabstand (gemessen 28.11.2026) */
   max-width: 43rem;
-  margin: 1.5rem 0 1rem;
-  padding: 0 0 .5rem;   /* etwas Luft unter den Bildern */
+  margin: .75rem 0 0;
+  padding: 0 0 .25rem;
   scrollbar-width: none;      /* Firefox: native Scrollleiste ausblenden */
   -ms-overflow-style: none;   /* alte Edge-Versionen: native Scrollleiste ausblenden */
 }
@@ -218,7 +224,7 @@ a:hover { text-decoration: none; }
   border-top-left-radius: 0;    /* links soll der Farbbalken nicht mit abgerundet werden */
   border-bottom-left-radius: 0;
   border-left: 2px solid var(--rot);   /* CI-Akzent, durchgängig, kein Farbwechsel je Person */
-  background: var(--blau);
+  background: var(--linie);
   object-fit: cover;
 }
 .vorstand-teaser-name {
@@ -226,7 +232,7 @@ a:hover { text-decoration: none; }
   margin-top: .5rem;
   text-align: center;
   font-size: .95rem; font-weight: 600; line-height: 1.25;
-  color: var(--blau);
+  color: var(--ink);
 }
 .vorstand-teaser-karte:hover .vorstand-teaser-name { text-decoration: underline; }
 /* Funktion/Text/Ort: dieselben Klassen wie im Haupt-Grid (.vorstand-
@@ -252,7 +258,7 @@ a:hover { text-decoration: none; }
    von oben für die horizontale Zentrierung (Flex-Kontext). */
 .vorstand-teaser-karte .vorstand-funktion {
   display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-  min-height: 3.4rem; margin-bottom: .15rem;
+  min-height: 1.7rem; margin-bottom: .15rem;   /* eine Zeile; alle Funktionsbezeichnungen im Teaser sind einzeilig */
   color: var(--grau);   /* dieselbe Variable wie .vorstand-ort oben — kein neuer Wert, weniger dominant als der Standard-Ink-Ton */
 }
 
@@ -260,7 +266,7 @@ a:hover { text-decoration: none; }
    Reihe, von js/vorstand.js eingefügt (initTeaserRotation()). */
 .vorstand-teaser-steuerung {
   display: flex; align-items: center; gap: .5rem;
-  margin-top: .5rem;
+  margin-top: .25rem;
 }
 /* Pause/Play- und Vor-/Zurück-Knöpfe (WCAG 2.2.2). Mindestens 44×44 px
    Tastfläche wie die übrigen Bedienelemente im Header
@@ -276,7 +282,7 @@ a:hover { text-decoration: none; }
 }
 .vorstand-teaser-pause { padding: 0 1rem; }
 .vorstand-teaser-nav { padding: 0; font-size: 1.25rem; line-height: 1; }
-.vorstand-teaser-pause:hover, .vorstand-teaser-nav:hover { border-color: var(--blau-hell); color: var(--blau); }
+.vorstand-teaser-pause:hover, .vorstand-teaser-nav:hover { border-color: var(--rot); color: var(--rot); }
 
 /* Sanftes Scrollen nur, wenn keine reduzierte Bewegung gewünscht ist —
    erster Ort im Projekt mit dieser Media Query. Ohne sie (Standard:
@@ -310,10 +316,10 @@ a:hover { text-decoration: none; }
   min-height: 5.5rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--linie); border-radius: .5rem;
-  background: var(--off-white); color: var(--blau);
+  background: var(--off-white); color: var(--rot);
   font-weight: 600; text-decoration: none;
 }
-.kontakt-kachel:hover { background: var(--weiss); border-color: var(--blau-hell); }
+.kontakt-kachel:hover { background: var(--weiss); border-color: var(--rot); }
 
 /* Mitglied kraft Amtes (§ 7 Abs. 1 Nr. 4) — leicht abgesetzte eigene Gruppe */
 .vorstand-amt { margin-top: 2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--linie); }
@@ -332,7 +338,7 @@ a:hover { text-decoration: none; }
   font-family: var(--font-titel);
   font-size: clamp(1.2rem, 2.6vw, 1.5rem);
   line-height: 1.35;
-  color: var(--blau);
+  color: var(--ink);
   max-width: 55ch;
 }
 
@@ -343,7 +349,7 @@ a:hover { text-decoration: none; }
 .bild-platzhalter__box {
   display: flex; align-items: center; justify-content: center;
   aspect-ratio: 3 / 2; max-width: 32rem;
-  border: 2px dashed var(--blau-hell); border-radius: .5rem;
+  border: 2px dashed var(--rand-stark); border-radius: .5rem;
   background: var(--off-white); color: var(--grau);
   font-weight: 600; text-align: center; padding: 1rem;
 }
@@ -397,7 +403,7 @@ a:hover { text-decoration: none; }
   margin: 0 auto 1rem;
 }
 .jet-badge--rot { background: var(--rot-tint); }
-.jet-badge--blau { background: var(--blau-tint); }
+.jet-badge--blau { background: var(--grau-tint); }
 .jet-badge svg { width: 68%; height: auto; display: block; }
 
 /* Entwurf-/Warnhinweis — nicht übersehbar (roter Rahmen, Off-White) */
@@ -411,7 +417,7 @@ a:hover { text-decoration: none; }
 
 /* Neutraler, deutlich abgesetzter Hinweiskasten */
 .hinweisbox {
-  border-left: 5px solid var(--blau-hell); background: var(--off-white);
+  border-left: 5px solid var(--rand-stark); background: var(--off-white);
   padding: 1rem 1.25rem; border-radius: 0 .5rem .5rem 0;
   margin: 1.75rem 0; max-width: 64ch;
 }
@@ -430,7 +436,7 @@ a:hover { text-decoration: none; }
 .toc ol { margin: 0; padding-left: 1.4rem; line-height: 1.7; }
 
 /* Sichtbarer Fokus (WCAG) */
-:focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
 /* ---- Layout ---- */
 .container { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad); }
@@ -440,12 +446,12 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 /* Skip-Link */
 .skip-link {
   position: absolute; left: -9999px; top: 0;
-  background: var(--blau); color: #fff; padding: .6rem 1rem; z-index: 100;
+  background: var(--ink); color: #fff; padding: .6rem 1rem; z-index: 100;
 }
 .skip-link:focus { left: 0; }
 
 /* Roter Akzentbalken ganz oben (Rot = Akzent) */
-.markenbalken { height: 6px; background: var(--rot); }
+.markenbalken { height: 5px; background: var(--rot); }
 
 /* ---- Platz-Reservierung gegen Layout-Shift (CLS) --------------------
    Kopf und Fuß werden per include.js NACH dem ersten Paint eingefügt; ohne
@@ -460,15 +466,12 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
    ACHTUNG bei Änderungen am Kopf (Navigationseinträge, Logohöhe, CTA/Menü-
    Knopf-Größe): Höhen neu messen und die drei Werte anpassen. Siehe
    OFFENE-PUNKTE J (CLS). */
-[data-include="header"] { min-height: 144px; }                /* mobil, Menü eingeklappt (<= 48rem); gemessen 139px über die ganze Breite 320–768px */
-@media (min-width: 48.0625rem) {                              /* Desktop, CTA "Mitglied werden" bricht auf eigene
-                                                                   Zeile unter Logo+Nav bzw. Logo (769–~920px, je nach
-                                                                   Breite auch Logo/Nav/CTA je eigene Zeile) */
-  [data-include="header"] { min-height: 190px; }               /* gemessen bis zu 188px (schlechtester Fall 3 Zeilen) */
+[data-include="header"] { min-height: 144px; }                /* mobil, Menü eingeklappt (<= 48rem); gemessen 144px (320–768px) */
+@media (min-width: 48.0625rem) {                              /* Logo + "Mitglied werden", darunter die Navigation, */
+  [data-include="header"] { min-height: 173px; }               /* bis ca. 811px zweizeilig: gemessen 173px */
 }
-@media (min-width: 59rem) {                                   /* Desktop, ab hier passen Logo+Nav auf eine Zeile,
-                                                                   CTA bleibt eigene Zeile darunter (ab 944px) */
-  [data-include="header"] { min-height: 134px; }               /* gemessen 131px */
+@media (min-width: 51rem) {                                   /* ab hier passt die Navigation in eine Zeile */
+  [data-include="header"] { min-height: 127px; }               /* gemessen 127px (816–1600px, 28.11.2026) */
 }
 /* Der Fuß sitzt am Seitenende — sein Nachladen verschiebt nichts darunter und
    trägt daher NICHTS zum CLS bei. Die Reservierung dient nur dazu, ein kurzes
@@ -529,21 +532,23 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
      nicht ans Ende. Das auto-Margin verbraucht den Freiraum vor dem Button
      unabhängig davon zuerst und hält ihn so zuverlässig rechtsbündig. */
   order: 3; margin-left: auto;
-  display: inline-block; background: var(--blau); color: #fff; text-decoration: none;
+  display: inline-block; background: var(--rot); color: #fff; text-decoration: none;
   font-weight: 600; border-radius: .35rem; padding: .5rem 1rem; white-space: nowrap;
 }
-.masthead__cta:hover { background: #162F6E; }
-.masthead__cta[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--rot); }
+.masthead__cta:hover { background: var(--rot-dunkel); }
+.masthead__cta[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--weiss), 0 0 0 2px var(--rot); }
 
 /* Menü-Knopf (Hamburger): nur auf Mobil sichtbar (Regel unten). */
 .masthead__toggle { order: 4; display: none; }
 
-/* Navigation */
+/* Navigation: ab Tablet-Breite in eigener Zeile unter Logo (links) und "Mitglied werden" (rechts) —
+   alle drei nebeneinander passen nicht in die Inhaltsbreite. */
 .hauptnav { order: 2; }
+@media (min-width: 48.0625rem) { .hauptnav { order: 4; flex-basis: 100%; } .masthead__inner { row-gap: .5rem; } }
 .hauptnav > ul { list-style: none; display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; margin: 0; padding: 0; }
 .hauptnav a { display: inline-block; padding: .35rem .1rem; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; }
-.hauptnav a:hover { color: var(--blau); }
-.hauptnav a[aria-current="page"], .hauptnav a.is-active { color: var(--blau); font-weight: 600; border-bottom-color: var(--rot); }
+.hauptnav a:hover { color: var(--rot); }
+.hauptnav a[aria-current="page"], .hauptnav a.is-active { font-weight: 600; border-bottom-color: var(--rot); }
 
 /* Untermenü „Verein": Link + separater Pfeil-Knopf (Disclosure, per include.js). */
 .hasmenu { position: relative; display: flex; flex-wrap: wrap; align-items: center; }
@@ -554,7 +559,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   padding: .35rem .35rem; cursor: pointer;
   min-width: 1.75rem; min-height: 1.75rem;   /* Touch-Ziel mindestens 24 x 24 px (WCAG 2.5.8) */
 }
-.hauptnav__toggle:hover { color: var(--blau); }
+.hauptnav__toggle:hover { color: var(--rot); }
 .hauptnav__toggle .caret {
   width: .45rem; height: .45rem; margin-top: -.2em;
   border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
@@ -571,8 +576,8 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 /* Einzige Quelle der Wahrheit für die Sichtbarkeit: aria-expanded am Auslöser. */
 .hauptnav__toggle[aria-expanded="true"] + .hauptnav__sub { display: block; }
 .hauptnav__sub a { display: block; padding: .55rem .9rem; color: var(--ink); text-decoration: none; border-bottom: 0; }
-.hauptnav__sub a:hover { background: var(--off-white); color: var(--blau); }
-.hauptnav__sub a[aria-current="page"] { color: var(--blau); font-weight: 600; }
+.hauptnav__sub a:hover { background: var(--off-white); color: var(--rot); }
+.hauptnav__sub a[aria-current="page"] { font-weight: 600; box-shadow: inset 3px 0 0 var(--rot); }
 
 /* Schmale Viewports: Navigation einklappbar (no-JS-fähig als Vollseiten-Link-Leiste im
    <noscript>-Fallback der Partial-Einbindung, ab 320px nutzbar). Sichtbar bleiben immer
@@ -595,7 +600,7 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
     padding: 0; cursor: pointer; color: var(--ink);
   }
   .masthead__cta { order: 3; flex-basis: 100%; margin-left: 0; text-align: center; padding: .6rem 1rem; }
-  .masthead__toggle:hover { color: var(--blau); border-color: var(--blau-hell); }
+  .masthead__toggle:hover { color: var(--rot); border-color: var(--rot); }
   .masthead__toggle-icon,
   .masthead__toggle-icon::before,
   .masthead__toggle-icon::after {
@@ -668,56 +673,28 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .hero--kompakt .hero__title { font-size: clamp(1rem, 2.4vw, 1.4rem); line-height: 1.25; max-width: none; }
 
 /* CTA-Button */
-.btn { display: inline-block; background: var(--blau); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
-.btn:hover { background: #162F6E; }
+.btn { display: inline-block; background: var(--rot); color: #fff; text-decoration: none; padding: .7rem 1.2rem; border-radius: .4rem; font-weight: 600; }
+.btn:hover { background: var(--rot-dunkel); }
 
 /* ---- Termin-Banner (Startseite, nach dem Hero) ----
    data/aktuelles.json, gerendert von js/aktuelles.js (renderTerminBanner()).
-   Flächenfarbe var(--blau) statt nur Button — optische Anlehnung an den
-   "Mitglied werden"-Button (.btn oben), aber als ganzer Abschnittshintergrund.
-   Keine neuen Farben, nur bestehende Tokens (--blau/--weiss/--off-white). */
-.termin-banner { background: var(--blau); color: var(--weiss); }
-.termin-banner h2.termin-banner__titel { color: var(--weiss); margin: 0 0 .35rem; }
-.termin-banner__datum { color: var(--weiss); opacity: .85; font-size: .95rem; margin: 0 0 .35rem; }
-/* Wann/Wo — Redaktionsregel: bei jeder Veranstaltungs-Ankündigung müssen Was/Wann/Wo
-   auf den ersten Blick erkennbar sein, als eigenes Element, nicht im Fließtext
-   versteckt. Deutlich größer/fetter als .termin-banner__text (1.0625rem/400,
-   siehe Basis-Regel body), aber kleiner als .termin-banner__titel (h2,
-   clamp(1.35rem, 3vw, 1.9rem)/700). rgba(255,255,255,.92) statt vollem Weiß —
-   dezent abgesetzt vom Titel, Kontrast gegen --blau im Browser real gemessen
-   (Composite-Farbe gegen den Bannerhintergrund, nicht nur die Alpha-Zahl):
-   8,42:1 — weit über WCAG-AA für Fließtext (4,5:1), nicht nur für den
-   Großtext-Schwellwert (3:1). */
-.termin-banner__wannwo {
-  display: block;
-  margin: 0 0 .5rem;
-  font-family: var(--font-titel);
-  font-weight: 700;
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, .92);
-}
-.termin-banner__text { color: var(--weiss); max-width: 56ch; }
+   Helle Fläche mit rotem Streifen links; Was (Titel, blau), Wann/Wo (rot, fett),
+   Knopf rot. Redaktionsregel: Was/Wann/Wo auf den ersten Blick erkennbar. */
+.termin-banner { background: var(--weiss); padding-block: 1rem; }
+.termin-banner .container > #home-termin-inhalt { background: var(--off-white); border-left: 5px solid var(--rot); border-radius: 0 .5rem .5rem 0; padding: 1rem 1.25rem; }
+.termin-banner h2.termin-banner__titel { margin: 0 0 .35rem; }
+.termin-banner__datum { color: var(--grau); font-size: .95rem; margin: 0 0 .35rem; }
+.termin-banner__wannwo { display: block; margin: 0 0 .5rem; font-family: var(--font-titel); font-weight: 700; font-size: 1.15rem; color: var(--rot); }
+.termin-banner__text { max-width: 56ch; }
 .termin-banner__aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin: 1rem 0 0; }
-/* Normaler .btn (blau/weiß) verschwindet auf blauem Grund — invertierte Variante
-   für Banner/dunkle Flächen, dieselben Tokens, nur vertauscht. */
-.btn--invers { background: var(--weiss); color: var(--blau); }
-.btn--invers:hover { background: var(--off-white); }
-.termin-banner__mehr { color: var(--weiss); text-decoration: underline; text-underline-offset: .15em; }
-.termin-banner__mehr:hover { text-decoration: none; }
-/* Globaler Fokus-Rahmen (:focus-visible weiter unten) ist var(--blau) — auf dem
-   blauen Bannerhintergrund kaum sichtbar. Hier auf Weiß umgestellt, sonst
-   identische Regel, nur die Rahmenfarbe getauscht. */
-.termin-banner a:focus-visible,
-.termin-banner .btn--invers:focus-visible { outline-color: var(--weiss); }
-
+.termin-banner__mehr { text-underline-offset: .15em; }
 /* ---- Im Fokus (Startseite, direkt unter der kompakten Hero-Zeile) ----
    Zwei gleich hohe, statische Kacheln (keine Animation, kein Karussell).
    Kachel 1 (#fokus-kachel) füllt js/fokus.js aus data/fokus.json, Kachel 2
    "Mitglied werden" steht fest im HTML. Aufbau je Kachel: oben optional ein
    Bildfeld (.fokus-kachel__medien, festes Seitenverhältnis, kein Overlay),
-   darunter ein eigener Textblock auf einfarbigem --blau. Der weiße Text liegt
-   damit immer auf derselben Fläche (≈ 9,7:1) — unabhängig vom Bildinhalt, auch
-   bei künftigen Bildern. Bildfeld Kachel 1: Foto (<img class="fokus-kachel__bild">),
+   darunter ein eigener Textblock auf Weiß (Karte mit feinem Rand, rotes Label,
+   Titel blau, Knopf rot) — Text nie auf dem Bild. Bildfeld Kachel 1: Foto (<img class="fokus-kachel__bild">),
    Kachel 2: Wortwolke (.fokus-kachel__medien--wolke). grid-auto-rows: 1fr hält beide
    Kacheln nebeneinander gleich hoch (ab 43,75 rem), untereinander behält jede ihre
    natürliche Höhe. */
@@ -725,18 +702,18 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 .fokus__raster { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 @media (min-width: 43.75rem) { .fokus__raster { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; } }
 .fokus__raster.fokus__raster--eins { grid-template-columns: 1fr; }
-.fokus-kachel { display: flex; flex-direction: column; background: var(--blau); color: var(--weiss); border-radius: .5rem; overflow: hidden; }
+.fokus-kachel { display: flex; flex-direction: column; background: var(--weiss); color: var(--ink); border: 1px solid var(--linie); border-radius: .5rem; overflow: hidden; }
 .fokus-kachel[hidden] { display: none; }
-.fokus-kachel__medien { position: relative; flex: none; aspect-ratio: 16 / 9; background: var(--blau-tint); }
+.fokus-kachel__medien { position: relative; flex: none; aspect-ratio: 16 / 9; background: var(--grau-tint); }
 @media (min-width: 43.75rem) { .fokus-kachel__medien { aspect-ratio: 2 / 1; } }
 .fokus-kachel__bild { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 /* Wortwolke im Bildfeld von Kachel 2: echter Text, ruhig zentriert, keine Rotation.
-   Drei Größenstufen; Rot nur bei großer/fetter Schrift (Kontrast auf --blau-tint ≈ 4,1:1,
-   ausreichend ab 3:1 für große Schrift), alles andere --blau (≈ 8:1). Wächst das Bildfeld
+   Drei Größenstufen; Wörter dunkelgrau, „Stadtrat“ und „Bürgermeister“ rot als Betonung
+   (Kontrast auf --grau-tint 4,5:1). Wächst das Bildfeld
    nur, wenn die Wörter mobil nicht hineinpassen. */
 .fokus-kachel__medien--wolke { display: flex; align-items: center; justify-content: center; padding: .75rem 1rem; }
 .wortwolke { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: .15rem .9rem; }
-.wortwolke__wort { color: var(--blau); font-size: 1rem; font-weight: 400; line-height: 1.35; }
+.wortwolke__wort { color: var(--ink); font-size: 1rem; font-weight: 400; line-height: 1.35; }
 .wortwolke__wort--mittel { font-size: 1.2rem; font-weight: 600; }
 .wortwolke__wort--gross { font-family: var(--font-titel); font-size: 1.5rem; font-weight: 700; }
 .wortwolke__wort--rot { color: var(--rot); font-family: var(--font-titel); font-weight: 700; }
@@ -758,17 +735,17 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 }
 .fokus-kachel__inhalt { flex: 1; display: flex; flex-direction: column; padding: 1.25rem; }
 #fokus-inhalt { display: contents; }
-.fokus-kachel__label { margin: 0 0 .35rem; color: var(--weiss); font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-.fokus-kachel h2.fokus-kachel__titel { margin: 0 0 .5rem; color: var(--weiss); font-size: clamp(1.25rem, 3vw, 1.6rem); line-height: 1.2; }
-.fokus-kachel__wannwo { margin: 0 0 .5rem; color: var(--weiss); font-family: var(--font-titel); font-weight: 700; font-size: 1.05rem; max-width: none; }
-.fokus-kachel__text { margin: 0 0 1rem; color: var(--weiss); max-width: none; }
+.fokus-kachel__label { margin: 0 0 .35rem; color: var(--rot); font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.fokus-kachel h2.fokus-kachel__titel { margin: 0 0 .5rem; color: var(--blau); font-size: clamp(1.25rem, 3vw, 1.6rem); line-height: 1.2; }
+.fokus-kachel__wannwo { margin: 0 0 .5rem; color: var(--rot); font-family: var(--font-titel); font-weight: 700; font-size: 1.05rem; max-width: none; }
+.fokus-kachel__text { margin: 0 0 1rem; max-width: none; }
 .fokus-kachel__liste { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .3rem; }
-.fokus-kachel__liste li { margin: 0; color: var(--weiss); font-size: .95rem; line-height: 1.3; font-weight: 700; }
+.fokus-kachel__liste li { margin: 0; font-size: .95rem; line-height: 1.3; font-weight: 700; }
 .fokus-kachel__medaille { display: inline-block; width: 1.6em; }
 .fokus-kachel__ort { font-weight: 400; }
 .fokus-kachel__aktion { margin: auto 0 0; }
-.fokus-kachel .btn--invers:focus-visible { outline-color: var(--weiss); }
-.fokus-skeleton { background: var(--blau-hell); color: transparent; border-radius: .25rem; }
+.fokus-skeleton { background: var(--linie); color: transparent; border-radius: .25rem; }
+.fokus-kachel .btn.fokus-skeleton { background: var(--linie); }
 .fokus-kachel__titel.fokus-skeleton { width: min(18rem, 90%); }
 .fokus-kachel__wannwo.fokus-skeleton { width: min(16rem, 80%); }
 .fokus-kachel__text.fokus-skeleton { width: 100%; }
@@ -787,18 +764,18 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
 
 /* ---- Platzhalter (Gerüst, sichtbar markiert — KEIN erfundener Inhalt) ---- */
 .platzhalter {
-  border: 2px dashed var(--blau-hell); border-radius: .5rem;
+  border: 2px dashed var(--rand-stark); border-radius: .5rem;
   background: var(--off-white); color: var(--grau);
   padding: 1.25rem 1.5rem; font-style: italic;
 }
-.platzhalter::before { content: "Platzhalter · "; font-weight: 600; font-style: normal; color: var(--blau); }
+.platzhalter::before { content: "Platzhalter · "; font-weight: 600; font-style: normal; color: var(--ink); }
 
 /* ---- Footer ---- */
 .footer { margin-top: 2rem; border-top: 6px solid var(--rot); background: var(--off-white); }
 .footer__inner { padding-block: 2rem; display: grid; gap: 1.25rem; }
 .footer h2 { font-size: 1.15rem; }
 .footer nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
-.footer a { color: var(--blau); }
+.footer a { color: var(--rot); }
 .footer .meta { color: var(--grau); font-size: .95rem; }
 
 /* No-JS-Hinweis für per fetch eingefügte Partials */
@@ -808,9 +785,24 @@ section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   .footer__inner { grid-template-columns: 1fr auto; align-items: start; }
 }
 
-/* 404-Seite: große Zahl als Blickfang, schmaler roter Akzentbalken (nur Akzent, nie Text oder Button). */
+/* ---- Startseite: Abschnittsabstände (rund ein Drittel enger als sonst; mobil nur wenig enger) ---- */
+.startseite main section:not(.hero):not(.fokus):not(.termin-banner) { padding-block: clamp(1.6rem, 3.35vw, 2.35rem); }
+/* Bereiche: drei gleich breite Spalten über die volle Inhaltsbreite, schmal untereinander */
+.startseite .raster { grid-template-columns: 1fr; }
+@media (min-width: 52rem) { .startseite .raster { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* Abgelaufene Meldungen: Termin und Ort grau statt rot */
+.rueckblick-marke ~ .beitrag-wannwo, .rueckblick-marke ~ .fokus-kachel__wannwo { color: var(--grau-rueckblick); }
+
+/* ---- Startseite: roter Strich unter jeder Hauptüberschrift (nicht unter den Kartentiteln) ---- */
+.startseite main h1::after,
+.startseite main section:not(.fokus):not(.termin-banner) h2::after { content: ""; display: block; width: 36px; height: 3px; margin-top: .45rem; background: var(--rot); }
+
+/* Feedback-Knopf (partials/feedback.html): liegt am Seitenende im Textfluss und überdeckt nichts;
+   nur auf sehr breiten Bildschirmen schwebt er im freien Rand (siehe dort). */
+
+/* 404-Seite: große Zahl als Blickfang, schmaler roter Akzentbalken. */
 .fehlerseite { padding-block: clamp(2rem, 8vw, 4.5rem); }
-.fehler-zahl { font-family: var(--font-titel); font-weight: 700; font-size: clamp(5rem, 28vw, 9rem); line-height: 1; color: var(--blau); margin: 0 0 .25rem; }
+.fehler-zahl { font-family: var(--font-titel); font-weight: 700; font-size: clamp(5rem, 28vw, 9rem); line-height: 1; color: var(--ink); margin: 0 0 .25rem; }
 .fehler-balken { width: 5rem; height: .3rem; background: var(--rot); margin: 0 0 1.25rem; }
 .fehler-links { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
 @media (max-width: 30rem) {

@@ -50,10 +50,17 @@
     var text = document.createElement("p");
     text.textContent = b.text || "";
 
+    var abgelaufen = window.sgkAblauf.abgelaufen(b);
+    if (abgelaufen) art.appendChild(window.sgkAblauf.marke());
     art.appendChild(titel);
     if (datum) art.appendChild(datum);
     if (wannwo) art.appendChild(wannwo);
     art.appendChild(text);
+
+    // Handlungsaufruf (Feld "cta"): bis einschließlich "ende" ein Knopf, danach nur
+    // noch ggf. "Rückblick lesen" (js/ablauf.js).
+    var aktion = abgelaufen ? window.sgkAblauf.rueckblickLink(b, "beitrag-quelle") : window.sgkAblauf.knopf(b);
+    if (aktion) art.appendChild(aktion);
 
     // Quelle: fremde Seite -> Link (nicht hochladen), in neuem Tab
     if (b.quelleUrl && b.quelleLabel) {
@@ -105,10 +112,16 @@
     var text = document.createElement("p");
     text.textContent = b.text || "";
 
+    var abgelaufen = window.sgkAblauf.abgelaufen(b);
+    if (abgelaufen) art.appendChild(window.sgkAblauf.marke());
     art.appendChild(titel);
     if (datum) art.appendChild(datum);
     if (wannwo) art.appendChild(wannwo);
     art.appendChild(text);
+    if (abgelaufen) {
+      var rueck = window.sgkAblauf.rueckblickLink(b, "beitrag-quelle");
+      if (rueck) art.appendChild(rueck);
+    }
     return art;
   }
 
@@ -172,13 +185,6 @@
     return i === -1 ? text : text.slice(0, i + 1);
   }
 
-  // Heutiges Datum lokal (nicht UTC) als JJJJ-MM-TT.
-  function heuteLokal() {
-    var d = new Date();
-    function z(n) { return (n < 10 ? "0" : "") + n; }
-    return d.getFullYear() + "-" + z(d.getMonth() + 1) + "-" + z(d.getDate());
-  }
-
   // Termin-Banner (Startseite, direkt nach dem Hero): zeigt den zeitlich
   // nächsten anstehenden Termin (datum >= heute, ISO-String-Vergleich reicht
   // bei Format JJJJ-MM-TT). Existiert keiner, bleibt der Block ausgeblendet —
@@ -194,7 +200,7 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (beitraege) {
         // >= : am Veranstaltungstag selbst bleibt der Banner stehen
-        var heute = heuteLokal();
+        var heute = window.sgkAblauf.heute();
         // nur echte Termine (wannAnzeige UND ort); normale Meldungen mit datum = heute
         // gehören nicht in den Banner
         var kommende = beitraege.filter(function (b) {
@@ -243,10 +249,14 @@
         // quelleUrl/quelleLabel wie bei beitrag() oben fremdes Ziel, eigener Tab —
         // Label hier aber bewusst fest "Jetzt anmelden" statt quelleLabel: der
         // Banner ist eine Einladung, quelleLabel ist für /aktuelles/ generischer
-        // formuliert (z. B. "Erklärung im Wortlaut bei der Bundes-SGK").
-        if (termin.quelleUrl) {
+        // formuliert (z. B. "Erklärung im Wortlaut bei der Bundes-SGK"). Hat der
+        // Termin ein Feld "cta", gilt dieses (nur bis einschließlich "ende").
+        var einladung = termin.cta ? window.sgkAblauf.knopf(termin) : null;
+        if (einladung && !window.sgkAblauf.abgelaufen(termin)) {
+          aktionen.appendChild(einladung.firstChild);
+        } else if (!termin.cta && termin.quelleUrl && !window.sgkAblauf.abgelaufen(termin)) {
           var anmelden = document.createElement("a");
-          anmelden.className = "btn btn--invers";
+          anmelden.className = "btn";
           anmelden.href = termin.quelleUrl;
           anmelden.target = "_blank";
           anmelden.rel = "noopener";

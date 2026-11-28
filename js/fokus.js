@@ -18,6 +18,10 @@
      bildAusschnitt optional: welcher Teil beim Zuschnitt sichtbar bleibt, zwei
                  Prozentwerte waagerecht/senkrecht, z. B. "50% 75%" (ohne: 50% 30%)
      bildHinweis kurzer Hinweis im Bild, z. B. "Symbolbild (KI-generiert)"
+     ende        optional: JJJJ-MM-TT, letzter Tag des Handlungsaufrufs. Ab dem Tag danach
+                 steht "Rückblick" vor dem Titel und statt des Buttons nur noch der Link
+                 "Rückblick lesen" (wenn rueckblick.url gesetzt ist), siehe js/ablauf.js
+     rueckblick  optional: { url: "…" }
      link        Ziel des Buttons: interner Pfad (/…) oder https://…
      buttonText  Beschriftung des Buttons (ohne Artikel/Possessivpronomen)
 
@@ -69,6 +73,8 @@
       if (!f || typeof f.titel !== "string" || f.titel.trim() === "") { ausblenden(); return; }
 
       inhalt.innerHTML = "";
+      var abgelaufen = window.sgkAblauf && window.sgkAblauf.abgelaufen(f);
+      if (abgelaufen) inhalt.appendChild(window.sgkAblauf.marke());
       inhalt.appendChild(el("h2", "fokus-kachel__titel", f.titel));
       if (typeof f.wannAnzeige === "string" && f.wannAnzeige.trim() !== "" && typeof f.ort === "string" && f.ort.trim() !== "") {
         inhalt.appendChild(el("p", "fokus-kachel__wannwo", f.wannAnzeige + " · " + f.ort));
@@ -92,9 +98,12 @@
         });
         inhalt.appendChild(ul);
       }
-      if (sicherLink(f.link) && typeof f.buttonText === "string" && f.buttonText.trim() !== "") {
+      if (abgelaufen) {
+        var rueck = window.sgkAblauf.rueckblickLink(f, "fokus-kachel__aktion");
+        if (rueck) inhalt.appendChild(rueck);
+      } else if (sicherLink(f.link) && typeof f.buttonText === "string" && f.buttonText.trim() !== "") {
         var aktion = el("p", "fokus-kachel__aktion");
-        var a = el("a", "btn btn--invers", f.buttonText);
+        var a = el("a", "btn", f.buttonText);
         a.href = f.link;
         aktion.appendChild(a);
         inhalt.appendChild(aktion);
